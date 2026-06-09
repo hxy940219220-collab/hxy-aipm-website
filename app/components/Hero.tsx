@@ -80,7 +80,7 @@ export function Hero() {
           >
             {reduced ? (
               <div className="flex flex-col text-left">
-                <h1 className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white">
+                <h1 className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
                   黄锡源
                 </h1>
                 <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary">
@@ -88,33 +88,37 @@ export function Hero() {
                 </span>
               </div>
             ) : (
-              <div className="flex flex-col">
-                <SplitText
-                  text="黄锡源"
-                  tag="h1"
-                  textAlign="left"
-                  className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white"
-                  delay={50}
-                  duration={1.2}
-                  from={{ opacity: 0, y: 80, filter: "blur(10px)" }}
-                  to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  ease="power4.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
-                <SplitText
-                  text="AI 产品经理"
-                  tag="span"
-                  textAlign="left"
-                  className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary"
-                  delay={30}
-                  duration={0.9}
-                  from={{ opacity: 0, y: 24 }}
-                  to={{ opacity: 1, y: 0 }}
-                  ease="power3.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
+              <div className="flex flex-col items-start overflow-visible">
+                <div className="overflow-visible">
+                  <SplitText
+                    text="黄锡源"
+                    tag="h1"
+                    textAlign="left"
+                    className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white"
+                    delay={50}
+                    duration={1.2}
+                    from={{ opacity: 0, y: 80, filter: "blur(10px)" }}
+                    to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    ease="power4.out"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                  />
+                </div>
+                <div className="overflow-visible">
+                  <SplitText
+                    text="AI 产品经理"
+                    tag="span"
+                    textAlign="left"
+                    className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary"
+                    delay={30}
+                    duration={0.9}
+                    from={{ opacity: 0, y: 24 }}
+                    to={{ opacity: 1, y: 0 }}
+                    ease="power3.out"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                  />
+                </div>
               </div>
             )}
           </motion.div>
