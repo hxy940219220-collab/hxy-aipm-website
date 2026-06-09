@@ -47,34 +47,38 @@ export function Identity() {
 
         {/* Right: tools + focus */}
         <div className="flex flex-col gap-7">
-          <div>
-            <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
-              核心工具栈
-            </p>
-            <div className="flex flex-wrap gap-2.5">
-              {TOOLS.map((t) => (
-                <span key={t.label} title={t.desc}
-                  className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1] cursor-default"
-                >
-                  {t.label}
-                </span>
-              ))}
+          <ScrollReveal delay={0.2}>
+            <div>
+              <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
+                核心工具栈
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                {TOOLS.map((t) => (
+                  <span key={t.label} title={t.desc}
+                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1] cursor-default"
+                  >
+                    {t.label}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
-              当前关注
-            </p>
-            <div className="flex flex-wrap gap-2.5">
-              {FOCUS.map((f) => (
-                <span key={f.label} title={f.desc}
-                  className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-neon-cyan bg-neon-cyan/[0.06] border border-neon-cyan/[0.2] cursor-default"
-                >
-                  {f.label}
-                </span>
-              ))}
+          </ScrollReveal>
+          <ScrollReveal delay={0.3}>
+            <div>
+              <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
+                当前关注
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                {FOCUS.map((f) => (
+                  <span key={f.label} title={f.desc}
+                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-neon-cyan bg-neon-cyan/[0.06] border border-neon-cyan/[0.2] cursor-default"
+                  >
+                    {f.label}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
