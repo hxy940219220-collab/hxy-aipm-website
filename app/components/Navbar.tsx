@@ -3,8 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
-import Magnet from "../reactbits/Animations/Magnet/Magnet";
-
 const NAV_ITEMS = [
   { label: "作品", href: "#work" },
   { label: "思考", href: "#method" },
@@ -73,18 +71,18 @@ export function Navbar() {
           </ul>
 
           {/* Desktop CTA */}
-          <Magnet padding={60} magnetStrength={2}>
-            <a
+          <motion.a
               href="#contact"
               onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-400 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)] hover:-translate-y-[1px]"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-300 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)]"
             >
               聊聊
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.1] text-[11px] transition-all duration-400 group-hover:bg-neon-cyan group-hover:text-black">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.1] text-[11px] transition-all duration-300 group-hover:bg-neon-cyan group-hover:text-black">
                 &#x2197;
               </span>
-            </a>
-          </Magnet>
+          </motion.a>
 
           {/* Hamburger */}
           <button
