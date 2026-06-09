@@ -58,8 +58,8 @@ const LETTERS: LetterData[] = [
 ];
 
 const TOTAL_PHASES = LETTERS.length + 1; // 4 letters + final outro
-const LETTER_DURATION = 2200; // ms per letter
-const OUTRO_DURATION = 1200; // ms for final fade
+const LETTER_DURATION = 1400; // ms per letter
+const OUTRO_DURATION = 800;  // ms for final fade
 
 export function EvanIntro() {
   const [phase, setPhase] = useState(0); // 0=E, 1=V, 2=A, 3=N, 4=outro
@@ -202,7 +202,7 @@ export function EvanIntro() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* 超大字母 */}
             <motion.span
@@ -224,7 +224,7 @@ export function EvanIntro() {
               className="flex flex-col items-center gap-2"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.15, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               <span
                 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-extrabold leading-none"
@@ -242,7 +242,7 @@ export function EvanIntro() {
               className="flex flex-col items-center gap-1.5"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.25, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               <p
                 className="font-display italic text-[clamp(1rem,2.5vw,1.3rem)] leading-relaxed"
