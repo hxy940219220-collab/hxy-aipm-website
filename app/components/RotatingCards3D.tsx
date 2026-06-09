@@ -64,8 +64,8 @@ const CARDS: CardData[] = [
 
 const CARD_COUNT = CARDS.length;
 const ANGLE_PER_CARD = 360 / CARD_COUNT; // 90deg per card
-const RADIUS_DESKTOP = 460; // px translateZ (matches Alaric 28.8rem)
-const RADIUS_MOBILE = 260;
+const RADIUS_DESKTOP = 520; // px translateZ
+const RADIUS_MOBILE = 280;
 
 function getRadius(): number {
   if (typeof window === "undefined") return RADIUS_DESKTOP;
@@ -157,8 +157,8 @@ export function RotatingCards3D() {
         style={{
           perspective: "1800px",
           perspectiveOrigin: "50% 45%",
-          height: "clamp(22rem, 38vw, 27rem)",
-          maxWidth: "1300px",
+          height: "clamp(25rem, 44vw, 30rem)",
+          maxWidth: "1400px",
         }}
       >
         {/* Rotation buttons */}
@@ -185,8 +185,8 @@ export function RotatingCards3D() {
         <div
           className="absolute left-1/2 top-3"
           style={{
-            width: "min(32rem, 36vw)",
-            height: "22.5rem",
+            width: "min(36rem, 40vw)",
+            height: "25rem",
             transform: "translateX(-50%)",
             transformStyle: "preserve-3d",
             transformOrigin: "50% 50%",
@@ -212,36 +212,38 @@ export function RotatingCards3D() {
               (((cardAngle - normalizedRotation) % 360) + 540) % 360;
             // 0=正对观众, 90=右侧面, 180=背面, 270=左侧面
 
-            // 3D 环形可见度：正面清晰，侧面可见但模糊，背面极淡
+            // 3D 环形可见度：正面 ±85°清晰，>95°立即切断防止文字反转
             let opacity: number;
             let blur: number;
-            if (relativeAngle < 75 || relativeAngle > 285) {
-              // 正面 ±75°：清晰
-              const f = relativeAngle > 180 ? (360 - relativeAngle) / 75 : relativeAngle / 75;
-              opacity = 0.7 + f * 0.3;
-              blur = (1 - f) * 0.3;
-            } else if (relativeAngle > 105 && relativeAngle < 255) {
-              // 背面 ±75°：几乎不可见
-              const distFrom180 = Math.abs(relativeAngle - 180);
-              const f = Math.max(0, 1 - distFrom180 / 75);
-              opacity = f * 0.08;
-              blur = 0.6 + f * 1.2;
+            if (relativeAngle < 85 || relativeAngle > 275) {
+              // 正面区：清晰可见
+              const f = relativeAngle < 85
+                ? 1 - relativeAngle / 85
+                : 1 - (360 - relativeAngle) / 85;
+              opacity = 0.88 + f * 0.12;
+              blur = (1 - f) * 0.35;
+            } else if (relativeAngle > 95 && relativeAngle < 265) {
+              // 背面区：完全隐藏（文字处于反转状态）
+              opacity = 0.03;
+              blur = 1.8;
             } else {
-              // 侧面过渡区 (75°-105° 和 255°-285°)：线性的侧面可见度
-              const distFrom90 = Math.min(Math.abs(relativeAngle - 90), Math.abs(relativeAngle - 270));
-              const f = 1 - distFrom90 / 22.5;
-              opacity = 0.15 + f * 0.15;
-              blur = 0.35 + (1 - f) * 0.2;
+              // 过渡区 (85°-95° 或 265°-275°)：急速淡出/淡入
+              const inTransition = relativeAngle < 180;
+              const f = inTransition
+                ? 1 - (relativeAngle - 85) / 10
+                : 1 - (relativeAngle - 265) / 10;
+              opacity = 0.03 + f * 0.85;
+              blur = 1.8 - f * 1.45;
             }
-            const z = Math.round(40 + (1 - (relativeAngle < 180 ? relativeAngle : 360 - relativeAngle) / 180) * 15);
+            const z = Math.round(40 + (1 - (relativeAngle < 180 ? relativeAngle : 360 - relativeAngle) / 180) * 20);
 
             return (
               <div
                 key={card.num}
                 className="absolute rounded-[26px] border bg-[rgba(13,13,28,0.60)] text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] backdrop-blur-[18px] transition-[opacity,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto"
                 style={{
-                  width: "min(27.5rem, 32vw)",
-                  height: "22.5rem",
+                  width: "min(31rem, 37vw)",
+                  height: "25rem",
                   left: "50%",
                   top: 0,
                   transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
