@@ -248,9 +248,15 @@ export function RotatingCards3D() {
               const opacity = 0.55 + facingFactor * 0.45;
               const blur = (1 - facingFactor) * 0.25;
               const z = Math.round(50 + facingFactor * 10);
-              // 背面卡片缩小（离正面越远越小），增强 3D 纵深感
-              const distFromFront = relativeAngle > 180 ? 360 - relativeAngle : relativeAngle;
-              const scale = 1.0 - (distFromFront / 180) * 0.4;
+              // 按位置分层缩放：正面最大，侧面中等，背面最小
+              let scale: number;
+              if (relativeAngle < 36 || relativeAngle > 324) {
+                scale = 1.0;                       // 正面：最大
+              } else if (relativeAngle < 108 || relativeAngle > 252) {
+                scale = 0.92;                      // 左右邻侧：中等
+              } else {
+                scale = 0.70;                      // 背面两侧：最小
+              }
 
               return (
                 <div
