@@ -31,15 +31,15 @@ const NEON_COLORS = [
   "rgba(255,255,255,@@@)",  // white (rare)
 ];
 
-const PARTICLE_COUNT = 220;
-const MOUSE_RADIUS = 140;       // 鼠标影响半径
-const CONNECT_DISTANCE = 110;   // 连线最大距离
-const MAX_LINE_OPACITY = 0.18;  // 连线最大不透明度
+const PARTICLE_COUNT = 280;
+const MOUSE_RADIUS = 160;       // 鼠标影响半径
+const CONNECT_DISTANCE = 130;   // 连线最大距离
+const MAX_LINE_OPACITY = 0.22;  // 连线最大不透明度
 
 function createParticle(w: number, h: number): Particle {
   const colorTemplate = NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
-  const baseOpacity = Math.random() * 0.35 + 0.08;
-  const size = Math.random() * 1.6 + 0.3;
+  const baseOpacity = Math.random() * 0.45 + 0.1;
+  const size = Math.random() * 2.0 + 0.5;
 
   return {
     x: Math.random() * w,
@@ -213,13 +213,13 @@ export function Particles() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
+      className="fixed inset-0 z-[6] pointer-events-none"
       aria-hidden="true"
       style={{
         maskImage:
-          "radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)",
+          "radial-gradient(ellipse at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
         WebkitMaskImage:
-          "radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)",
+          "radial-gradient(ellipse at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
       }}
     />
   );
