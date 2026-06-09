@@ -4,10 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 const NAV_ITEMS = [
-  { label: "作品", href: "#work" },
-  { label: "思考", href: "#method" },
-  { label: "关于", href: "#about" },
-  { label: "联系", href: "#contact" },
+  { label: "作品", href: "#work", desc: "IdeaFlash · FocusMeow 等 AI 产品案例" },
+  { label: "思考", href: "#method", desc: "工作流蓝图、AIPM 方法论与研究归档" },
+  { label: "关于", href: "#about", desc: "我的产品能力、Agent 系统与验证方式" },
+  { label: "联系", href: "#contact", desc: "邮件、GitHub 与个人网站" },
 ];
 
 export function Navbar() {
@@ -56,7 +56,7 @@ export function Navbar() {
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-9 list-none">
             {NAV_ITEMS.map((item) => (
-              <li key={item.href}>
+              <li key={item.href} className="relative group">
                 <a
                   href={item.href}
                   onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
@@ -66,6 +66,14 @@ export function Navbar() {
                 >
                   {item.label}
                 </a>
+                {/* 下拉描述 */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                  <div className="px-4 py-2.5 rounded-xl bg-[rgba(13,13,28,0.92)] border border-white/[0.12] backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] whitespace-nowrap">
+                    <p className="font-body text-[11.5px] text-text-secondary leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
