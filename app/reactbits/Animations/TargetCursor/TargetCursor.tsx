@@ -36,6 +36,7 @@ interface TargetCursorProps {
   hideDefaultCursor?: boolean;
   hoverDuration?: number;
   parallaxOn?: boolean;
+  proximityRadius?: number;
 }
 
 export default function TargetCursor({
@@ -44,6 +45,7 @@ export default function TargetCursor({
   hideDefaultCursor = true,
   hoverDuration = 0.2,
   parallaxOn = true,
+  proximityRadius = 80,
 }: TargetCursorProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<NodeListOf<Element> | null>(null);
@@ -134,7 +136,33 @@ export default function TargetCursor({
     };
     tickerFnRef.current = tickerFn;
 
-    const moveHandler = (e: MouseEvent) => moveCursor(e.clientX, e.clientY);
+    const moveHandler = (e: MouseEvent) => {
+      moveCursor(e.clientX, e.clientY);
+
+      // Proximity detection: pre-lock nearby targets / release when far away
+      let closest: Element | null = null;
+      let closestDist = Infinity;
+
+      document.querySelectorAll(targetSelector).forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const cx = e.clientX;
+        const cy = e.clientY;
+        const nearX = Math.max(rect.left - proximityRadius, Math.min(cx, rect.right + proximityRadius));
+        const nearY = Math.max(rect.top - proximityRadius, Math.min(cy, rect.bottom + proximityRadius));
+        const dist = Math.hypot(cx - nearX, cy - nearY);
+        if (dist < closestDist && dist <= proximityRadius) {
+          closestDist = dist;
+          closest = el;
+        }
+      });
+
+      if (closest && !isActiveRef.current) {
+        const fakeEvent = { target: closest } as unknown as MouseEvent;
+        enterHandler(fakeEvent);
+      } else if (!closest && isActiveRef.current && currentLeaveHandler) {
+        currentLeaveHandler();
+      }
+    };
     window.addEventListener("mousemove", moveHandler);
 
     const scrollHandler = () => {
