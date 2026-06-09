@@ -71,7 +71,7 @@ export function Hero() {
 
       {/* Content overlay - bottom left */}
       <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end p-6 md:p-10 md:pb-14 w-full">
-        <div className="pointer-events-auto space-y-3 md:space-y-4 max-w-[640px]">
+        <div className="pointer-events-auto space-y-1.5 md:space-y-2 max-w-[640px]">
           {/* Name */}
           <motion.div
             initial={reduced ? {} : { opacity: 0, y: 30, filter: "blur(10px)" }}
