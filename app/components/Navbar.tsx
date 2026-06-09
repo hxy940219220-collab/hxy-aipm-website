@@ -22,7 +22,7 @@ const NAV_ITEMS = [
   {
     label: "联系",
     href: "#contact",
-    subs: ["邮件联系", "GitHub", "huangxiyuan.net"],
+    subs: ["GitHub", "huangxiyuan.net", "hxy940219220@gmail.com"],
   },
 ];
 
