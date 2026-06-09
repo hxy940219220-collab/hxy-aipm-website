@@ -42,12 +42,12 @@ export default function Home() {
                 <div className="mb-16 md:mb-24 text-center">
                   <ScrollReveal>
                     <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-neon-cyan uppercase">
-                      WHAT I CAN DO
+                      AI TOOLS
                     </h2>
                   </ScrollReveal>
                   <ScrollReveal delay={0.12}>
                     <p className="mt-5 text-base leading-relaxed text-text-tertiary md:text-lg max-w-2xl mx-auto">
-                      从底层数据训练、模型评测、到前端视觉呈现，提供多维度的专业能力储备。
+                      日常高频使用的 AI 工具栈，每款工具在工作和创作中承担不同角色。
                     </p>
                   </ScrollReveal>
                 </div>

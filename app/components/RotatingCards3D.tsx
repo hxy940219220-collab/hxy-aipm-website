@@ -21,41 +21,51 @@ interface CardData {
 const CARDS: CardData[] = [
   {
     num: "01",
-    title: "数据训练",
-    desc: "从数据标准、标注策略到质量闭环，把底层训练数据做得稳定、可用、可复盘。",
-    tags: ["Caption", "Quality", "SOP"],
+    title: "Claude",
+    desc: "主力 AI 编程助手。日常用 Claude Code 做产品原型、代码生成与架构设计，是最高频使用的 AI 工具。",
+    tags: ["Claude Code", "Agent", "Prototype"],
     gradient:
-      "radial-gradient(circle at 24% 28%, rgba(0,200,255,0.22), transparent 26%), radial-gradient(circle at 72% 72%, rgba(0,180,230,0.16), transparent 24%)",
-    accentBorder: "rgba(0,200,255,0.35)",
-    glowColor: "rgba(0,200,255,0.45)",
-  },
-  {
-    num: "02",
-    title: "模型评测",
-    desc: "把评测目标拆成可执行规则与对比框架，让模型优劣不是感受，而是有依据的判断。",
-    tags: ["Benchmark", "Rubric", "Compare"],
-    gradient:
-      "radial-gradient(circle at 28% 24%, rgba(255,216,74,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(220,180,50,0.16), transparent 28%)",
-    accentBorder: "rgba(255,216,74,0.35)",
-    glowColor: "rgba(255,216,74,0.45)",
-  },
-  {
-    num: "03",
-    title: "工作流搭建",
-    desc: "把 LLM、RAG、多模态节点串成完整工作流，让 AI 能真正接进业务链路。",
-    tags: ["LLM", "RAG", "Workflow"],
-    gradient:
-      "radial-gradient(circle at 26% 34%, rgba(216,76,255,0.22), transparent 28%), radial-gradient(circle at 70% 30%, rgba(180,50,230,0.16), transparent 26%)",
+      "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.22), transparent 26%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.16), transparent 24%)",
     accentBorder: "rgba(216,76,255,0.35)",
     glowColor: "rgba(216,76,255,0.45)",
   },
   {
-    num: "04",
-    title: "设计 & 摄影",
-    desc: "把品牌视觉、画面审美与摄影表达整合成统一而可感知的呈现。",
-    tags: ["Visual", "Brand", "Photo"],
+    num: "02",
+    title: "Codex",
+    desc: "OpenAI 的 AI 编程代理。用于 CLI 环境下的代码生成、任务编排与自动化工作流验证。",
+    tags: ["CLI", "Automation", "Task"],
     gradient:
-      "radial-gradient(circle at 24% 24%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(230,90,20,0.18), transparent 26%)",
+      "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.16), transparent 28%)",
+    accentBorder: "rgba(0,200,255,0.35)",
+    glowColor: "rgba(0,200,255,0.45)",
+  },
+  {
+    num: "03",
+    title: "Gemini",
+    desc: "Google 多模态模型。擅长长文本理解、视觉分析与跨模态推理，用于研究对比与产品探索。",
+    tags: ["Multimodal", "Research", "Vision"],
+    gradient:
+      "radial-gradient(circle at 26% 34%, rgba(255,216,74,0.22), transparent 28%), radial-gradient(circle at 70% 30%, rgba(220,180,50,0.16), transparent 26%)",
+    accentBorder: "rgba(255,216,74,0.35)",
+    glowColor: "rgba(255,216,74,0.45)",
+  },
+  {
+    num: "04",
+    title: "VS Code",
+    desc: "主要代码编辑器。结合 AI 插件进行 Vibe Coding，快速将产品想法转化为可运行的原型与验证产物。",
+    tags: ["Editor", "Vibe Coding", "Debug"],
+    gradient:
+      "radial-gradient(circle at 24% 24%, rgba(0,60,255,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(30,80,255,0.16), transparent 26%)",
+    accentBorder: "rgba(0,100,255,0.35)",
+    glowColor: "rgba(0,100,255,0.45)",
+  },
+  {
+    num: "05",
+    title: "Typeless",
+    desc: "轻量级写作与笔记工具。用于产品文档、需求梳理与快速记录灵感片段，保持思维清晰可追溯。",
+    tags: ["Writing", "Notes", "Doc"],
+    gradient:
+      "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.16), transparent 26%)",
     accentBorder: "rgba(255,106,26,0.35)",
     glowColor: "rgba(255,106,26,0.45)",
   },
@@ -63,8 +73,8 @@ const CARDS: CardData[] = [
 
 const CARD_COUNT = CARDS.length;
 const ANGLE_PER_CARD = 360 / CARD_COUNT;
-const RADIUS_DESKTOP = 360;
-const RADIUS_MOBILE = 220;
+const RADIUS_DESKTOP = 340;
+const RADIUS_MOBILE = 200;
 
 function getRadius(): number {
   if (typeof window === "undefined") return RADIUS_DESKTOP;
@@ -244,7 +254,7 @@ export function RotatingCards3D() {
                   key={card.num}
                   className="absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] pointer-events-auto"
                   style={{
-                    width: "min(24rem, 50vw)",
+                    width: "min(21rem, 46vw)",
                     height: "clamp(18rem, 34vw, 22rem)",
                     left: "50%",
                     top: 0,
