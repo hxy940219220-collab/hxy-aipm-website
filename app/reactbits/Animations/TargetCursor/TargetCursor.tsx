@@ -45,7 +45,7 @@ export default function TargetCursor({
   hideDefaultCursor = true,
   hoverDuration = 0.2,
   parallaxOn = true,
-  proximityRadius = 80,
+  proximityRadius = 120,
 }: TargetCursorProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<NodeListOf<Element> | null>(null);
@@ -160,7 +160,18 @@ export default function TargetCursor({
         const fakeEvent = { target: closest } as unknown as MouseEvent;
         enterHandler(fakeEvent);
       } else if (!closest && isActiveRef.current && currentLeaveHandler) {
-        currentLeaveHandler();
+        // Hysteresis: only release when far away (2x radius) to prevent flicker
+        const stillNearAny = Array.from(document.querySelectorAll(targetSelector)).some((el) => {
+          const rect = el.getBoundingClientRect();
+          const cx = e.clientX;
+          const cy = e.clientY;
+          const nearX = Math.max(rect.left - proximityRadius * 2, Math.min(cx, rect.right + proximityRadius * 2));
+          const nearY = Math.max(rect.top - proximityRadius * 2, Math.min(cy, rect.bottom + proximityRadius * 2));
+          return Math.hypot(cx - nearX, cy - nearY) <= proximityRadius * 2;
+        });
+        if (!stillNearAny) {
+          currentLeaveHandler();
+        }
       }
     };
     window.addEventListener("mousemove", moveHandler);
