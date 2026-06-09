@@ -98,7 +98,11 @@ export function RotatingCards3D() {
     (direction: "prev" | "next") => {
       if (reduced) return;
       const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
-      setRotation((r) => snapToNearest(r + delta));
+      // 总是朝同一方向转满 90°，不 snap 到最近 —— 保证连续 3D 旋转感
+      setRotation((r) => {
+        const snapped = snapToNearest(r);
+        return snapped + delta;
+      });
     },
     [reduced, snapToNearest]
   );
@@ -206,12 +210,30 @@ export function RotatingCards3D() {
             const cardAngle = i * ANGLE_PER_CARD;
             const relativeAngle =
               (((cardAngle - normalizedRotation) % 360) + 540) % 360;
-            // 0 = facing viewer, 90 = side, 180 = back (hidden by backface-visibility)
+            // 0=正对观众, 90=右侧面, 180=背面, 270=左侧面
 
-            const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
-            const opacity = 0.12 + facingFactor * 0.88;
-            const blur = (1 - facingFactor) * 0.55;
-            const z = 45 + (1 - facingFactor) * 15;
+            // 3D 环形可见度：正面清晰，侧面可见但模糊，背面极淡
+            let opacity: number;
+            let blur: number;
+            if (relativeAngle < 75 || relativeAngle > 285) {
+              // 正面 ±75°：清晰
+              const f = relativeAngle > 180 ? (360 - relativeAngle) / 75 : relativeAngle / 75;
+              opacity = 0.7 + f * 0.3;
+              blur = (1 - f) * 0.3;
+            } else if (relativeAngle > 105 && relativeAngle < 255) {
+              // 背面 ±75°：几乎不可见
+              const distFrom180 = Math.abs(relativeAngle - 180);
+              const f = Math.max(0, 1 - distFrom180 / 75);
+              opacity = f * 0.08;
+              blur = 0.6 + f * 1.2;
+            } else {
+              // 侧面过渡区 (75°-105° 和 255°-285°)：线性的侧面可见度
+              const distFrom90 = Math.min(Math.abs(relativeAngle - 90), Math.abs(relativeAngle - 270));
+              const f = 1 - distFrom90 / 22.5;
+              opacity = 0.15 + f * 0.15;
+              blur = 0.35 + (1 - f) * 0.2;
+            }
+            const z = Math.round(40 + (1 - (relativeAngle < 180 ? relativeAngle : 360 - relativeAngle) / 180) * 15);
 
             return (
               <div
@@ -224,8 +246,8 @@ export function RotatingCards3D() {
                   top: 0,
                   transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
                   transformStyle: "preserve-3d",
-                  backfaceVisibility: "hidden",
-                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "visible",
+                  WebkitBackfaceVisibility: "visible",
                   borderColor:
                     i === frontIndex
                       ? card.accentBorder
