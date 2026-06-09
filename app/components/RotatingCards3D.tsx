@@ -97,7 +97,7 @@ export function RotatingCards3D() {
   const rotateTo = useCallback(
     (direction: "prev" | "next") => {
       if (reduced) return;
-      const delta = direction === "next" ? -ANGLE_PER_CARD : ANGLE_PER_CARD;
+      const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
       setRotation((r) => snapToNearest(r + delta));
     },
     [reduced, snapToNearest]
