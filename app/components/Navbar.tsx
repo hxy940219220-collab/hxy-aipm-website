@@ -13,6 +13,16 @@ const NAV_ITEMS = [
     ],
   },
   {
+    label: "思考",
+    href: "#method",
+    subs: [
+      { label: "AIPM 工作流蓝图" },
+      { label: "Harness Engineering" },
+      { label: "Claude Code 设计逻辑" },
+      { label: "Hermes × OpenClaw" },
+    ],
+  },
+  {
     label: "工具栈",
     href: "#capabilities",
     subs: [
@@ -21,16 +31,6 @@ const NAV_ITEMS = [
       { label: "Gemini" },
       { label: "VS Code" },
       { label: "Typeless" },
-    ],
-  },
-  {
-    label: "思考",
-    href: "#method",
-    subs: [
-      { label: "AIPM 工作流蓝图" },
-      { label: "Harness Engineering" },
-      { label: "Claude Code 设计逻辑" },
-      { label: "Hermes × OpenClaw" },
     ],
   },
   {

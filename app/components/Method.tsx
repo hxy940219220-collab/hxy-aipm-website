@@ -28,8 +28,8 @@ const STEPS = [
   {
     letter: "M",
     title: "度量",
-    label: "产品验证",
-    desc: "通过原型、发布与反馈，判断产品是否真的解决问题并值得继续放大。",
+    label: "指标与迭代",
+    desc: "围绕核心指标做上线前的质量测试与上线后的数据追踪，基于反馈持续迭代优化产品体验。",
     color: "bg-neon-orange shadow-[0_0_20px_#ff6a1a]",
   },
 ];
