@@ -139,25 +139,28 @@ export function Method() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {RESEARCH_TOPICS.map((topic, i) => {
             const Card = topic.href ? 'a' : 'div';
+            const isClickable = !!topic.href;
             return (
             <ScrollReveal key={topic.num} delay={0.1 * (i + 1)}>
               <Card
                 {...(topic.href ? { href: topic.href, target: "_blank", rel: "noopener noreferrer" } : {})}
-                className={`block p-6 rounded-2xl bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.02)] transition-all duration-500 hover:border-neon-cyan/40 hover:bg-[#0e0e1e] ${
-                  topic.href ? 'cursor-pointer no-underline hover:shadow-[0_0_40px_rgba(0,200,255,0.08),0_16px_48px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]' : ''
-                }`}
+                className={`group block p-6 rounded-2xl bg-[#0c0c1a] border transition-all duration-500
+                  ${isClickable
+                    ? 'border-white/[0.12] cursor-pointer no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1e] hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(0,200,255,0.10),0_20px_56px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]'
+                    : 'border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.02)]'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-3">
                   <p className="font-body text-[11px] font-medium tracking-[0.12em] text-neon-cyan">
                     {topic.num}
                   </p>
-                  {topic.href && (
-                    <span className="text-neon-cyan/50 text-xs transition-transform duration-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      &#x2197;
+                  {isClickable && (
+                    <span className="inline-flex items-center gap-1.5 text-neon-cyan/70 text-[11px] font-medium tracking-[0.06em] transition-all duration-400 group-hover:text-neon-cyan group-hover:gap-2">
+                      查看 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-neon-cyan/10 border border-neon-cyan/20 text-[10px] transition-all duration-400 group-hover:bg-neon-cyan/20 group-hover:border-neon-cyan/40 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">&rarr;</span>
                     </span>
                   )}
                 </div>
-                <h3 className="font-display italic text-[22px] text-white mb-2">
+                <h3 className="font-display italic text-[22px] text-white mb-2 transition-colors duration-400 group-hover:text-neon-cyan/90">
                   {topic.title}
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed">
