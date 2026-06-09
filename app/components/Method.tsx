@@ -143,8 +143,8 @@ export function Method() {
             <ScrollReveal key={topic.num} delay={0.1 * (i + 1)}>
               <Card
                 {...(topic.href ? { href: topic.href, target: "_blank", rel: "noopener noreferrer" } : {})}
-                className={`block p-6 rounded-2xl bg-white/[0.025] border border-white/[0.06] transition-all duration-500 hover:border-neon-cyan/30 hover:bg-white/[0.04] ${
-                  topic.href ? 'cursor-pointer no-underline hover:shadow-[0_0_32px_rgba(0,200,255,0.06)]' : ''
+                className={`block p-6 rounded-2xl bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.02)] transition-all duration-500 hover:border-neon-cyan/40 hover:bg-[#0e0e1e] ${
+                  topic.href ? 'cursor-pointer no-underline hover:shadow-[0_0_40px_rgba(0,200,255,0.08),0_16px_48px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]' : ''
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
