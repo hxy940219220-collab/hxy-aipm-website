@@ -79,14 +79,16 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <h1 className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white">
-                黄锡源
-                <span className="block text-[clamp(20px,4vw,44px)] font-normal text-text-secondary mt-1">
+              <div className="flex flex-col">
+                <h1 className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white">
+                  黄锡源
+                </h1>
+                <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary">
                   AI 产品经理
                 </span>
-              </h1>
+              </div>
             ) : (
-              <div>
+              <div className="flex flex-col">
                 <SplitText
                   text="黄锡源"
                   tag="h1"
@@ -102,7 +104,7 @@ export function Hero() {
                 <SplitText
                   text="AI 产品经理"
                   tag="span"
-                  className="block font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary mt-1"
+                  className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary"
                   delay={30}
                   duration={0.9}
                   from={{ opacity: 0, y: 24 }}
