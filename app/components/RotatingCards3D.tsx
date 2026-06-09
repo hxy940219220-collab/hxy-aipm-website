@@ -250,7 +250,7 @@ export function RotatingCards3D() {
               const z = Math.round(50 + facingFactor * 10);
               // 背面卡片缩小（离正面越远越小），增强 3D 纵深感
               const distFromFront = relativeAngle > 180 ? 360 - relativeAngle : relativeAngle;
-              const scale = 1.0 - (distFromFront / 180) * 0.2;
+              const scale = 1.0 - (distFromFront / 180) * 0.4;
 
               return (
                 <div
