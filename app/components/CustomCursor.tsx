@@ -80,7 +80,7 @@ export function CustomCursor() {
         corners.forEach((c) => (c.style.opacity = "1"));
       } else {
         // Idle: slow continuous rotation
-        idleAngle += 0.3;
+        idleAngle += 0.8;
         wrapper.style.transition = "none";
         wrapper.style.transform = `translate(-50%, -50%) rotate(${idleAngle}deg)`;
 
@@ -97,7 +97,7 @@ export function CustomCursor() {
         corners[3].style.transform = "translate(-14px, 2px)";
 
         dot.style.opacity = "1";
-        corners.forEach((c) => (c.style.opacity = "0.4"));
+        corners.forEach((c) => (c.style.opacity = "0.7"));
       }
 
       rafRef.current = requestAnimationFrame(loop);
@@ -126,7 +126,7 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         className="absolute w-[5px] h-[5px] bg-neon-cyan rounded-full"
-        style={{ left: "50%", top: "50%", boxShadow: "0 0 8px rgba(0,200,255,0.6)" }}
+        style={{ left: "50%", top: "50%", boxShadow: "0 0 14px rgba(0,200,255,0.95)" }}
       />
 
       {/* 4 corner brackets */}
@@ -137,7 +137,7 @@ export function CustomCursor() {
           <div
             key={pos}
             ref={(el) => { if (el) cornersRef.current[i] = el; }}
-            className="absolute opacity-40"
+            className="absolute opacity-70"
             style={{
               left: "50%",
               top: "50%",
@@ -147,7 +147,7 @@ export function CustomCursor() {
               borderRight: !isLeft ? "2px solid #00c8ff" : "none",
               borderTop: isTop ? "2px solid #00c8ff" : "none",
               borderBottom: !isTop ? "2px solid #00c8ff" : "none",
-              boxShadow: "0 0 6px rgba(0,200,255,0.4)",
+              boxShadow: "0 0 9px rgba(0,200,255,0.65)",
               transform:
                 i === 0 ? "translate(-14px, -14px)" :
                 i === 1 ? "translate(2px, -14px)" :
