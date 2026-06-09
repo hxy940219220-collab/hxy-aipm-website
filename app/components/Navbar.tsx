@@ -4,10 +4,26 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 const NAV_ITEMS = [
-  { label: "作品", href: "#work", desc: "IdeaFlash · FocusMeow 等 AI 产品案例" },
-  { label: "思考", href: "#method", desc: "工作流蓝图、AIPM 方法论与研究归档" },
-  { label: "关于", href: "#about", desc: "我的产品能力、Agent 系统与验证方式" },
-  { label: "联系", href: "#contact", desc: "邮件、GitHub 与个人网站" },
+  {
+    label: "作品",
+    href: "#work",
+    subs: ["IdeaFlash · 灵感胶囊", "FocusMeow · 专注喵"],
+  },
+  {
+    label: "思考",
+    href: "#method",
+    subs: ["AIPM 工作流蓝图", "Harness Engineering", "Claude Code 设计逻辑", "Hermes × OpenClaw"],
+  },
+  {
+    label: "关于",
+    href: "#about",
+    subs: ["产品化能力", "Agent 系统", "快速验证"],
+  },
+  {
+    label: "联系",
+    href: "#contact",
+    subs: ["邮件联系", "GitHub", "huangxiyuan.net"],
+  },
 ];
 
 export function Navbar() {
@@ -66,12 +82,17 @@ export function Navbar() {
                 >
                   {item.label}
                 </a>
-                {/* 下拉描述 */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
-                  <div className="px-4 py-2.5 rounded-xl bg-[rgba(13,13,28,0.92)] border border-white/[0.12] backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] whitespace-nowrap">
-                    <p className="font-body text-[11.5px] text-text-secondary leading-relaxed">
-                      {item.desc}
-                    </p>
+                {/* 竖版下拉子项列表 */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                  <div className="flex flex-col gap-0.5 py-2 px-1 rounded-xl bg-[rgba(13,13,28,0.94)] border border-white/[0.10] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] min-w-[180px]">
+                    {item.subs.map((sub) => (
+                      <span
+                        key={sub}
+                        className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
+                      >
+                        {sub}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </li>
@@ -117,7 +138,7 @@ export function Navbar() {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[99] bg-[rgba(5,5,9,0.92)] backdrop-blur-[30px] flex flex-col items-center justify-center gap-10"
           >
-            {NAV_ITEMS.concat({ label: "聊聊", href: "#contact", desc: "" }).map(
+            {NAV_ITEMS.concat({ label: "聊聊", href: "#contact", subs: [] }).map(
               (item, i) => (
                 <motion.a
                   key={item.href}
