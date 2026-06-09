@@ -156,3 +156,12 @@ body {
   z-index: -1;
   pointer-events: none;
 }
+
+/* Cursor corner rotation */
+@keyframes cursor-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.cursor-spin {
+  animation: cursor-spin 8s linear infinite;
+}
