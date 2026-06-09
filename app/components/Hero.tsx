@@ -79,7 +79,7 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <div className="flex flex-col">
+              <div className="flex flex-col text-left">
                 <h1 className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white">
                   黄锡源
                 </h1>
@@ -92,6 +92,7 @@ export function Hero() {
                 <SplitText
                   text="黄锡源"
                   tag="h1"
+                  textAlign="left"
                   className="font-display italic text-[clamp(48px,9vw,104px)] leading-[0.92] tracking-[-0.02em] text-white"
                   delay={50}
                   duration={1.2}
@@ -104,6 +105,7 @@ export function Hero() {
                 <SplitText
                   text="AI 产品经理"
                   tag="span"
+                  textAlign="left"
                   className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary"
                   delay={30}
                   duration={0.9}
