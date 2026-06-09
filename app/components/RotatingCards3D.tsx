@@ -32,7 +32,7 @@ const CARDS: CardData[] = [
   {
     num: "02",
     title: "GPT",
-    desc: "OpenAI 旗舰模型。重点使用 Image2 (DALL·E 图像生成) 与 Codex CLI (终端编程代理)，覆盖视觉创作与自动化编码两大高频场景。",
+    desc: "OpenAI 旗舰模型。重点使用 Image2 与 Codex CLI，覆盖视觉创作与自动化编码两大高频场景。",
     tags: ["Image2", "Codex", "DALL·E"],
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.16), transparent 28%)",
