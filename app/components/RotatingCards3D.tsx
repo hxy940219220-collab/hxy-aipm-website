@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 /* ------------------------------------------------------------------ */
-/* 3D 旋转卡片 —— CSS perspective + rotateY + translateZ                */
-/* 类似 Alaric 的环形卡片组，支持点击旋转 + 拖拽/滑动                      */
+/* 3D 旋转卡片 — 窄长方形 + 双面渲染（正面+预翻转背面，文字永不反转）      */
 /* ------------------------------------------------------------------ */
 
 interface CardData {
@@ -14,7 +13,7 @@ interface CardData {
   title: string;
   desc: string;
   tags: string[];
-  gradient: string;   // 径向渐变背景
+  gradient: string;
   accentBorder: string;
   glowColor: string;
 }
@@ -53,7 +52,7 @@ const CARDS: CardData[] = [
   {
     num: "04",
     title: "设计 & 摄影",
-    desc: "把品牌视觉、画面审美与摄影表达整合成统一而可感知的呈现，让结果不止正确，也足够动人。",
+    desc: "把品牌视觉、画面审美与摄影表达整合成统一而可感知的呈现。",
     tags: ["Visual", "Brand", "Photo"],
     gradient:
       "radial-gradient(circle at 24% 24%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(230,90,20,0.18), transparent 26%)",
@@ -63,24 +62,58 @@ const CARDS: CardData[] = [
 ];
 
 const CARD_COUNT = CARDS.length;
-const ANGLE_PER_CARD = 360 / CARD_COUNT; // 90deg per card
-const RADIUS_DESKTOP = 520; // px translateZ
-const RADIUS_MOBILE = 280;
+const ANGLE_PER_CARD = 360 / CARD_COUNT;
+const RADIUS_DESKTOP = 440;
+const RADIUS_MOBILE = 240;
 
 function getRadius(): number {
   if (typeof window === "undefined") return RADIUS_DESKTOP;
   return window.innerWidth < 768 ? RADIUS_MOBILE : RADIUS_DESKTOP;
 }
 
+/* 卡片内容（正面和背面共用） */
+function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
+  return (
+    <div className="relative z-10 flex h-full flex-col p-5 md:p-6">
+      <span className="font-body text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-white/25">
+        {card.num}
+      </span>
+      <h3
+        className="mt-4 md:mt-6 text-balance font-semibold leading-[1.02] text-white"
+        style={{
+          fontFamily:
+            '"PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
+          fontSize: "clamp(1.2rem, 1.4vw, 1.5rem)",
+          letterSpacing: "0.02em",
+        }}
+      >
+        {card.title}
+      </h3>
+      <p className="mt-3 md:mt-4 text-[11.5px] md:text-[12px] leading-[1.85] text-white/55 [overflow-wrap:anywhere]">
+        {card.desc}
+      </p>
+      <div className="mt-auto flex flex-wrap gap-1.5">
+        {card.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full border border-white/[0.12] bg-white/[0.03] px-2 py-[0.22rem] font-body text-[8.5px] tracking-[0.08em] text-white/45"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function RotatingCards3D() {
   const reduced = useReducedMotion();
-  const [rotation, setRotation] = useState(0); // degrees
+  const [rotation, setRotation] = useState(0);
   const [radius, setRadius] = useState(RADIUS_DESKTOP);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, rotation: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Responsive radius
   useEffect(() => {
     setRadius(getRadius());
     const onResize = () => setRadius(getRadius());
@@ -88,26 +121,19 @@ export function RotatingCards3D() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Snap to nearest card (debounced)
   const snapToNearest = useCallback((rot: number) => {
-    const snapped = Math.round(rot / ANGLE_PER_CARD) * ANGLE_PER_CARD;
-    return snapped;
+    return Math.round(rot / ANGLE_PER_CARD) * ANGLE_PER_CARD;
   }, []);
 
   const rotateTo = useCallback(
     (direction: "prev" | "next") => {
       if (reduced) return;
       const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
-      // 总是朝同一方向转满 90°，不 snap 到最近 —— 保证连续 3D 旋转感
-      setRotation((r) => {
-        const snapped = snapToNearest(r);
-        return snapped + delta;
-      });
+      setRotation((r) => snapToNearest(r) + delta);
     },
     [reduced, snapToNearest]
   );
 
-  // Drag handlers
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (reduced) return;
@@ -122,9 +148,7 @@ export function RotatingCards3D() {
     (e: React.PointerEvent) => {
       if (!isDragging || reduced) return;
       const dx = e.clientX - dragStartRef.current.x;
-      const sensitivity = 0.4; // degrees per pixel
-      const newRotation = dragStartRef.current.rotation + dx * sensitivity;
-      setRotation(newRotation);
+      setRotation(dragStartRef.current.rotation + dx * 0.4);
     },
     [isDragging, reduced]
   );
@@ -135,10 +159,7 @@ export function RotatingCards3D() {
     setRotation((r) => snapToNearest(r));
   }, [isDragging, snapToNearest]);
 
-  // Normalize rotation to 0-360
   const normalizedRotation = ((rotation % 360) + 360) % 360;
-
-  // Determine which card is "front" (closest to facing the viewer)
   const frontIndex = Math.round(normalizedRotation / ANGLE_PER_CARD) % CARD_COUNT;
 
   return (
@@ -151,17 +172,17 @@ export function RotatingCards3D() {
       onPointerLeave={handlePointerUp}
       style={{ touchAction: "none" }}
     >
-      {/* ====== 3D 场景 · 参照 Alaric 规格 ====== */}
+      {/* ====== 3D 场景 ====== */}
       <div
         className="relative mx-auto overflow-visible"
         style={{
-          perspective: "1800px",
-          perspectiveOrigin: "50% 45%",
-          height: "clamp(25rem, 44vw, 30rem)",
-          maxWidth: "1400px",
+          perspective: "1600px",
+          perspectiveOrigin: "50% 48%",
+          height: "clamp(26rem, 48vw, 32rem)",
+          maxWidth: "1200px",
         }}
       >
-        {/* Rotation buttons */}
+        {/* 旋转按钮 */}
         {!reduced && (
           <>
             <button
@@ -181,12 +202,12 @@ export function RotatingCards3D() {
           </>
         )}
 
-        {/* Card ring · 匹配 Alaric 规格 */}
+        {/* 卡片环 */}
         <div
-          className="absolute left-1/2 top-3"
+          className="absolute left-1/2 top-4"
           style={{
-            width: "min(36rem, 40vw)",
-            height: "25rem",
+            width: "min(28rem, 34vw)",
+            height: "26rem",
             transform: "translateX(-50%)",
             transformStyle: "preserve-3d",
             transformOrigin: "50% 50%",
@@ -206,102 +227,96 @@ export function RotatingCards3D() {
                 : "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           >
-          {CARDS.map((card, i) => {
-            const cardAngle = i * ANGLE_PER_CARD;
-            const relativeAngle =
-              (((cardAngle - normalizedRotation) % 360) + 540) % 360;
-            // 0=正对观众, 90=右侧面, 180=背面, 270=左侧面
+            {CARDS.map((card, i) => {
+              const cardAngle = i * ANGLE_PER_CARD;
+              const relativeAngle =
+                (((cardAngle - normalizedRotation) % 360) + 540) % 360;
 
-            // 3D 环形可见度：正面清晰，侧面可见，背面可读（已镜像补偿）
-            const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
-            const opacity = 0.2 + facingFactor * 0.8;
-            const blur = (1 - facingFactor) * 0.5;
-            const z = Math.round(45 + (1 - facingFactor) * 10);
+              const facingFactor = Math.abs(
+                Math.cos((relativeAngle * Math.PI) / 180)
+              );
+              const opacity = 0.15 + facingFactor * 0.85;
+              const blur = (1 - facingFactor) * 0.4;
+              const z = Math.round(50 + facingFactor * 10);
 
-            return (
-              <div
-                key={card.num}
-                className="absolute rounded-[26px] border bg-[rgba(13,13,28,0.60)] text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] backdrop-blur-[18px] transition-[opacity,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto"
-                style={{
-                  width: "min(31rem, 37vw)",
-                  height: "25rem",
-                  left: "50%",
-                  top: 0,
-                  transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
-                  transformStyle: "preserve-3d",
-                  backfaceVisibility: "hidden",
-                  WebkitBackfaceVisibility: "hidden",
-                  borderColor:
-                    i === frontIndex
-                      ? card.accentBorder
-                      : "rgba(255,255,255,0.12)",
-                  boxShadow:
-                    i === frontIndex
-                      ? `0 12px 56px rgba(0,0,0,0.5), 0 0 40px ${card.glowColor.replace("0.45", "0.15")}, inset 0 1px 0 rgba(255,255,255,0.06)`
-                      : "0 12px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03)",
-                  opacity,
-                  filter: `blur(${blur.toFixed(2)}px)`,
-                  zIndex: z,
-                  cursor: isDragging ? "grabbing" : "grab",
-                }}
-              >
-                {/* Gradient overlay */}
+              return (
                 <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 rounded-[26px]"
-                  style={{ backgroundImage: card.gradient, opacity: 1 }}
-                />
-                {/* Inner border glow */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-[1px] rounded-[25px] border"
+                  key={card.num}
+                  className="absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] pointer-events-auto"
                   style={{
+                    width: "min(19rem, 40vw)",
+                    height: "clamp(23rem, 46vw, 28rem)",
+                    left: "50%",
+                    top: 0,
+                    transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
+                    transformStyle: "preserve-3d",
+                    backfaceVisibility: "visible",
+                    WebkitBackfaceVisibility: "visible",
                     borderColor:
                       i === frontIndex
                         ? card.accentBorder
-                        : "rgba(255,255,255,0.08)",
+                        : "rgba(255,255,255,0.12)",
+                    boxShadow:
+                      i === frontIndex
+                        ? `0 12px 56px rgba(0,0,0,0.5), 0 0 40px ${card.glowColor.replace("0.45", "0.15")}, inset 0 1px 0 rgba(255,255,255,0.06)`
+                        : "0 12px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03)",
+                    backgroundColor: "rgba(13,13,28,0.65)",
+                    backdropFilter: "blur(18px)",
+                    WebkitBackdropFilter: "blur(18px)",
+                    opacity,
+                    filter: `blur(${blur.toFixed(2)}px)`,
+                    zIndex: z,
+                    cursor: isDragging ? "grabbing" : "grab",
                   }}
-                />
-
-                {/* Card content */}
-                <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
-                  <span className="font-body text-[11px] uppercase tracking-[0.18em] text-white/25">
-                    {card.num}
-                  </span>
-                  <h3
-                    className="mt-5 md:mt-8 text-balance font-semibold leading-[1.02] text-white"
+                >
+                  {/* 渐变覆盖 */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 rounded-[24px]"
+                    style={{ backgroundImage: card.gradient }}
+                  />
+                  {/* 内边框 */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-[1px] rounded-[23px] border"
                     style={{
-                      fontFamily:
-                        '"PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
-                      fontSize: "clamp(1.28rem, 1.6vw, 1.72rem)",
-                      letterSpacing: "0.02em",
+                      borderColor:
+                        i === frontIndex
+                          ? card.accentBorder
+                          : "rgba(255,255,255,0.08)",
+                    }}
+                  />
+
+                  {/* ==== 正面（朝外）==== */}
+                  <div
+                    style={{
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
                     }}
                   >
-                    {card.title}
-                  </h3>
-                  <p className="mt-3 md:mt-5 text-[12.5px] leading-[1.9] text-white/52 [overflow-wrap:anywhere]">
-                    {card.desc}
-                  </p>
-                  <div className="mt-auto flex flex-wrap gap-2">
-                    {card.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/[0.12] bg-white/[0.03] px-2.5 py-[0.28rem] font-body text-[9px] tracking-[0.08em] text-white/45"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    <CardFace card={card} isFront />
+                  </div>
+
+                  {/* ==== 背面（预旋转180°，文字永远正向）==== */}
+                  <div
+                    style={{
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                      position: "absolute",
+                      inset: 0,
+                    }}
+                  >
+                    <CardFace card={card} isFront={false} />
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
-          {/* 旋转层结束 */}
         </div>
       </div>
 
-      {/* Card indicators (dots) */}
+      {/* 指示点 */}
       <div className="flex justify-center gap-3 mt-6 md:mt-8">
         {CARDS.map((card, i) => (
           <button
