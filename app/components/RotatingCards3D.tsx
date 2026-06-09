@@ -97,7 +97,7 @@ export function RotatingCards3D() {
   const rotateTo = useCallback(
     (direction: "prev" | "next") => {
       if (reduced) return;
-      const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
+      const delta = direction === "next" ? -ANGLE_PER_CARD : ANGLE_PER_CARD;
       setRotation((r) => snapToNearest(r + delta));
     },
     [reduced, snapToNearest]
@@ -209,16 +209,9 @@ export function RotatingCards3D() {
             // 0 = facing viewer, 90 = side, 180 = back (hidden by backface-visibility)
 
             const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
-            // 正面清晰，侧面可见但模糊，背面极淡
-            const opacity = relativeAngle > 135 && relativeAngle < 225
-              ? 0.03   // 背面几乎不可见
-              : 0.12 + facingFactor * 0.88;
-            const blur = relativeAngle > 135 && relativeAngle < 225
-              ? 1.5
-              : (1 - facingFactor) * 0.45;
-            const z = relativeAngle > 135 && relativeAngle < 225
-              ? 20
-              : 45 + (1 - facingFactor) * 15;
+            const opacity = 0.12 + facingFactor * 0.88;
+            const blur = (1 - facingFactor) * 0.55;
+            const z = 45 + (1 - facingFactor) * 15;
 
             return (
               <div
@@ -231,8 +224,8 @@ export function RotatingCards3D() {
                   top: 0,
                   transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
                   transformStyle: "preserve-3d",
-                  backfaceVisibility: "visible",
-                  WebkitBackfaceVisibility: "visible",
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
                   borderColor:
                     i === frontIndex
                       ? card.accentBorder
