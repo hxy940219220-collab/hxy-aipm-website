@@ -117,7 +117,7 @@ export function Navbar() {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[99] bg-[rgba(5,5,9,0.92)] backdrop-blur-[30px] flex flex-col items-center justify-center gap-10"
           >
-            {NAV_ITEMS.concat({ label: "聊聊", href: "#contact" }).map(
+            {NAV_ITEMS.concat({ label: "聊聊", href: "#contact", desc: "" }).map(
               (item, i) => (
                 <motion.a
                   key={item.href}
