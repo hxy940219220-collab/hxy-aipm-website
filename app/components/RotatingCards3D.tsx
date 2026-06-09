@@ -240,7 +240,7 @@ export function RotatingCards3D() {
             {CARDS.map((card, i) => {
               const cardAngle = i * ANGLE_PER_CARD;
               const relativeAngle =
-                (((cardAngle - normalizedRotation) % 360) + 540) % 360;
+                (((cardAngle - normalizedRotation) % 360) + 360) % 360;
 
               const facingFactor = Math.abs(
                 Math.cos((relativeAngle * Math.PI) / 180)
