@@ -248,8 +248,9 @@ export function RotatingCards3D() {
               const opacity = 0.55 + facingFactor * 0.45;
               const blur = (1 - facingFactor) * 0.25;
               const z = Math.round(50 + facingFactor * 10);
-              // 侧面卡片缩小，增强 3D 纵深感
-              const scale = 0.82 + facingFactor * 0.18;
+              // 背面卡片缩小（离正面越远越小），增强 3D 纵深感
+              const distFromFront = relativeAngle > 180 ? 360 - relativeAngle : relativeAngle;
+              const scale = 1.0 - (distFromFront / 180) * 0.2;
 
               return (
                 <div
