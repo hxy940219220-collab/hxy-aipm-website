@@ -83,7 +83,7 @@ export function Hero() {
                 <h1 className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
                   黄锡源
                 </h1>
-                <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary">
+                <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2">
                   AI 产品经理
                 </span>
               </div>
@@ -109,7 +109,7 @@ export function Hero() {
                     text="AI 产品经理"
                     tag="span"
                     textAlign="left"
-                    className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary"
+                    className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2"
                     delay={30}
                     duration={0.9}
                     from={{ opacity: 0, y: 24 }}
@@ -128,7 +128,7 @@ export function Hero() {
             initial={reduced ? {} : { opacity: 0, y: 20 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed"
+            className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed ml-1 md:ml-2"
           >
             聚焦模型、Agent 与 Workflow 的产品化设计。<br />
             把前沿能力转化为真实可用的产品体验。
@@ -139,7 +139,7 @@ export function Hero() {
             initial={reduced ? {} : { opacity: 0, y: 20 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="flex gap-3.5 flex-wrap pt-1"
+            className="flex gap-3.5 flex-wrap pt-3"
           >
             <motion.a
                 href="#work"
