@@ -41,13 +41,13 @@ export default function Home() {
               <div className="relative z-10 mx-auto max-w-[1200px]">
                 <div className="mb-16 md:mb-24 text-center">
                   <ScrollReveal>
-                    <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-neon-cyan uppercase">
-                      AI TOOLS
+                    <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-neon-cyan">
+                      AI 工具栈
                     </h2>
                   </ScrollReveal>
                   <ScrollReveal delay={0.12}>
                     <p className="mt-5 text-base leading-relaxed text-text-tertiary md:text-lg max-w-2xl mx-auto">
-                      日常高频使用的 AI 工具栈，每款工具在工作和创作中承担不同角色。
+                      日常高频使用的 AI 工具，每款在工作和创作中承担不同角色。
                     </p>
                   </ScrollReveal>
                 </div>

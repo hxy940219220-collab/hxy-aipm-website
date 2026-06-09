@@ -88,7 +88,15 @@ function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
       <span className="font-body text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-white/25">
         {card.num}
       </span>
-      <h3 className="mt-4 md:mt-6 font-display italic text-[clamp(1.6rem,2vw,2rem)] font-bold leading-[1.05] text-white">
+      <h3
+        className="mt-4 md:mt-6 text-balance font-semibold leading-[1.02] text-white"
+        style={{
+          fontFamily:
+            '"PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
+          fontSize: "clamp(1.2rem, 1.4vw, 1.5rem)",
+          letterSpacing: "0.02em",
+        }}
+      >
         {card.title}
       </h3>
       <p className="mt-3 md:mt-4 text-[11.5px] md:text-[12px] leading-[1.9] text-white/52 [overflow-wrap:anywhere]">
