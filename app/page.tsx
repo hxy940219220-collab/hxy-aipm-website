@@ -3,6 +3,7 @@
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { Identity } from "./components/Identity";
+import { EvanLetters } from "./components/EvanLetters";
 import { Work } from "./components/Work";
 import { Method } from "./components/Method";
 import { About } from "./components/About";
@@ -16,6 +17,7 @@ export default function Home() {
       <main>
         <Hero />
         <Identity />
+        <EvanLetters />
         <Work />
         <Method />
         <About />
