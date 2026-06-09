@@ -70,7 +70,7 @@ export function Hero() {
       />
 
       {/* Content overlay - bottom left */}
-      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end p-6 md:p-10 md:pb-14 w-full">
+      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-4 md:pl-8 pr-6 md:pr-10 pt-6 md:pt-10 pb-6 md:pb-14 w-full">
         <div className="pointer-events-auto space-y-1.5 md:space-y-2 max-w-[640px]">
           {/* Name */}
           <motion.div
