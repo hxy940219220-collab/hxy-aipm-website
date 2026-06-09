@@ -27,7 +27,7 @@ export function CustomCursor() {
 
     // Position elements
     wrapper.style.transform = "translate(-50%, -50%) rotate(0deg)";
-    dot.style.transform = "translate(-50%, -50%)";
+    dot.style.transform = "none";
     let idleAngle = 0;
 
     const onMove = (e: MouseEvent) => {
@@ -41,12 +41,12 @@ export function CustomCursor() {
       wrapper.style.left = `${x}px`;
       wrapper.style.top = `${y}px`;
 
-      // Check if we're over a .cursor-target
+      // Check if we're over a .cursor-target — prefer innermost (smallest) target
       const els = document.elementsFromPoint(x, y);
       let target: Element | null = null;
       for (const el of els) {
-        if (el.matches?.(".cursor-target") || el.closest?.(".cursor-target")) {
-          target = el.matches?.(".cursor-target") ? el : el.closest(".cursor-target");
+        if (el.matches?.(".cursor-target")) {
+          target = el; // first match in paint order = topmost/innermost
           break;
         }
       }
@@ -126,7 +126,7 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         className="absolute w-[5px] h-[5px] bg-neon-cyan rounded-full"
-        style={{ left: "50%", top: "50%", boxShadow: "0 0 14px rgba(0,200,255,0.95)" }}
+        style={{ left: "-2.5px", top: "-2.5px", boxShadow: "0 0 14px rgba(0,200,255,0.95)" }}
       />
 
       {/* 4 corner brackets */}

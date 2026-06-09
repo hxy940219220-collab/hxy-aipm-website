@@ -154,4 +154,5 @@ body {
   position: absolute;
   inset: -40px;
   z-index: -1;
+  pointer-events: none;
 }
