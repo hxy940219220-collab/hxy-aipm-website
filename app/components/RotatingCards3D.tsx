@@ -63,8 +63,8 @@ const CARDS: CardData[] = [
 
 const CARD_COUNT = CARDS.length;
 const ANGLE_PER_CARD = 360 / CARD_COUNT;
-const RADIUS_DESKTOP = 440;
-const RADIUS_MOBILE = 240;
+const RADIUS_DESKTOP = 360;
+const RADIUS_MOBILE = 220;
 
 function getRadius(): number {
   if (typeof window === "undefined") return RADIUS_DESKTOP;
@@ -178,7 +178,7 @@ export function RotatingCards3D() {
         style={{
           perspective: "1600px",
           perspectiveOrigin: "50% 48%",
-          height: "clamp(26rem, 48vw, 32rem)",
+          height: "clamp(24rem, 44vw, 28rem)",
           maxWidth: "1200px",
         }}
       >
@@ -206,8 +206,8 @@ export function RotatingCards3D() {
         <div
           className="absolute left-1/2 top-4"
           style={{
-            width: "min(28rem, 34vw)",
-            height: "26rem",
+            width: "min(32rem, 38vw)",
+            height: "24rem",
             transform: "translateX(-50%)",
             transformStyle: "preserve-3d",
             transformOrigin: "50% 50%",
@@ -235,7 +235,7 @@ export function RotatingCards3D() {
               const facingFactor = Math.abs(
                 Math.cos((relativeAngle * Math.PI) / 180)
               );
-              const opacity = 0.15 + facingFactor * 0.85;
+              const opacity = 0.4 + facingFactor * 0.6;
               const blur = (1 - facingFactor) * 0.4;
               const z = Math.round(50 + facingFactor * 10);
 
@@ -244,8 +244,8 @@ export function RotatingCards3D() {
                   key={card.num}
                   className="absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] pointer-events-auto"
                   style={{
-                    width: "min(19rem, 40vw)",
-                    height: "clamp(23rem, 46vw, 28rem)",
+                    width: "min(24rem, 50vw)",
+                    height: "clamp(18rem, 34vw, 22rem)",
                     left: "50%",
                     top: 0,
                     transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
