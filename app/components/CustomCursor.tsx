@@ -26,8 +26,9 @@ export function CustomCursor() {
     document.body.style.cursor = "none";
 
     // Position elements
-    wrapper.style.transform = "translate(-50%, -50%)";
+    wrapper.style.transform = "translate(-50%, -50%) rotate(0deg)";
     dot.style.transform = "translate(-50%, -50%)";
+    let idleAngle = 0;
 
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
@@ -51,6 +52,11 @@ export function CustomCursor() {
       }
 
       if (target) {
+        // Locked: stop rotation, snap to 0deg
+        wrapper.style.transition = "transform 0.25s ease-out";
+        wrapper.style.transform = `translate(-50%, -50%) rotate(0deg)`;
+        idleAngle = 0;
+
         const rect = target.getBoundingClientRect();
         lockedRef.current = rect;
 
@@ -73,6 +79,11 @@ export function CustomCursor() {
         dot.style.opacity = "0";
         corners.forEach((c) => (c.style.opacity = "1"));
       } else {
+        // Idle: slow continuous rotation
+        idleAngle += 0.3;
+        wrapper.style.transition = "none";
+        wrapper.style.transform = `translate(-50%, -50%) rotate(${idleAngle}deg)`;
+
         lockedRef.current = null;
         // Return corners to cursor
         corners[0].style.transition = "transform 0.25s ease-out";
