@@ -7,6 +7,8 @@ import { EvanIntro } from "./components/EvanIntro";
 import { Identity } from "./components/Identity";
 import { Work } from "./components/Work";
 import { Method } from "./components/Method";
+import { RotatingCards3D } from "./components/RotatingCards3D";
+import { ScrollReveal } from "./components/ScrollReveal";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
@@ -25,6 +27,33 @@ export default function Home() {
             <Identity />
             <Work />
             <Method />
+            {/* 3D 旋转卡片 · 能力展示 */}
+            <section
+              id="capabilities"
+              className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24 overflow-hidden"
+            >
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+              >
+                <div className="absolute inset-x-[8%] top-[10%] h-[28rem] bg-[radial-gradient(circle_at_top,rgba(255,132,64,0.06),transparent_68%)] blur-3xl" />
+              </div>
+              <div className="relative z-10 mx-auto max-w-[1200px]">
+                <div className="mb-10 md:mb-14 text-center">
+                  <ScrollReveal>
+                    <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-neon-cyan uppercase">
+                      WHAT I CAN DO
+                    </h2>
+                  </ScrollReveal>
+                  <ScrollReveal delay={0.12}>
+                    <p className="mt-5 text-base leading-relaxed text-text-tertiary md:text-lg max-w-2xl mx-auto">
+                      从底层数据训练、模型评测、到前端视觉呈现，提供多维度的专业能力储备。
+                    </p>
+                  </ScrollReveal>
+                </div>
+                <RotatingCards3D />
+              </div>
+            </section>
             <About />
             <Contact />
           </main>
