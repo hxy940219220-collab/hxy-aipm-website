@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
-import TargetCursor from "./reactbits/Animations/TargetCursor/TargetCursor";
+import { CustomCursor } from "./components/CustomCursor";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -43,7 +43,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-bg-deepest text-text-primary font-body">
         <SmoothScroll />
-        <TargetCursor spinDuration={3} targetSelector=".cursor-target" />
+        <CustomCursor />
         {children}
       </body>
     </html>
