@@ -60,7 +60,7 @@ export function Navbar() {
                 <a
                   href={item.href}
                   onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
-                  className="relative font-body text-[13px] font-medium tracking-[0.08em] uppercase text-text-secondary no-underline transition-colors duration-300 hover:text-white
+                  className="cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase text-text-secondary no-underline transition-colors duration-300 hover:text-white
                     after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:scale-x-0 after:transition-transform after:duration-300
                     hover:after:scale-x-100"
                 >
@@ -76,7 +76,7 @@ export function Navbar() {
               onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-300 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)]"
+              className="cursor-target hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-300 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)]"
             >
               聊聊
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.1] text-[11px] transition-all duration-300 group-hover:bg-neon-cyan group-hover:text-black">

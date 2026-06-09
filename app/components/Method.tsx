@@ -146,7 +146,7 @@ export function Method() {
                 {...(topic.href ? { href: topic.href, target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={`group block p-6 rounded-2xl bg-[#0c0c1a] border transition-all duration-500
                   ${isClickable
-                    ? 'border-white/[0.12] cursor-pointer no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1e] hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(0,200,255,0.10),0_20px_56px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]'
+                    ? 'border-white/[0.12] cursor-pointer cursor-target no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1e] hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(0,200,255,0.10),0_20px_56px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]'
                     : 'border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.02)]'
                   }`}
               >

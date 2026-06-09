@@ -1,0 +1,59 @@
+.target-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+}
+
+.target-cursor-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: #00c8ff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  box-shadow: 0 0 6px rgba(0, 200, 255, 0.6);
+}
+
+.target-cursor-corner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #00c8ff;
+  will-change: transform;
+  box-shadow: 0 0 4px rgba(0, 200, 255, 0.3);
+}
+
+.corner-tl {
+  transform: translate(-140%, -140%);
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-tr {
+  transform: translate(40%, -140%);
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-br {
+  transform: translate(40%, 40%);
+  border-left: none;
+  border-top: none;
+}
+
+.corner-bl {
+  transform: translate(-140%, 40%);
+  border-right: none;
+  border-top: none;
+}

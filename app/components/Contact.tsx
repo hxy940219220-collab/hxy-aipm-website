@@ -47,7 +47,7 @@ export function Contact() {
                   href="mailto:hxy940219220@gmail.com"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] no-underline bg-white text-black border-none transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,200,255,0.45)]"
+                  className="cursor-target inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] no-underline bg-white text-black border-none transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,200,255,0.45)]"
                 >
                   <Envelope size={16} weight="bold" />
                   邮件联系
@@ -57,7 +57,7 @@ export function Contact() {
                   onClick={(e) => e.preventDefault()}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
+                  className="cursor-target inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
                 >
                   <GithubLogo size={16} weight="bold" />
                   GitHub
@@ -68,7 +68,7 @@ export function Contact() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
+                  className="cursor-target inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
                 >
                   huangxiyuan.net
               </motion.a>
