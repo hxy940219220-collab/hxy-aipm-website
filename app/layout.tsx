@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { CustomCursor } from "./components/CustomCursor";
+import { Particles } from "./components/Particles";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className="min-h-full bg-bg-deepest text-text-primary font-body">
         <SmoothScroll />
         <CustomCursor />
+        <Particles />
         {children}
       </body>
     </html>
