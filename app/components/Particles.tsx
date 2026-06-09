@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 /* ------------------------------------------------------------------ */
 /* 环境粒子系统 —— Canvas 2D                                              */
@@ -31,7 +31,12 @@ const NEON_COLORS = [
   "rgba(255,255,255,@@@)",  // white (rare)
 ];
 
-const PARTICLE_COUNT = 280;
+const PARTICLE_COUNT_DESKTOP = 280;
+const PARTICLE_COUNT_MOBILE = 80;
+
+function getParticleCount(w: number): number {
+  return w < 768 ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
+}
 const MOUSE_RADIUS = 160;       // 鼠标影响半径
 const CONNECT_DISTANCE = 130;   // 连线最大距离
 const MAX_LINE_OPACITY = 0.22;  // 连线最大不透明度
@@ -190,9 +195,15 @@ export function Particles() {
       canvas.height = h;
       dimsRef.current = { w, h };
 
-      // 重建粒子以适应新尺寸
-      if (particlesRef.current.length === 0) {
-        particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () =>
+      // 按屏幕尺寸决定粒子数量
+      const target = getParticleCount(w);
+      const current = particlesRef.current;
+      if (current.length !== target) {
+        particlesRef.current = Array.from({ length: target }, () =>
+          createParticle(w, h)
+        );
+      } else if (current.length === 0) {
+        particlesRef.current = Array.from({ length: target }, () =>
           createParticle(w, h)
         );
       }

@@ -146,7 +146,7 @@ export function Hero() {
             initial={reduced ? {} : { opacity: 0, y: 20 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="flex gap-3.5 flex-wrap pt-3"
+            className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
           >
             <motion.a
                 href="#work"
@@ -156,7 +156,7 @@ export function Hero() {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-6 py-3 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] no-underline cursor-pointer bg-white text-black border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.4)]"
+                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] no-underline cursor-pointer bg-white text-black border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.4)]"
               >
                 查看作品
                 <span className="ml-2 text-xs opacity-60 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
@@ -169,7 +169,7 @@ export function Hero() {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-6 py-3 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
+                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
               >
                 关于我
               </motion.a>
@@ -181,7 +181,7 @@ export function Hero() {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-6 py-3 rounded-full font-body text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
+                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
               >
                 联系
               </motion.a>

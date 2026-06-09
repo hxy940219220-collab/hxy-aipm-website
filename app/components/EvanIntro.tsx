@@ -184,10 +184,10 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
         ))}
       </div>
 
-      {/* 跳过按钮 */}
+      {/* 跳过按钮 — 桌面右上，手机底部居中 */}
       <button
         onClick={handleSkip}
-        className="absolute top-8 right-8 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
+        className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
       >
         跳过 Skip
       </button>

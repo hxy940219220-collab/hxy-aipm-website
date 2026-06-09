@@ -1,18 +1,33 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 /* Reticle cursor — dot at exact cursor position + 4 corner brackets.
-   Rotates corners only (dot stays fixed). Locks onto .cursor-target elements. */
+   Rotates corners only (dot stays fixed). Locks onto .cursor-target elements.
+   Hidden on touch devices (mobile/tablet). */
+
+function isTouchDevice() {
+  if (typeof window === "undefined") return false;
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+}
 
 export function CustomCursor() {
   const reduced = useReducedMotion();
+  const [hidden, setHidden] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const spinRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<HTMLDivElement[]>([]);
   const rafRef = useRef(0);
   const posRef = useRef({ x: -100, y: -100 });
+
+  // Hide on touch devices
+  useEffect(() => {
+    if (isTouchDevice()) {
+      setHidden(true);
+      document.body.style.cursor = "";
+    }
+  }, []);
 
   useEffect(() => {
     if (reduced) return;
@@ -96,7 +111,7 @@ export function CustomCursor() {
     };
   }, [reduced]);
 
-  if (reduced) return null;
+  if (reduced || hidden) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] pointer-events-none" aria-hidden="true">
