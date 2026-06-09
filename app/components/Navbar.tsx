@@ -27,7 +27,7 @@ const NAV_ITEMS = [
     href: "#capabilities",
     subs: [
       { label: "Claude" },
-      { label: "Codex" },
+      { label: "GPT" },
       { label: "Gemini" },
       { label: "VS Code" },
       { label: "Typeless" },

@@ -31,9 +31,9 @@ const CARDS: CardData[] = [
   },
   {
     num: "02",
-    title: "Codex",
-    desc: "OpenAI 的 AI 编程代理。用于 CLI 环境下的代码生成、任务编排与自动化工作流验证。",
-    tags: ["CLI", "Automation", "Task"],
+    title: "GPT",
+    desc: "OpenAI 旗舰模型。用于复杂推理、长文本理解与产品策略分析，是多场景下的核心 AI 引擎。",
+    tags: ["Reasoning", "Analysis", "Research"],
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.16), transparent 28%)",
     accentBorder: "rgba(0,200,255,0.35)",
