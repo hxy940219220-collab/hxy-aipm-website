@@ -30,7 +30,7 @@ export default function Home() {
             {/* 3D 旋转卡片 · 能力展示 */}
             <section
               id="capabilities"
-              className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24 overflow-hidden"
+              className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden"
             >
               <div
                 aria-hidden="true"
@@ -39,7 +39,7 @@ export default function Home() {
                 <div className="absolute inset-x-[8%] top-[10%] h-[28rem] bg-[radial-gradient(circle_at_top,rgba(255,132,64,0.06),transparent_68%)] blur-3xl" />
               </div>
               <div className="relative z-10 mx-auto max-w-[1200px]">
-                <div className="mb-10 md:mb-14 text-center">
+                <div className="mb-16 md:mb-24 text-center">
                   <ScrollReveal>
                     <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-neon-cyan uppercase">
                       WHAT I CAN DO
