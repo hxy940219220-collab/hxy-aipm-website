@@ -61,11 +61,13 @@ const LETTER_DURATION = 1400;   // ms per letter
 const OUTRO_HOLD = 1600;        // outro 并列停留
 const OUTRO_EXPAND = 700;       // 放大展开时间
 
-export function EvanIntro() {
+export function EvanIntro({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState(0); // 0=E, 1=V, 2=A, 3=N, 4=outro
   const [outroStage, setOutroStage] = useState<"assemble" | "hold" | "expand">("assemble");
   const [dismissed, setDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   const advance = useCallback(() => {
     setPhase((p) => {
@@ -103,6 +105,7 @@ export function EvanIntro() {
 
     const dismissTimer = setTimeout(() => {
       setDismissed(true);
+      onCompleteRef.current();
     }, 500 + OUTRO_HOLD + OUTRO_EXPAND);
 
     return () => {
@@ -112,7 +115,10 @@ export function EvanIntro() {
     };
   }, [phase]); // only fires when phase changes to outro
 
-  const handleSkip = () => setDismissed(true);
+  const handleSkip = () => {
+    setDismissed(true);
+    onCompleteRef.current();
+  };
 
   if (dismissed) return null;
 
