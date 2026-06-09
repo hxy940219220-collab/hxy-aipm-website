@@ -123,6 +123,10 @@ export function RotatingCards3D() {
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, rotation: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef(0);       // 当前显示值
+  const targetRef = useRef(0);        // 目标值
+  const rafRef = useRef(0);
 
   useEffect(() => {
     setRadius(getRadius());
@@ -139,27 +143,50 @@ export function RotatingCards3D() {
     (direction: "prev" | "next") => {
       if (reduced) return;
       const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
-      // 不 snap，直接累加 —— 保证 CSS transition 永远朝同一方向旋转
-      setRotation((r) => r + delta);
+      targetRef.current += delta;
+      setRotation(targetRef.current);
     },
     [reduced]
   );
+
+  // JS 动画循环：lerp displayRef → targetRef，直接操作 DOM 绕开 CSS angle wrap
+  useEffect(() => {
+    if (reduced) return;
+    const ring = ringRef.current;
+    if (!ring) return;
+
+    const loop = () => {
+      const d = displayRef.current;
+      const t = targetRef.current;
+      if (Math.abs(t - d) < 0.01) {
+        displayRef.current = t;
+      } else {
+        displayRef.current += (t - d) * 0.18;
+      }
+      ring.style.transform = `rotateY(${-displayRef.current}deg)`;
+      rafRef.current = requestAnimationFrame(loop);
+    };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [reduced]);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (reduced) return;
       setIsDragging(true);
-      dragStartRef.current = { x: e.clientX, rotation };
+      dragStartRef.current = { x: e.clientX, rotation: targetRef.current };
       (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
     },
-    [reduced, rotation]
+    [reduced]
   );
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
       if (!isDragging || reduced) return;
-      const dx = e.clientX - dragStartRef.current.x;
-      setRotation(dragStartRef.current.rotation + dx * 0.4);
+      const newVal = dragStartRef.current.rotation + (e.clientX - dragStartRef.current.x) * 0.4;
+      targetRef.current = newVal;
+      displayRef.current = newVal; // drag 时直接跟随，不平滑
+      setRotation(newVal);
     },
     [isDragging, reduced]
   );
@@ -167,7 +194,9 @@ export function RotatingCards3D() {
   const handlePointerUp = useCallback(() => {
     if (!isDragging) return;
     setIsDragging(false);
-    setRotation((r) => snapToNearest(r));
+    const snapped = snapToNearest(targetRef.current);
+    targetRef.current = snapped;
+    setRotation(snapped);
   }, [isDragging, snapToNearest]);
 
   const normalizedRotation = ((rotation % 360) + 360) % 360;
@@ -225,17 +254,13 @@ export function RotatingCards3D() {
             pointerEvents: "none",
           }}
         >
-          {/* 旋转层 */}
+          {/* 旋转层 — JS 动画驱动，不依赖 CSS transition */}
           <div
+            ref={ringRef}
             className="absolute inset-0"
             style={{
               transformStyle: "preserve-3d",
-              transform: `rotateY(${-normalizedRotation}deg)`,
-              transition: isDragging
-                ? "none"
-                : reduced
-                ? "none"
-                : "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
+              transform: `rotateY(0deg)`,
             }}
           >
             {CARDS.map((card, i) => {
@@ -343,7 +368,14 @@ export function RotatingCards3D() {
             key={card.num}
             onClick={() => {
               if (reduced) return;
-              setRotation(i * ANGLE_PER_CARD);
+              const t = targetRef.current;
+              const snapped = snapToNearest(t);
+              const targetCard = i * ANGLE_PER_CARD;
+              // 计算最短路径（始终顺时针）
+              let dest = targetCard;
+              while (dest <= snapped) dest += 360;
+              targetRef.current = dest;
+              setRotation(dest);
             }}
             className="w-2 h-2 rounded-full transition-all duration-400 border-0 cursor-pointer"
             style={{
