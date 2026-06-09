@@ -137,8 +137,8 @@ export function Hero() {
             transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed ml-1 md:ml-2"
           >
-            不止聊 AI，而是把模型、Agent 与 Workflow<br />
-            做成能跑、能用、能迭代的产品。
+            不止是理解 AI，而是把模型、Agent 与 Workflow<br />
+            做成好用、有价值、能迭代的产品。
           </motion.p>
 
           {/* CTAs */}
