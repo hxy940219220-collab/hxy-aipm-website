@@ -212,30 +212,11 @@ export function RotatingCards3D() {
               (((cardAngle - normalizedRotation) % 360) + 540) % 360;
             // 0=正对观众, 90=右侧面, 180=背面, 270=左侧面
 
-            // 3D 环形可见度：正面 ±85°清晰，>95°立即切断防止文字反转
-            let opacity: number;
-            let blur: number;
-            if (relativeAngle < 85 || relativeAngle > 275) {
-              // 正面区：清晰可见
-              const f = relativeAngle < 85
-                ? 1 - relativeAngle / 85
-                : 1 - (360 - relativeAngle) / 85;
-              opacity = 0.88 + f * 0.12;
-              blur = (1 - f) * 0.35;
-            } else if (relativeAngle > 95 && relativeAngle < 265) {
-              // 背面区：完全隐藏（文字处于反转状态）
-              opacity = 0.03;
-              blur = 1.8;
-            } else {
-              // 过渡区 (85°-95° 或 265°-275°)：急速淡出/淡入
-              const inTransition = relativeAngle < 180;
-              const f = inTransition
-                ? 1 - (relativeAngle - 85) / 10
-                : 1 - (relativeAngle - 265) / 10;
-              opacity = 0.03 + f * 0.85;
-              blur = 1.8 - f * 1.45;
-            }
-            const z = Math.round(40 + (1 - (relativeAngle < 180 ? relativeAngle : 360 - relativeAngle) / 180) * 20);
+            // 3D 环形可见度：正面清晰，侧面可见，背面可读（已镜像补偿）
+            const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
+            const opacity = 0.2 + facingFactor * 0.8;
+            const blur = (1 - facingFactor) * 0.5;
+            const z = Math.round(45 + (1 - facingFactor) * 10);
 
             return (
               <div
@@ -282,8 +263,16 @@ export function RotatingCards3D() {
                   }}
                 />
 
-                {/* Card content */}
-                <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
+                {/* Card content — 背面镜像补偿 */}
+                <div
+                  className="relative z-10 flex h-full flex-col p-6 md:p-7"
+                  style={{
+                    transform:
+                      relativeAngle > 90 && relativeAngle < 270
+                        ? "scaleX(-1)"
+                        : "none",
+                  }}
+                >
                   <span className="font-body text-[11px] uppercase tracking-[0.18em] text-white/25">
                     {card.num}
                   </span>
