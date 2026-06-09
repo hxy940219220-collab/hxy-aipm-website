@@ -229,8 +229,8 @@ export function RotatingCards3D() {
                   top: 0,
                   transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
                   transformStyle: "preserve-3d",
-                  backfaceVisibility: "visible",
-                  WebkitBackfaceVisibility: "visible",
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
                   borderColor:
                     i === frontIndex
                       ? card.accentBorder
@@ -263,16 +263,8 @@ export function RotatingCards3D() {
                   }}
                 />
 
-                {/* Card content — 背面镜像补偿 */}
-                <div
-                  className="relative z-10 flex h-full flex-col p-6 md:p-7"
-                  style={{
-                    transform:
-                      relativeAngle > 90 && relativeAngle < 270
-                        ? "scaleX(-1)"
-                        : "none",
-                  }}
-                >
+                {/* Card content */}
+                <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
                   <span className="font-body text-[11px] uppercase tracking-[0.18em] text-white/25">
                     {card.num}
                   </span>
