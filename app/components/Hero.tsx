@@ -69,9 +69,9 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      {/* Content overlay — upper-left, proportional spacing */}
-      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-start pt-[18vh] md:pt-[22vh] px-6 md:px-10 w-full">
-        <div className="pointer-events-auto flex flex-col gap-[clamp(16px,3vh,36px)] max-w-[720px]">
+      {/* Content overlay - bottom left */}
+      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end p-6 md:p-10 md:pb-14 w-full">
+        <div className="pointer-events-auto space-y-3 md:space-y-4 max-w-[640px]">
           {/* Name */}
           <motion.div
             initial={reduced ? {} : { opacity: 0, y: 30, filter: "blur(10px)" }}
