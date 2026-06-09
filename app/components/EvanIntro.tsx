@@ -48,10 +48,10 @@ const LETTERS: LetterData[] = [
   },
   {
     letter: "N",
-    keyword: "Narrative",
-    keywordCN: "叙事表达",
-    strong: "让产品不止正确，而且动人",
-    desc: "设计 × 摄影 × 管理 × AI → 统一的叙事能力",
+    keyword: "Native",
+    keywordCN: "AI 原生",
+    strong: "以 AI 为起点重新思考产品形态",
+    desc: "不把 AI 当外挂功能，而是作为产品核心引擎来设计体验与交互范式",
     color: "#ff6a1a",
     glowColor: "rgba(255,106,26,0.5)",
   },
@@ -242,7 +242,7 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45, duration: 0.5 }}
             >
-              Engineer · Verify · Align · Narrative
+              Engineer · Verify · Align · Native
             </motion.p>
           </motion.div>
         ) : current ? (
