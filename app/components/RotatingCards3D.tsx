@@ -64,8 +64,8 @@ const CARDS: CardData[] = [
 
 const CARD_COUNT = CARDS.length;
 const ANGLE_PER_CARD = 360 / CARD_COUNT; // 90deg per card
-const RADIUS_DESKTOP = 480; // px translateZ
-const RADIUS_MOBILE = 300;
+const RADIUS_DESKTOP = 460; // px translateZ (matches Alaric 28.8rem)
+const RADIUS_MOBILE = 260;
 
 function getRadius(): number {
   if (typeof window === "undefined") return RADIUS_DESKTOP;
@@ -147,14 +147,14 @@ export function RotatingCards3D() {
       onPointerLeave={handlePointerUp}
       style={{ touchAction: "none" }}
     >
-      {/* ====== 3D 场景 ====== */}
+      {/* ====== 3D 场景 · 参照 Alaric 规格 ====== */}
       <div
-        className="relative mx-auto flex items-center justify-center"
+        className="relative mx-auto overflow-visible"
         style={{
-          perspective: "1600px",
+          perspective: "1800px",
           perspectiveOrigin: "50% 45%",
-          height: "clamp(24rem, 46vw, 30rem)",
-          maxWidth: "1200px",
+          height: "clamp(22rem, 38vw, 27rem)",
+          maxWidth: "1300px",
         }}
       >
         {/* Rotation buttons */}
@@ -177,38 +177,49 @@ export function RotatingCards3D() {
           </>
         )}
 
-        {/* Card ring */}
+        {/* Card ring · 匹配 Alaric 规格 */}
         <div
-          className="absolute left-1/2 top-1/2"
+          className="absolute left-1/2 top-3"
           style={{
+            width: "min(32rem, 36vw)",
+            height: "22.5rem",
+            transform: "translateX(-50%)",
             transformStyle: "preserve-3d",
-            transform: `rotateY(${-normalizedRotation}deg)`,
-            transition: isDragging
-              ? "none"
-              : reduced
-              ? "none"
-              : "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
+            transformOrigin: "50% 50%",
+            pointerEvents: "none",
           }}
         >
+          {/* 旋转层 */}
+          <div
+            className="absolute inset-0"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: `rotateY(${-normalizedRotation}deg)`,
+              transition: isDragging
+                ? "none"
+                : reduced
+                ? "none"
+                : "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          >
           {CARDS.map((card, i) => {
             const cardAngle = i * ANGLE_PER_CARD;
             const relativeAngle =
               (((cardAngle - normalizedRotation) % 360) + 540) % 360;
             // 0 = facing viewer, 90 = side, 180 = back (hidden by backface-visibility)
 
-            // Only ~2 cards are visible (within ±90° of front)
             const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
-            const opacity = 0.2 + facingFactor * 0.8;
-            const blur = (1 - facingFactor) * 0.6;
-            const z = 40 + (1 - facingFactor) * 10;
+            const opacity = 0.12 + facingFactor * 0.88;
+            const blur = (1 - facingFactor) * 0.55;
+            const z = 45 + (1 - facingFactor) * 15;
 
             return (
               <div
                 key={card.num}
-                className="absolute rounded-[26px] border bg-[rgba(13,13,28,0.65)] text-left shadow-[0_12px_48px_rgba(0,0,0,0.45)] backdrop-blur-[18px] transition-[opacity,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto"
+                className="absolute rounded-[26px] border bg-[rgba(13,13,28,0.60)] text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] backdrop-blur-[18px] transition-[opacity,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto"
                 style={{
-                  width: "min(26rem, 82vw)",
-                  height: "clamp(21rem, 38vw, 26rem)",
+                  width: "min(27.5rem, 32vw)",
+                  height: "22.5rem",
                   left: "50%",
                   top: 0,
                   transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
@@ -248,29 +259,29 @@ export function RotatingCards3D() {
                 />
 
                 {/* Card content */}
-                <div className="relative z-10 flex h-full flex-col p-5 md:p-7">
-                  <span className="font-body text-[11px] md:text-[12px] uppercase tracking-[0.18em] text-white/30">
+                <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
+                  <span className="font-body text-[11px] uppercase tracking-[0.18em] text-white/25">
                     {card.num}
                   </span>
                   <h3
-                    className="mt-6 md:mt-9 text-balance font-semibold leading-[1.02] text-white"
+                    className="mt-5 md:mt-8 text-balance font-semibold leading-[1.02] text-white"
                     style={{
                       fontFamily:
                         '"PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
-                      fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
+                      fontSize: "clamp(1.28rem, 1.6vw, 1.72rem)",
                       letterSpacing: "0.02em",
                     }}
                   >
                     {card.title}
                   </h3>
-                  <p className="mt-4 md:mt-6 text-[13px] md:text-[14px] leading-[1.85] text-white/58 [overflow-wrap:anywhere]">
+                  <p className="mt-3 md:mt-5 text-[12.5px] leading-[1.9] text-white/52 [overflow-wrap:anywhere]">
                     {card.desc}
                   </p>
                   <div className="mt-auto flex flex-wrap gap-2">
                     {card.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-white/[0.14] bg-white/[0.04] px-2.5 md:px-3 py-[0.3rem] font-body text-[10px] tracking-[0.08em] text-white/55"
+                        className="rounded-full border border-white/[0.12] bg-white/[0.03] px-2.5 py-[0.28rem] font-body text-[9px] tracking-[0.08em] text-white/45"
                       >
                         {tag}
                       </span>
@@ -280,6 +291,8 @@ export function RotatingCards3D() {
               </div>
             );
           })}
+          </div>
+          {/* 旋转层结束 */}
         </div>
       </div>
 
