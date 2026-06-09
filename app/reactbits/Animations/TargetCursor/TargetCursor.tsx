@@ -136,44 +136,7 @@ export default function TargetCursor({
     };
     tickerFnRef.current = tickerFn;
 
-    const moveHandler = (e: MouseEvent) => {
-      moveCursor(e.clientX, e.clientY);
-
-      // Proximity detection: pre-lock nearby targets / release when far away
-      let closest: Element | null = null;
-      let closestDist = Infinity;
-
-      document.querySelectorAll(targetSelector).forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        const cx = e.clientX;
-        const cy = e.clientY;
-        const nearX = Math.max(rect.left - proximityRadius, Math.min(cx, rect.right + proximityRadius));
-        const nearY = Math.max(rect.top - proximityRadius, Math.min(cy, rect.bottom + proximityRadius));
-        const dist = Math.hypot(cx - nearX, cy - nearY);
-        if (dist < closestDist && dist <= proximityRadius) {
-          closestDist = dist;
-          closest = el;
-        }
-      });
-
-      if (closest && !isActiveRef.current) {
-        const fakeEvent = { target: closest } as unknown as MouseEvent;
-        enterHandler(fakeEvent);
-      } else if (!closest && isActiveRef.current && currentLeaveHandler) {
-        // Hysteresis: only release when far away (2x radius) to prevent flicker
-        const stillNearAny = Array.from(document.querySelectorAll(targetSelector)).some((el) => {
-          const rect = el.getBoundingClientRect();
-          const cx = e.clientX;
-          const cy = e.clientY;
-          const nearX = Math.max(rect.left - proximityRadius * 2, Math.min(cx, rect.right + proximityRadius * 2));
-          const nearY = Math.max(rect.top - proximityRadius * 2, Math.min(cy, rect.bottom + proximityRadius * 2));
-          return Math.hypot(cx - nearX, cy - nearY) <= proximityRadius * 2;
-        });
-        if (!stillNearAny) {
-          currentLeaveHandler();
-        }
-      }
-    };
+    const moveHandler = (e: MouseEvent) => moveCursor(e.clientX, e.clientY);
     window.addEventListener("mousemove", moveHandler);
 
     const scrollHandler = () => {

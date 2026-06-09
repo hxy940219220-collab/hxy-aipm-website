@@ -142,3 +142,16 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   CURSOR TARGET — expanded hit area for TargetCursor lock-on
+   ============================================================ */
+.cursor-target {
+  position: relative;
+}
+.cursor-target::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: -1;
+}
