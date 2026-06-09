@@ -7,22 +7,49 @@ const NAV_ITEMS = [
   {
     label: "作品",
     href: "#work",
-    subs: ["IdeaFlash · 灵感胶囊", "FocusMeow · 专注喵"],
+    subs: [
+      { label: "IdeaFlash · 灵感胶囊" },
+      { label: "FocusMeow · 专注喵" },
+    ],
+  },
+  {
+    label: "工具栈",
+    href: "#capabilities",
+    subs: [
+      { label: "Claude" },
+      { label: "Codex" },
+      { label: "Gemini" },
+      { label: "VS Code" },
+      { label: "Typeless" },
+    ],
   },
   {
     label: "思考",
     href: "#method",
-    subs: ["AIPM 工作流蓝图", "Harness Engineering", "Claude Code 设计逻辑", "Hermes × OpenClaw"],
+    subs: [
+      { label: "AIPM 工作流蓝图" },
+      { label: "Harness Engineering" },
+      { label: "Claude Code 设计逻辑" },
+      { label: "Hermes × OpenClaw" },
+    ],
   },
   {
     label: "关于",
     href: "#about",
-    subs: ["产品化能力", "Agent 系统", "快速验证"],
+    subs: [
+      { label: "产品化能力" },
+      { label: "Agent 系统" },
+      { label: "快速验证" },
+    ],
   },
   {
     label: "联系",
     href: "#contact",
-    subs: ["GitHub", "huangxiyuan.net", "hxy940219220@gmail.com"],
+    subs: [
+      { label: "GitHub", href: "https://github.com/hxy940219220-collab/huangxiyuan-website" },
+      { label: "huangxiyuan.net", href: "https://huangxiyuan.net" },
+      { label: "hxy940219220@gmail.com", href: "mailto:hxy940219220@gmail.com" },
+    ],
   },
 ];
 
@@ -85,14 +112,26 @@ export function Navbar() {
                 {/* 竖版下拉子项列表 */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
                   <div className="flex flex-col gap-0.5 py-2 px-1 rounded-xl bg-[rgba(13,13,28,0.94)] border border-white/[0.10] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] min-w-[180px]">
-                    {item.subs.map((sub) => (
-                      <span
-                        key={sub}
-                        className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
-                      >
-                        {sub}
-                      </span>
-                    ))}
+                    {item.subs.map((sub) =>
+                      "href" in sub && sub.href ? (
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
+                        >
+                          {sub.label}
+                        </a>
+                      ) : (
+                        <span
+                          key={sub.label}
+                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
+                        >
+                          {sub.label}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               </li>
@@ -138,7 +177,7 @@ export function Navbar() {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[99] bg-[rgba(5,5,9,0.92)] backdrop-blur-[30px] flex flex-col items-center justify-center gap-10"
           >
-            {NAV_ITEMS.concat({ label: "聊聊", href: "#contact", subs: [] }).map(
+            {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as {label:string; href?:string}[] }].map(
               (item, i) => (
                 <motion.a
                   key={item.href}
