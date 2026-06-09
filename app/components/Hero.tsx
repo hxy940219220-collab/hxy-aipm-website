@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
+      className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
       {/* Background blurred layer - full cover */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
