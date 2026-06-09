@@ -248,6 +248,8 @@ export function RotatingCards3D() {
               const opacity = 0.55 + facingFactor * 0.45;
               const blur = (1 - facingFactor) * 0.25;
               const z = Math.round(50 + facingFactor * 10);
+              // 侧面卡片缩小，增强 3D 纵深感
+              const scale = 0.82 + facingFactor * 0.18;
 
               return (
                 <div
@@ -258,7 +260,7 @@ export function RotatingCards3D() {
                     height: "clamp(18rem, 34vw, 22rem)",
                     left: "50%",
                     top: 0,
-                    transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px)`,
+                    transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px) scale(${scale.toFixed(2)})`,
                     transformStyle: "preserve-3d",
                     backfaceVisibility: "visible",
                     WebkitBackfaceVisibility: "visible",
