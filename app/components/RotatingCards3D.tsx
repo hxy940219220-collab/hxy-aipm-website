@@ -235,8 +235,8 @@ export function RotatingCards3D() {
               const facingFactor = Math.abs(
                 Math.cos((relativeAngle * Math.PI) / 180)
               );
-              const opacity = 0.4 + facingFactor * 0.6;
-              const blur = (1 - facingFactor) * 0.4;
+              const opacity = 0.55 + facingFactor * 0.45;
+              const blur = (1 - facingFactor) * 0.25;
               const z = Math.round(50 + facingFactor * 10);
 
               return (
