@@ -72,53 +72,60 @@ export function Hero() {
       {/* Content overlay - bottom left */}
       <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-4 md:pl-8 pr-6 md:pr-10 pt-6 md:pt-10 pb-6 md:pb-14 w-full">
         <div className="pointer-events-auto space-y-1.5 md:space-y-2 max-w-[640px]">
-          {/* Name */}
+          {/* Main title */}
           <motion.div
             initial={reduced ? {} : { opacity: 0, y: 30, filter: "blur(10px)" }}
             animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <div className="flex flex-col text-left">
-                <h1 className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
-                  黄锡源
-                </h1>
-                <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2">
-                  AI 产品经理
-                </span>
-              </div>
+              <h1 className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
+                黄锡源
+              </h1>
             ) : (
-              <div className="flex flex-col items-start overflow-visible">
-                <div className="overflow-visible">
-                  <SplitText
-                    text="黄锡源"
-                    tag="h1"
-                    textAlign="left"
-                    className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white"
-                    delay={50}
-                    duration={1.2}
-                    from={{ opacity: 0, y: 80, filter: "blur(10px)" }}
-                    to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    ease="power4.out"
-                    threshold={0.2}
-                    rootMargin="-50px"
-                  />
-                </div>
-                <div className="overflow-visible">
-                  <SplitText
-                    text="AI 产品经理"
-                    tag="span"
-                    textAlign="left"
-                    className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2"
-                    delay={30}
-                    duration={0.9}
-                    from={{ opacity: 0, y: 24 }}
-                    to={{ opacity: 1, y: 0 }}
-                    ease="power3.out"
-                    threshold={0.2}
-                    rootMargin="-50px"
-                  />
-                </div>
+              <div className="overflow-visible">
+                <SplitText
+                  text="黄锡源"
+                  tag="h1"
+                  textAlign="left"
+                  className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white"
+                  delay={50}
+                  duration={1.2}
+                  from={{ opacity: 0, y: 80, filter: "blur(10px)" }}
+                  to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  ease="power4.out"
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
+              </div>
+            )}
+          </motion.div>
+
+          {/* Subtitle */}
+          <motion.div
+            initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
+            animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {reduced ? (
+              <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2">
+                AI 产品经理
+              </span>
+            ) : (
+              <div className="overflow-visible">
+                <SplitText
+                  text="AI 产品经理"
+                  tag="span"
+                  textAlign="left"
+                  className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2"
+                  delay={30}
+                  duration={0.9}
+                  from={{ opacity: 0, y: 24 }}
+                  to={{ opacity: 1, y: 0 }}
+                  ease="power3.out"
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
               </div>
             )}
           </motion.div>
