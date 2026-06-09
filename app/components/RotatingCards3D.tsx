@@ -139,9 +139,10 @@ export function RotatingCards3D() {
     (direction: "prev" | "next") => {
       if (reduced) return;
       const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
-      setRotation((r) => snapToNearest(r) + delta);
+      // 不 snap，直接累加 —— 保证 CSS transition 永远朝同一方向旋转
+      setRotation((r) => r + delta);
     },
-    [reduced, snapToNearest]
+    [reduced]
   );
 
   const handlePointerDown = useCallback(
