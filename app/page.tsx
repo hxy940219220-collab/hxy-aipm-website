@@ -2,8 +2,8 @@
 
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
+import { EvanIntro } from "./components/EvanIntro";
 import { Identity } from "./components/Identity";
-import { EvanLetters } from "./components/EvanLetters";
 import { Work } from "./components/Work";
 import { Method } from "./components/Method";
 import { About } from "./components/About";
@@ -13,11 +13,11 @@ import { Footer } from "./components/Footer";
 export default function Home() {
   return (
     <>
+      <EvanIntro />
       <Navbar />
       <main>
         <Hero />
         <Identity />
-        <EvanLetters />
         <Work />
         <Method />
         <About />
