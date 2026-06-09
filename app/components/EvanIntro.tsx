@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 /* ------------------------------------------------------------------ */
 /* EVAN 首字母拆解 · 全屏开场动画                                        */
-/* 进入网站时播放，四个字母逐个揭示含义，最后过渡到主页面                */
+/* 四个字母逐个揭示含义 → 四字母并列 → 放大展开 → 过渡到主页面           */
 /* ------------------------------------------------------------------ */
 
 interface LetterData {
@@ -57,41 +57,62 @@ const LETTERS: LetterData[] = [
   },
 ];
 
-const TOTAL_PHASES = LETTERS.length + 1; // 4 letters + final outro
-const LETTER_DURATION = 1400; // ms per letter
-const OUTRO_DURATION = 800;  // ms for final fade
+const LETTER_DURATION = 1400;   // ms per letter
+const OUTRO_HOLD = 1600;        // outro 并列停留
+const OUTRO_EXPAND = 700;       // 放大展开时间
 
 export function EvanIntro() {
   const [phase, setPhase] = useState(0); // 0=E, 1=V, 2=A, 3=N, 4=outro
+  const [outroStage, setOutroStage] = useState<"assemble" | "hold" | "expand">("assemble");
   const [dismissed, setDismissed] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const advance = useCallback(() => {
     setPhase((p) => {
       const next = p + 1;
-      if (next >= TOTAL_PHASES) {
-        // Schedule dismiss after outro animation
-        setTimeout(() => setDismissed(true), OUTRO_DURATION);
-        return p; // stay on current for outro
+      if (next >= LETTERS.length + 1) {
+        // Enter outro — don't advance further, outro manages itself
+        return p;
       }
       return next;
     });
   }, []);
 
+  // Phase timer: advance through letters, then enter outro
   useEffect(() => {
     if (phase < LETTERS.length) {
       const timer = setTimeout(advance, LETTER_DURATION);
       return () => clearTimeout(timer);
-    } else if (phase === LETTERS.length) {
-      // Outro phase - dismiss after animation
-      const timer = setTimeout(() => setDismissed(true), OUTRO_DURATION + 200);
-      return () => clearTimeout(timer);
     }
   }, [phase, advance]);
 
-  // Allow skip on click
-  const handleSkip = () => {
-    setDismissed(true);
-  };
+  // Outro sub-phase timer
+  useEffect(() => {
+    if (phase < LETTERS.length) return; // not in outro yet
+
+    // Phase just entered outro → start assemble
+    setOutroStage("assemble");
+
+    const holdTimer = setTimeout(() => {
+      setOutroStage("hold");
+    }, 500); // assemble time (letters stagger in)
+
+    const expandTimer = setTimeout(() => {
+      setOutroStage("expand");
+    }, 500 + OUTRO_HOLD);
+
+    const dismissTimer = setTimeout(() => {
+      setDismissed(true);
+    }, 500 + OUTRO_HOLD + OUTRO_EXPAND);
+
+    return () => {
+      clearTimeout(holdTimer);
+      clearTimeout(expandTimer);
+      clearTimeout(dismissTimer);
+    };
+  }, [phase]); // only fires when phase changes to outro
+
+  const handleSkip = () => setDismissed(true);
 
   if (dismissed) return null;
 
@@ -100,10 +121,15 @@ export function EvanIntro() {
 
   return (
     <motion.div
+      ref={containerRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
       style={{ background: "#050509" }}
+      animate={
+        isOutro && outroStage === "expand"
+          ? { opacity: 0 }
+          : { opacity: 1 }
+      }
+      transition={{ duration: OUTRO_EXPAND / 1000, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* 背景微光 */}
       <div className="absolute inset-0 pointer-events-none">
@@ -115,7 +141,6 @@ export function EvanIntro() {
               : "transparent",
           }}
         />
-        {/* 粒子感 - 细微噪点覆盖 */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -134,11 +159,17 @@ export function EvanIntro() {
             className="relative w-2 h-2 rounded-full transition-all duration-500"
             style={{
               backgroundColor:
-                i < phase ? l.color : i === phase && !isOutro ? l.color : "rgba(255,255,255,0.15)",
+                i < phase
+                  ? l.color
+                  : i === phase && !isOutro
+                  ? l.color
+                  : isOutro
+                  ? l.color
+                  : "rgba(255,255,255,0.15)",
               boxShadow:
                 i === phase && !isOutro
                   ? `0 0 10px ${l.color}`
-                  : i < phase
+                  : isOutro
                   ? `0 0 4px ${l.color}`
                   : "none",
               transform: i === phase && !isOutro ? "scale(1.5)" : "scale(1)",
@@ -158,28 +189,42 @@ export function EvanIntro() {
       {/* 主内容 */}
       <AnimatePresence mode="wait">
         {isOutro ? (
-          /* ====== OUTRO: 四字母并列 ====== */
+          /* ====== OUTRO: 四字母并列 → 放大展开 ====== */
           <motion.div
             key="outro"
-            className="flex flex-col items-center gap-8"
+            className="flex flex-col items-center gap-6 md:gap-10"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -40, filter: "blur(12px)" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            animate={
+              outroStage === "expand"
+                ? { opacity: 1, scale: 3.5, filter: "blur(8px)" }
+                : { opacity: 1, scale: 1, filter: "blur(0px)" }
+            }
+            transition={
+              outroStage === "expand"
+                ? { duration: OUTRO_EXPAND / 1000, ease: [0.16, 1, 0.3, 1] }
+                : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+            }
           >
-            <div className="flex items-center gap-6 md:gap-12">
+            <div className="flex items-center gap-4 md:gap-10">
               {LETTERS.map((l, i) => (
                 <motion.span
                   key={l.letter}
                   className="font-display italic font-bold leading-none"
                   style={{
                     color: l.color,
-                    fontSize: "clamp(5rem, 12vw, 10rem)",
-                    textShadow: `0 0 60px ${l.glowColor}`,
+                    fontSize: "clamp(4.5rem, 10vw, 9rem)",
+                    textShadow:
+                      outroStage === "expand"
+                        ? `0 0 120px ${l.glowColor}, 0 0 240px ${l.glowColor.replace("0.5", "0.3")}`
+                        : `0 0 50px ${l.glowColor}`,
                   }}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * i, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    delay: 0.1 * i,
+                    duration: 0.5,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                 >
                   {l.letter}
                 </motion.span>
@@ -189,7 +234,7 @@ export function EvanIntro() {
               className="font-body text-text-muted text-sm tracking-[0.2em] uppercase"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              transition={{ delay: 0.45, duration: 0.5 }}
             >
               Engineer · Verify · Align · Narrative
             </motion.p>
@@ -204,7 +249,6 @@ export function EvanIntro() {
             exit={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* 超大字母 */}
             <motion.span
               className="font-display italic font-bold leading-none select-none"
               style={{
@@ -219,7 +263,6 @@ export function EvanIntro() {
               {current.letter}
             </motion.span>
 
-            {/* 关键词 */}
             <motion.div
               className="flex flex-col items-center gap-2"
               initial={{ opacity: 0, y: 16 }}
@@ -237,7 +280,6 @@ export function EvanIntro() {
               </span>
             </motion.div>
 
-            {/* 描述 */}
             <motion.div
               className="flex flex-col items-center gap-1.5"
               initial={{ opacity: 0, y: 12 }}
