@@ -248,14 +248,14 @@ export function RotatingCards3D() {
               const opacity = 0.55 + facingFactor * 0.45;
               const blur = (1 - facingFactor) * 0.25;
               const z = Math.round(50 + facingFactor * 10);
-              // 按位置分层缩放：正面最大，侧面中等，背面最小
+              // 按位置分层缩放：01正面放大，03/04背面缩小
               let scale: number;
               if (relativeAngle < 36 || relativeAngle > 324) {
-                scale = 1.0;                       // 正面：最大
+                scale = 1.08;                      // 01 正面：放大
               } else if (relativeAngle < 108 || relativeAngle > 252) {
-                scale = 0.92;                      // 左右邻侧：中等
+                scale = 0.92;                      // 02/05 侧面
               } else {
-                scale = 0.70;                      // 背面两侧：最小
+                scale = 0.60;                      // 03/04 背面：缩小
               }
 
               return (
