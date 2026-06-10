@@ -67,7 +67,7 @@ export function Work() {
               whileHover={{ y: -6 }}
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0">
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
                   src="/ideaflash.png"
                   alt="IdeaFlash 灵感胶囊"
@@ -111,7 +111,7 @@ export function Work() {
               whileHover={{ y: -6 }}
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0">
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
                   src="/focusmeow.png"
                   alt="FocusMeow 专注喵"
