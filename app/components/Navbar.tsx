@@ -97,7 +97,7 @@ export function Navbar() {
             onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}
             className="font-body text-[15px] font-semibold tracking-[0.06em] uppercase text-white no-underline"
           >
-            HXY <span className="text-text-tertiary font-normal">/ AIPM</span>
+            HXY <span className="text-text-tertiary font-normal">/ EVAN</span>
           </a>
 
           {/* Desktop nav */}
