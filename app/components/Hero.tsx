@@ -29,21 +29,21 @@ export function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
         >
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
         </video>
       </div>
 
-      {/* Foreground video - cover to fill full width */}
-      <div className="absolute inset-0 z-[1]" aria-hidden="true">
+      {/* Foreground video - desktop only, mobile hides to save bandwidth */}
+      <div className="absolute inset-0 z-[1] hidden md:block" aria-hidden="true">
         <video
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           className="w-full h-full object-cover"
         >
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />

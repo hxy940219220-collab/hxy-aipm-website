@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harness Engineering — AI 驾驭工程全景</title>
+<style>
+  :root {
+    --bg: #03001e;
+    --bg2: #07002f;
+    --bg3: #0d0040;
+    --pink: #ff6ef7;
+    --cyan: #00cfff;
+    --gold: #ffd700;
+    --violet: #a855f7;
+    --indigo: #6366f1;
+    --white: #f0f0ff;
+    --muted: rgba(240,240,255,0.5);
+    --border: rgba(255,110,247,0.15);
+    --card-bg: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,110,247,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  #stars-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── NEBULA BLOBS ── */
+  .nebula {
+    position: fixed; border-radius: 50%;
+    filter: blur(120px); pointer-events: none; z-index: 0;
+    animation: nebulaDrift 20s ease-in-out infinite alternate;
+  }
+  .nebula-1 { width: 600px; height: 600px; top: -200px; left: -200px; background: radial-gradient(circle, rgba(168,85,247,0.12), transparent 70%); }
+  .nebula-2 { width: 500px; height: 500px; bottom: 20%; right: -100px; background: radial-gradient(circle, rgba(0,207,255,0.10), transparent 70%); animation-delay: -7s; }
+  .nebula-3 { width: 400px; height: 400px; top: 50%; left: 40%; background: radial-gradient(circle, rgba(255,110,247,0.08), transparent 70%); animation-delay: -14s; }
+  @keyframes nebulaDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px, 20px) scale(1.1); } }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    background: rgba(3,0,30,0.8); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100; padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-size: 13px; font-weight: 700; letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    letter-spacing: 0.5px; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--pink); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 80px 40px 60px;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(168,85,247,0.15), transparent);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(255,110,247,0.4);
+    background: rgba(255,110,247,0.08);
+    border-radius: 20px; padding: 6px 16px;
+    font-size: 11px; letter-spacing: 3px; color: var(--pink);
+    text-transform: uppercase; margin-bottom: 32px;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; background: var(--pink);
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero-title {
+    font-size: clamp(42px, 7vw, 88px); font-weight: 800;
+    line-height: 1.05; letter-spacing: -2px; margin-bottom: 8px;
+    background: linear-gradient(135deg, #ffffff 20%, var(--pink) 50%, var(--cyan) 80%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle-en {
+    font-size: clamp(14px, 2vw, 20px); letter-spacing: 6px; color: var(--cyan);
+    font-weight: 300; text-transform: uppercase; margin-bottom: 24px; opacity: 0.8;
+  }
+  .hero-desc {
+    max-width: 640px; color: var(--muted); font-size: 17px; line-height: 1.8;
+    margin-bottom: 48px;
+  }
+  .hero-quote {
+    border: 1px solid rgba(0,207,255,0.25);
+    background: rgba(0,207,255,0.06);
+    border-radius: 12px; padding: 20px 32px;
+    max-width: 600px; font-size: 15px; color: rgba(240,240,255,0.75);
+    font-style: italic; margin-bottom: 60px;
+  }
+  .hero-quote span { color: var(--cyan); font-style: normal; font-weight: 600; }
+  .hero-scroll {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    animation: fadeUpDown 2s ease-in-out infinite;
+  }
+  .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(180deg, transparent, var(--pink)); }
+  @keyframes fadeUpDown { 0%,100%{transform:translateY(0);opacity:0.5} 50%{transform:translateY(8px);opacity:1} }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-bottom: 48px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 36px; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, var(--gold), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-top: 4px; }
+
+  /* ── CHAPTER HEADERS ── */
+  .chapter-header {
+    text-align: center; padding: 80px 40px 48px;
+  }
+  .chapter-num {
+    font-size: 11px; letter-spacing: 4px; color: var(--pink);
+    text-transform: uppercase; margin-bottom: 16px; opacity: 0.8;
+  }
+  .chapter-title {
+    font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--white) 30%, var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .chapter-desc { color: var(--muted); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── TIMELINE ── */
+  #history { padding-bottom: 80px; }
+  .timeline { position: relative; padding: 0 0 40px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+    top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--pink), var(--violet), var(--cyan), var(--gold));
+  }
+  .tl-item {
+    display: flex; gap: 40px; margin-bottom: 56px; position: relative;
+    align-items: flex-start;
+  }
+  .tl-item:nth-child(odd) { flex-direction: row; }
+  .tl-item:nth-child(even) { flex-direction: row-reverse; }
+  .tl-content {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 32px;
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+  }
+  .tl-content:hover { border-color: var(--pink); background: var(--card-hover); }
+  .tl-year {
+    font-size: 11px; letter-spacing: 3px; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .tl-era { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .tl-name { font-size: 13px; color: var(--muted); margin-bottom: 12px; letter-spacing: 1px; }
+  .tl-body { color: rgba(240,240,255,0.72); font-size: 14px; line-height: 1.8; }
+  .tl-tag {
+    display: inline-block; margin-top: 12px; font-size: 11px; padding: 3px 10px;
+    border-radius: 12px; border: 1px solid;
+  }
+  .tl-dot {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--bg);
+    top: 28px; z-index: 2;
+    box-shadow: 0 0 12px currentColor;
+  }
+  .tl-spacer { flex: 1; }
+
+  /* Timeline colors */
+  .era-0 .tl-year { color: #60a5fa; }
+  .era-0 .tl-dot { background: #60a5fa; color: #60a5fa; }
+  .era-0 .tl-tag { color: #60a5fa; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.08); }
+  .era-1 .tl-year { color: var(--violet); }
+  .era-1 .tl-dot { background: var(--violet); color: var(--violet); }
+  .era-1 .tl-tag { color: var(--violet); border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.08); }
+  .era-2 .tl-year { color: var(--cyan); }
+  .era-2 .tl-dot { background: var(--cyan); color: var(--cyan); }
+  .era-2 .tl-tag { color: var(--cyan); border-color: rgba(0,207,255,0.4); background: rgba(0,207,255,0.08); }
+  .era-3 .tl-year { color: var(--pink); }
+  .era-3 .tl-dot { background: var(--pink); color: var(--pink); }
+  .era-3 .tl-tag { color: var(--pink); border-color: rgba(255,110,247,0.4); background: rgba(255,110,247,0.08); }
+  .era-3 .tl-content { border-color: rgba(255,110,247,0.3); }
+
+  /* ── PRINCIPLES ── */
+  #principles { padding-bottom: 80px; }
+  .formula-box {
+    background: linear-gradient(135deg, rgba(255,110,247,0.08), rgba(0,207,255,0.08));
+    border: 1px solid rgba(255,110,247,0.25);
+    border-radius: 20px; padding: 36px 48px;
+    text-align: center; margin-bottom: 60px;
+    font-size: clamp(20px, 3vw, 32px); font-weight: 700; letter-spacing: 2px;
+    color: var(--white);
+  }
+  .formula-box .eq { color: var(--muted); margin: 0 16px; }
+  .formula-box .model { color: var(--gold); }
+  .formula-box .harness { color: var(--pink); }
+  .formula-box .agent { color: var(--cyan); }
+  .formula-note { font-size: 13px; color: var(--muted); margin-top: 12px; font-weight: 400; letter-spacing: 0; }
+
+  .principles-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    margin-bottom: 60px;
+  }
+  .principle-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .principle-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .principle-card:hover { transform: translateY(-3px); border-color: rgba(255,110,247,0.3); }
+  .pc-1::before { background: linear-gradient(90deg, var(--pink), var(--violet)); }
+  .pc-2::before { background: linear-gradient(90deg, var(--cyan), var(--indigo)); }
+  .pc-3::before { background: linear-gradient(90deg, var(--gold), #ff9500); }
+  .pc-4::before { background: linear-gradient(90deg, var(--violet), var(--pink)); }
+  .pc-5::before { background: linear-gradient(90deg, #34d399, var(--cyan)); }
+  .pc-6::before { background: linear-gradient(90deg, #f97316, var(--gold)); }
+  .pc-icon { font-size: 28px; margin-bottom: 12px; }
+  .pc-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .pc-body { color: rgba(240,240,255,0.68); font-size: 14px; line-height: 1.75; }
+
+  .two-pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px;
+  }
+  .pillar-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px;
+  }
+  .pillar-card.guides { border-color: rgba(168,85,247,0.3); }
+  .pillar-card.sensors { border-color: rgba(0,207,255,0.3); }
+  .pillar-badge {
+    display: inline-block; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 16px; font-weight: 700;
+  }
+  .guides .pillar-badge { background: rgba(168,85,247,0.15); color: var(--violet); border: 1px solid rgba(168,85,247,0.3); }
+  .sensors .pillar-badge { background: rgba(0,207,255,0.12); color: var(--cyan); border: 1px solid rgba(0,207,255,0.3); }
+  .pillar-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .pillar-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .pillar-list { list-style: none; }
+  .pillar-list li {
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px; color: rgba(240,240,255,0.75);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .pillar-list li::before { content: '›'; color: var(--pink); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── FRAMEWORKS ── */
+  #frameworks { padding-bottom: 80px; }
+  .frameworks-tabs {
+    display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 8px 20px; border-radius: 20px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer;
+    font-size: 13px; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: rgba(255,110,247,0.12); border-color: rgba(255,110,247,0.4);
+    color: var(--pink);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .framework-block {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; margin-bottom: 24px;
+  }
+  .fb-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .fb-origin { font-size: 12px; color: var(--muted); margin-bottom: 16px; letter-spacing: 0.5px; }
+  .fb-desc { color: rgba(240,240,255,0.72); font-size: 14px; margin-bottom: 20px; line-height: 1.8; }
+
+  pre {
+    background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 20px 24px; overflow-x: auto;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px; line-height: 1.7; color: #e0e0f0;
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(255,110,247,0.15); border: 1px solid rgba(255,110,247,0.3);
+    color: var(--pink); border-radius: 6px; padding: 4px 10px;
+    font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .copy-btn:hover { background: rgba(255,110,247,0.25); }
+  .copy-btn.copied { color: #34d399; border-color: rgba(52,211,153,0.4); }
+
+  .kw { color: var(--pink); }
+  .str { color: #86efac; }
+  .cmt { color: rgba(240,240,255,0.35); font-style: italic; }
+  .var { color: var(--cyan); }
+  .num { color: var(--gold); }
+
+  .workflow-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-bottom: 24px;
+  }
+  .wf-card {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+  .wf-num {
+    font-size: 28px; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, var(--pink), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .wf-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .wf-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .agents-flow {
+    display: flex; align-items: center; gap: 0; margin: 24px 0;
+    overflow-x: auto; padding: 4px 0;
+  }
+  .af-node {
+    background: rgba(255,110,247,0.08); border: 1px solid rgba(255,110,247,0.25);
+    border-radius: 12px; padding: 16px 20px; text-align: center; flex-shrink: 0;
+    min-width: 120px;
+  }
+  .af-node.det { background: rgba(0,207,255,0.06); border-color: rgba(0,207,255,0.25); }
+  .af-icon { font-size: 20px; margin-bottom: 4px; }
+  .af-name { font-size: 12px; font-weight: 700; color: var(--white); }
+  .af-type { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .af-arrow {
+    font-size: 20px; color: var(--muted); padding: 0 8px; flex-shrink: 0;
+  }
+
+  /* ── FUTURE ── */
+  #future {
+    padding-bottom: 100px;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,0.08), transparent);
+  }
+  .future-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    margin-bottom: 48px;
+  }
+  .future-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .future-card::after {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, rgba(255,110,247,0.08), transparent);
+    border-radius: 50%;
+  }
+  .future-card:hover { transform: translateY(-4px); border-color: rgba(255,110,247,0.3); }
+  .fc-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .fc-icon { font-size: 24px; }
+  .fc-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 10px;
+  }
+  .fc-label.near { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+  .fc-label.mid { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+  .fc-label.far { background: rgba(255,110,247,0.12); color: var(--pink); border: 1px solid rgba(255,110,247,0.3); }
+  .fc-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+  .fc-body { color: rgba(240,240,255,0.70); font-size: 14px; line-height: 1.8; }
+
+  .closing-quote {
+    background: linear-gradient(135deg, rgba(255,110,247,0.06), rgba(168,85,247,0.06), rgba(0,207,255,0.06));
+    border: 1px solid rgba(255,110,247,0.2);
+    border-radius: 24px; padding: 48px; text-align: center;
+    max-width: 800px; margin: 0 auto 60px;
+  }
+  .cq-text {
+    font-size: clamp(18px, 2.5vw, 26px); font-weight: 300; line-height: 1.6;
+    color: rgba(240,240,255,0.85); margin-bottom: 16px; font-style: italic;
+  }
+  .cq-author { font-size: 13px; color: var(--muted); letter-spacing: 2px; }
+
+  .market-bar { max-width: 800px; margin: 0 auto 60px; }
+  .mb-title { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 24px; letter-spacing: 1px; }
+  .mb-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .mb-label { width: 60px; font-size: 12px; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .mb-track { flex: 1; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+  .mb-fill { height: 100%; border-radius: 4px; transition: width 1.5s cubic-bezier(.4,0,.2,1); }
+  .mb-val { width: 60px; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 40px;
+    text-align: center; color: var(--muted); font-size: 13px; line-height: 2;
+    position: relative; z-index: 1;
+  }
+  footer a { color: var(--pink); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── SCROLL PROGRESS ── */
+  #progress-bar {
+    position: fixed; top: 56px; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan));
+    z-index: 101; transition: width 0.1s;
+    box-shadow: 0 0 8px var(--pink);
+  }
+
+  /* ── SECTION REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .container { padding: 0 20px; }
+    .chapter-header { padding: 60px 20px 36px; }
+    .principles-grid, .two-pillars, .future-grid { grid-template-columns: 1fr; }
+    .workflow-grid { grid-template-columns: 1fr 1fr; }
+    .timeline::before { left: 20px; }
+    .tl-item, .tl-item:nth-child(even) { flex-direction: column; gap: 0; }
+    .tl-spacer { display: none; }
+    .tl-content { margin-left: 48px; }
+    .tl-dot { left: 20px; transform: none; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Starfield canvas -->
+<canvas id="stars-canvas"></canvas>
+<div class="nebula nebula-1"></div>
+<div class="nebula nebula-2"></div>
+<div class="nebula nebula-3"></div>
+
+<!-- Progress bar -->
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">Harness Engineering</div>
+  <div class="nav-links">
+    <a href="huangxiyuan.html#archive">返回首页</a>
+    <a href="#history">历史演变</a>
+    <a href="#principles">核心原理</a>
+    <a href="#frameworks">实操框架</a>
+    <a href="#future">未来展望</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section id="hero">
+  <div class="hero-badge">2026 · AI 工程新范式</div>
+  <h1 class="hero-title">Harness<br>Engineering</h1>
+  <div class="hero-subtitle-en">驾驭工程 · The Art of Controlling AI</div>
+  <p class="hero-desc">
+    从单行 API 调用到万人使用的智能体系统——我们正站在 AI 工程范式的第三次跃迁关口。
+    <strong style="color:var(--white)">Harness Engineering</strong> 不是提示词技巧，而是为 AI 模型建造"驾驭环境"的完整工程学。
+  </p>
+  <div class="hero-quote">
+    "<span>Agents aren't hard; the Harness is hard.</span>"
+    <div style="margin-top:8px;font-size:12px;color:rgba(240,240,255,0.4)">— Ryan Lopopolo, OpenAI · 2026</div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">1M+</div>
+      <div class="stat-label">OpenAI 实验代码行数</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1/10</div>
+      <div class="stat-label">传统开发时间</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">+26%</div>
+      <div class="stat-label">LangChain 仅改 Harness 的得分提升</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1300+</div>
+      <div class="stat-label">Stripe 每周 AI 合并 PR 数</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll to Explore
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ HISTORY ═══════════════════════════════ -->
+<section id="history">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 01</div>
+    <h2 class="chapter-title">历史演变：四个时代</h2>
+    <p class="chapter-desc">从 GPT-3 的基础调用，到如今能在真实生产系统中自主运行的 AI 工程师——这条路经历了四次质变。</p>
+  </div>
+  <div class="container">
+    <div class="timeline">
+
+      <!-- Era 0 -->
+      <div class="tl-item era-0 reveal">
+        <div class="tl-content">
+          <div class="tl-year">2020 — 2021</div>
+          <div class="tl-era">Era 0</div>
+          <div class="tl-name">基础 API 调用时代</div>
+          <div class="tl-body">
+            GPT-3 于 2020 年 5 月问世，开发者通过 API 发送指令获取回复，上下文窗口仅 4K tokens，交互单轮无状态。
+            论文《Language Models are Few-Shot Learners》首次展示 few-shot 学习：在 prompt 中放入少量示例，模型无需微调即可完成新任务。
+            这是工程认知的起点——大家意识到<strong style="color:#93c5fd">措辞本身就是变量</strong>。
+          </div>
+          <span class="tl-tag">API 调用即全部工程</span>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-spacer"></div>
+      </div>
+
+      <!-- Era 1 -->
+      <div class="tl-item era-1 reveal">
+        <div class="tl-spacer"></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2022 — 2024</div>
+          <div class="tl-era">Era 1</div>
+          <div class="tl-name">提示词工程时代（Prompt Engineering）</div>
+          <div class="tl-body">
+            ChatGPT 于 2022 年 11 月病毒式爆发，"提示词工程师"成为最热门职业之一。
+            三篇奠基论文确立了时代方法论：<br>
+            · <strong style="color:var(--violet)">Chain-of-Thought</strong>（Wei et al. 2022）—— 引入中间推理步骤，模型推理能力飞跃<br>
+            · <strong style="color:var(--violet)">ReAct</strong>（Yao et al. 2022）—— Thought→Action→Observation 循环，工具调用基础<br>
+            · <strong style="color:var(--violet)">RAG</strong>（Lewis et al. 2020）—— 检索增强生成，外部知识注入主流化<br>
+            Anthropic 将 XML 标签（&lt;example&gt;、&lt;thinking&gt;）规范化为结构原语。
+            <strong style="color:#c4b5fd">瓶颈</strong>：优化单次指令，无法解决多步骤、跨会话、工具可靠性问题。
+          </div>
+          <span class="tl-tag">Prompt = 全部杠杆</span>
+        </div>
+      </div>
+
+      <!-- Era 2 -->
+      <div class="tl-item era-2 reveal">
+        <div class="tl-content">
+          <div class="tl-year">2024 — 2025</div>
+          <div class="tl-era">Era 2</div>
+          <div class="tl-name">上下文工程时代（Context Engineering）</div>
+          <div class="tl-body">
+            Andrej Karpathy（OpenAI 联合创始人）提出：<em style="color:var(--cyan)">"The art of carefully designing and managing the entire context window for LLMs."</em><br>
+            上下文窗口从 4K 扩展至 128K → 百万 tokens。工程重心从"如何措辞"转向"模型需要什么信息"。
+            <br>核心技术：<strong style="color:var(--cyan)">上下文压缩</strong>（在 token 上限前摘要历史）、<strong style="color:var(--cyan)">即时加载</strong>（维护轻量标识符，运行时按需拉取数据）、<strong style="color:var(--cyan)">结构化记忆</strong>（NOTES.md / memory tools）。
+            Anthropic 正式定义：<em>"Curating and maintaining the optimal set of tokens during LLM inference."</em>
+            <strong style="color:#67e8f9">瓶颈</strong>：仍将 Agent 视为基本无状态——无法解决多会话连贯性、自我评估失效、生产级可靠性。
+          </div>
+          <span class="tl-tag">Context = 工程核心</span>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-spacer"></div>
+      </div>
+
+      <!-- Era 3 -->
+      <div class="tl-item era-3 reveal">
+        <div class="tl-spacer"></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2025 — 至今</div>
+          <div class="tl-era">Era 3 ✦</div>
+          <div class="tl-name">驾驭工程时代（Harness Engineering）</div>
+          <div class="tl-body">
+            催化剂：Claude Code、Cursor、Devin 等 AI 编码 Agent 开始在真实生产代码库中执行真实且重大的操作——错误成本从"AI 说废话"升级为"AI 删了生产数据库"。
+            <br><strong style="color:var(--pink)">OpenAI 验证（2025.8—2026.2）</strong>：3 名工程师（最终 7 人）用 5 个月、~1500 个 PR、零手写源代码，构建一个拥有百万行代码、日活数百人的内部产品，预计是传统开发效率的 10 倍。
+            <br><strong style="color:var(--pink)">LangChain 验证</strong>：仅改变 Harness、不换模型，TerminalBench 得分从 52.8% 升至 66.5%，排名从 Top 30 跃至 Top 5。
+            <br>Harness Engineering 在 2026 年 GDPS（全球开发者先锋峰会）获得正式命名，Martin Fowler 发布权威综合定义。
+          </div>
+          <span class="tl-tag">Harness = 模型之外的一切</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ PRINCIPLES ═══════════════════════════════ -->
+<section id="principles">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 02</div>
+    <h2 class="chapter-title">核心原理</h2>
+    <p class="chapter-desc">Harness 源自马具——驾驭强大但不可预测的动物所需的全套装备。马是 AI 模型，Harness 是其他一切。</p>
+  </div>
+  <div class="container">
+
+    <!-- Formula -->
+    <div class="formula-box reveal">
+      <span class="agent">Agent</span>
+      <span class="eq">=</span>
+      <span class="model">Model</span>
+      <span class="eq">+</span>
+      <span class="harness">Harness</span>
+      <div class="formula-note">模型是算力核心，Harness 是让算力可用的全部工程基础设施</div>
+    </div>
+
+    <!-- 6 Principles -->
+    <div class="principles-grid reveal">
+      <div class="principle-card pc-1">
+        <div class="pc-icon">🏗️</div>
+        <div class="pc-title">架构即护栏</div>
+        <div class="pc-body">
+          刚性的结构约束反而提升 Agent 性能，因为它缩小了解决方案空间。
+          OpenAI 的依赖层：<code style="color:var(--cyan);font-size:12px">Types → Config → Repo → Service → Runtime → UI</code>，
+          通过结构测试机械化强制合规。Stripe 采用"确定性节点 + 智能体节点"交替蓝图架构，前者保存 token、减少错误并确保关键步骤必然发生。
+        </div>
+      </div>
+      <div class="principle-card pc-2">
+        <div class="pc-icon">📋</div>
+        <div class="pc-title">文档即基础设施</div>
+        <div class="pc-body">
+          Agent 的唯一现实是它上下文中能访问到的内容——任何在此之外的知识对它而言等同于不存在。
+          <strong style="color:var(--cyan)">AGENTS.md</strong>（OpenAI 发起，2025 年 8 月开源，2025 年 12 月捐赠 Linux 基金会）和 <strong style="color:var(--cyan)">CLAUDE.md</strong>（Anthropic）是 Agent 可读的项目说明书，已被 60,000+ 开源项目采用。
+        </div>
+      </div>
+      <div class="principle-card pc-3">
+        <div class="pc-icon">🔄</div>
+        <div class="pc-title">反馈回路</div>
+        <div class="pc-body">
+          闭环系统将 Agent 输出进行验证，并将修正系统性地反馈回去。
+          OpenAI 将 Chrome DevTools 接入 Agent 运行时，让 Codex 能截图并验证自己的 UI 修复。
+          Stripe 的"两次 CI 失败即升级人工"规则，防止无限重试循环。
+        </div>
+      </div>
+      <div class="principle-card pc-4">
+        <div class="pc-icon">🧬</div>
+        <div class="pc-title">熵管理（防漂移）</div>
+        <div class="pc-body">
+          Agent 生成的代码会复制现有模式，包括不良模式，随时间积累漂移。
+          OpenAI 的解法：将"黄金原则"直接编码进仓库 + 定期调度后台任务扫描偏差、更新质量等级、开启针对性重构 PR——大多数 PR 在一分钟内被审查并自动合并，替代了每周五 20% 时间的人工清理。
+        </div>
+      </div>
+      <div class="principle-card pc-5">
+        <div class="pc-icon">🧠</div>
+        <div class="pc-title">上下文焦虑防治</div>
+        <div class="pc-body">
+          Anthropic 发现 Agent 在上下文窗口接近上限时会过早结束任务（"上下文焦虑"）。
+          解决方案：结构化交接的上下文重置——Agent 开始新会话时执行标准化启动序列：
+          <em style="color:var(--muted);font-size:13px">检查工作目录 → 读取进度文件 → 读取 git 历史 → 选定下一功能 → 运行基础测试 → 实施</em>
+        </div>
+      </div>
+      <div class="principle-card pc-6">
+        <div class="pc-icon">⚖️</div>
+        <div class="pc-title">生成器-评估器分离</div>
+        <div class="pc-body">
+          Anthropic 指出：<em style="color:var(--gold)">"当被要求评估自己的工作时，AI 模型是一个病态乐观主义者。"</em>
+          灵感来自 GAN 架构：让独立的 Evaluator Agent 使用 Playwright 与真实运行的应用交互，对照预协商的合同标准打分，而非由生成它的 Agent 自评。
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Mechanisms -->
+    <div class="two-pillars reveal">
+      <div class="pillar-card guides">
+        <div class="pillar-badge">Guides · 前馈机制</div>
+        <div class="pillar-title">引导（Feedforward）</div>
+        <div class="pillar-subtitle">行动前的预期性控制——提升初次结果质量</div>
+        <ul class="pillar-list">
+          <li>系统提示词（System Prompt）</li>
+          <li>AGENTS.md / CLAUDE.md 文件</li>
+          <li>架构约束文档</li>
+          <li>工具与函数定义</li>
+          <li>上下文窗口精心编排的信息</li>
+        </ul>
+      </div>
+      <div class="pillar-card sensors">
+        <div class="pillar-badge">Sensors · 反馈机制</div>
+        <div class="pillar-title">传感器（Feedback）</div>
+        <div class="pillar-subtitle">行动后的观测控制——实现自我纠错</div>
+        <ul class="pillar-list">
+          <li><strong style="color:var(--cyan)">计算传感器</strong>：测试套件、Linter、类型检查器（确定性、毫秒级）</li>
+          <li><strong style="color:var(--cyan)">推理传感器</strong>：LLM 代码审查、语义验证（更慢但语义丰富）</li>
+          <li>浏览器自动化截图验证</li>
+          <li>全栈可观测性（日志/指标/追踪）</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ FRAMEWORKS ═══════════════════════════════ -->
+<section id="frameworks">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 03</div>
+    <h2 class="chapter-title">实操框架 · 可直接使用的模板</h2>
+    <p class="chapter-desc">从 ReAct 循环到 Anthropic 三智能体架构，这些经过生产验证的框架可以直接应用到你的项目中。</p>
+  </div>
+  <div class="container">
+
+    <div class="frameworks-tabs reveal">
+      <button class="tab-btn active" onclick="switchTab('react')">ReAct 循环</button>
+      <button class="tab-btn" onclick="switchTab('system-prompt')">系统提示词模板</button>
+      <button class="tab-btn" onclick="switchTab('agents-md')">AGENTS.md 模板</button>
+      <button class="tab-btn" onclick="switchTab('workflows')">6 大工作流模式</button>
+      <button class="tab-btn" onclick="switchTab('multi-agent')">三智能体架构</button>
+      <button class="tab-btn" onclick="switchTab('stripe')">Stripe 蓝图模式</button>
+    </div>
+
+    <!-- ReAct -->
+    <div class="tab-content active" id="tab-react">
+      <div class="framework-block reveal">
+        <div class="fb-title">ReAct 基础循环</div>
+        <div class="fb-origin">来源：Yao et al. 2022 · arXiv:2210.03629 · ICLR 2023</div>
+        <div class="fb-desc">
+          将推理轨迹（Reasoning）与行动调用（Acting）交织，防止幻觉（推理锚定模型）、支持动态计划调整（新观测改变计划）并提供可审计的决策轨迹。
+          纯 CoT 缺乏外部锚定会幻觉，纯 Action 缺乏推理无法规划；ReAct+CoT 在 HotPotQA 和 Fever 上均优于两者单独使用。
+        </div>
+        <div style="position:relative">
+          <pre><span class="cmt"># ReAct 提示词框架（在 System Prompt 中声明）</span>
+
+<span class="kw">You are an AI assistant that reasons step-by-step before acting.</span>
+<span class="kw">Always follow this loop:</span>
+
+<span class="var">Thought:</span> <span class="str">[Reason about the current state. What do you know? What's missing?
+         What's the best next step?]</span>
+
+<span class="var">Action:</span> <span class="str">[Choose ONE tool: Search[query] | Read[file_path] |
+         Execute[command] | Write[file_path, content] | Finish[answer]]</span>
+
+<span class="var">Observation:</span> <span class="str">[The result returned from the tool — do not fabricate this]</span>
+
+<span class="cmt">... repeat Thought → Action → Observation until confident ...</span>
+
+<span class="var">Final Answer:</span> <span class="str">[Concise conclusion grounded in actual observations]</span>
+
+<span class="kw">Rules:</span>
+<span class="str">- Never skip the Thought step — reasoning before acting prevents mistakes
+- If an Observation surprises you, update your plan in the next Thought
+- Only use Finish[] when you have directly verified the answer via tools</span></pre>
+          <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Prompt -->
+    <div class="tab-content" id="tab-system-prompt">
+      <div class="framework-block reveal">
+        <div class="fb-title">Harness 系统提示词结构模板</div>
+        <div class="fb-origin">来源：Anthropic Prompt Engineering 文档 · 生产最佳实践</div>
+        <div class="fb-desc">
+          Anthropic 推荐的组件顺序：角色设定 → 语调 → 背景数据 → 任务规则。
+          系统消息最适合高层场景设定和工具定义；详细指令放在 human turn（Claude 对人类轮次的遵循优于系统轮次）。
+          XML 标签提供可靠的结构分隔，因为 Claude 在含 XML 结构的数据上训练。
+        </div>
+        <div style="position:relative">
+          <pre><span class="cmt"># ═══ SYSTEM PROMPT TEMPLATE FOR HARNESS AGENTS ═══</span>
+
+<span class="cmt"># 1. ROLE & MISSION</span>
+<span class="kw">You are</span> <span class="str">[专业角色，如 "a senior software engineer specializing in Python backends"]</span>.
+<span class="kw">Your mission:</span> <span class="str">[一句话核心任务]</span>
+
+<span class="cmt"># 2. BEHAVIORAL REGISTER</span>
+<span class="kw">Tone:</span> <span class="str">Professional but concise. No filler. Respond in the same language as the user.</span>
+
+<span class="cmt"># 3. BACKGROUND DATA</span>
+<span class="kw">&lt;project_context&gt;</span>
+  <span class="str">Tech stack: [语言/框架/数据库]
+  Repository structure: [关键目录说明]
+  Key constraints: [架构边界、禁止操作]</span>
+<span class="kw">&lt;/project_context&gt;</span>
+
+<span class="cmt"># 4. TASK RULES</span>
+<span class="kw">&lt;rules&gt;</span>
+  <span class="str">- NEVER remove or modify tests — treat test failures as information, not obstacles
+  - ALWAYS verify work end-to-end before marking complete
+  - Do not stop due to token budget concerns; save progress to memory and continue
+  - After context reset, begin: pwd → read progress file → git log → select task
+  - When uncertain, prefer asking one targeted question over making assumptions</span>
+<span class="kw">&lt;/rules&gt;</span>
+
+<span class="cmt"># 5. CONTEXT RESET PROTOCOL (prevents context anxiety)</span>
+<span class="kw">&lt;startup_sequence&gt;</span>
+  <span class="str">1. Run `pwd` — confirm working directory
+  2. Read claude-progress.txt — load completed work state
+  3. Run `git log --oneline -20` — understand recent changes
+  4. Read feature_list.json — identify highest-priority incomplete feature
+  5. Run basic smoke tests — confirm current state
+  6. Implement ONE feature end-to-end, then commit and update progress</span>
+<span class="kw">&lt;/startup_sequence&gt;</span></pre>
+          <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENTS.md -->
+    <div class="tab-content" id="tab-agents-md">
+      <div class="framework-block reveal">
+        <div class="fb-title">AGENTS.md / CLAUDE.md 模板</div>
+        <div class="fb-origin">来源：OpenAI 开源规范（2025.8 发布，2025.12 捐赠 Linux Foundation）· 被 60,000+ 项目采用</div>
+        <div class="fb-desc">
+          有效文件优先顺序：可粘贴的命令 &gt; 模糊工具名；真实代码片段 &gt; 描述性散文；明确边界 &gt; 隐性假设。
+          警告：自动生成的 AGENTS.md 使任务成功率降低、成本增加 23%；人工编写使成功率提升约 4%。<strong style="color:var(--gold)">质量 &gt; 完整性。</strong>
+        </div>
+        <div style="position:relative">
+          <pre><span class="cmt"># AGENTS.md — AI Agent 项目说明书</span>
+<span class="cmt"># 放置于仓库根目录；子目录中的同名文件会覆盖父目录规则</span>
+
+<span class="kw">## Build & Run</span>
+<span class="str">```bash
+# 安装依赖（可直接复制运行）
+npm install
+
+# 启动开发服务器
+npm run dev          # http://localhost:3000
+
+# 端到端验证（每次功能完成后必须运行）
+npm run e2e
+```</span>
+
+<span class="kw">## Testing Requirements</span>
+<span class="str">- Run `npm test` before every commit
+- NEVER delete or skip tests — treat failures as bugs to fix, not obstacles
+- New features MUST include unit + integration tests
+- E2E tests use Playwright; browser must be running during test</span>
+
+<span class="kw">## Architecture Boundaries</span>
+<span class="str">Dependency rule (ENFORCE via linter, never bypass):
+  Types → Config → Repo → Service → Runtime → UI
+  ↑ lower layers CANNOT import from higher layers
+
+Cross-cutting concerns (auth, telemetry, feature flags):
+  Enter ONLY through the explicit `Providers` interface in src/providers/</span>
+
+<span class="kw">## Coding Conventions</span>
+<span class="str">- TypeScript strict mode — no `any`, no `@ts-ignore`
+- File paths: ALWAYS use absolute paths (avoids relative path errors)
+- Commits: conventional commits format (feat/fix/refactor/chore)
+- PR size: single logical change per PR; split if touching >3 unrelated areas</span>
+
+<span class="kw">## What's Off-Limits</span>
+<span class="str">- Do NOT modify files in src/legacy/ — frozen, pending migration
+- Do NOT change the database schema directly — use migrations in db/migrations/
+- Do NOT push to main — open a PR and wait for CI to pass</span>
+
+<span class="kw">## CI Failure Protocol</span>
+<span class="str">- First failure: diagnose root cause, attempt one targeted fix
+- Second failure: STOP and escalate to human — do not loop indefinitely</span></pre>
+          <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflows -->
+    <div class="tab-content" id="tab-workflows">
+      <div class="framework-block reveal">
+        <div class="fb-title">Anthropic 六大生产工作流模式</div>
+        <div class="fb-origin">来源：Anthropic "Building Effective AI Agents" 研究报告</div>
+        <div class="fb-desc">这六种模式覆盖了 AI 应用中绝大多数场景，可以组合使用。选择原则：任务越复杂、越需要并行、越需要校验，就越应向后面的模式移动。</div>
+        <div class="workflow-grid">
+          <div class="wf-card">
+            <div class="wf-num">01</div>
+            <div class="wf-title">Prompt Chaining<br><span style="color:var(--muted);font-size:11px">提示词链</span></div>
+            <div class="wf-desc">顺序任务分解，每次 LLM 调用处理上次输出。适合：固定子任务、准确性 &gt; 速度。<br><em style="color:var(--muted)">例：生成文案 → 翻译 → 排版</em></div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-num">02</div>
+            <div class="wf-title">Routing<br><span style="color:var(--muted);font-size:11px">路由分发</span></div>
+            <div class="wf-desc">输入分类后导向专业处理器。适合：明确分类场景。<br><em style="color:var(--muted)">例：客服问题 → 退款/技术/账单</em></div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-num">03</div>
+            <div class="wf-title">Parallelization<br><span style="color:var(--muted);font-size:11px">并行化</span></div>
+            <div class="wf-desc">分区并行 or 投票共识。适合：独立子任务 or 高风险决策。<br><em style="color:var(--muted)">例：多角度代码安全审查</em></div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-num">04</div>
+            <div class="wf-title">Orchestrator-Workers<br><span style="color:var(--muted);font-size:11px">主从编排</span></div>
+            <div class="wf-desc">中央 LLM 动态分配任务给 Worker Agent。适合：子任务不可预定。<br><em style="color:var(--muted)">例：跨多文件复杂代码修改</em></div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-num">05</div>
+            <div class="wf-title">Evaluator-Optimizer<br><span style="color:var(--muted);font-size:11px">生成-评估循环</span></div>
+            <div class="wf-desc">一个 LLM 生成，另一个评估，循环迭代至满意。<br><em style="color:var(--muted)">例：文学翻译细节校验</em></div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-num">06</div>
+            <div class="wf-title">Autonomous Agents<br><span style="color:var(--muted);font-size:11px">自主智能体</span></div>
+            <div class="wf-desc">完整 Agent 循环 + 环境反馈 + 高风险处的人工检查点。<br><em style="color:var(--muted)">例：SWE-bench GitHub issue 修复</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-Agent -->
+    <div class="tab-content" id="tab-multi-agent">
+      <div class="framework-block reveal">
+        <div class="fb-title">Anthropic 三智能体 GAN 式架构</div>
+        <div class="fb-origin">来源：Anthropic 工程博客 "Harness design for long-running application development" · 2025.11 / 2026.3</div>
+        <div class="fb-desc">
+          对比结果：单 Agent — 20 分钟，$9，核心功能损坏；三 Agent Harness — 6 小时，$200（Opus 4.6 降至 $125），功能完整、设计精良的真实应用（2D 复古游戏制作器 + 浏览器 DAW）。
+          <strong style="color:var(--gold)">核心洞察</strong>：随着模型能力增强，Harness 组件可以简化——但"有趣的 Harness 组合空间不会缩小，只会移动"。
+        </div>
+        <div class="agents-flow">
+          <div class="af-node">
+            <div class="af-icon">📐</div>
+            <div class="af-name">Planner</div>
+            <div class="af-type">规划器</div>
+          </div>
+          <div class="af-arrow">→</div>
+          <div class="af-node">
+            <div class="af-icon">⚙️</div>
+            <div class="af-name">Generator</div>
+            <div class="af-type">生成器</div>
+          </div>
+          <div class="af-arrow">⇄</div>
+          <div class="af-node">
+            <div class="af-icon">🔬</div>
+            <div class="af-name">Evaluator</div>
+            <div class="af-type">评估器</div>
+          </div>
+        </div>
+        <div style="position:relative">
+          <pre><span class="cmt"># 三智能体 Harness 角色定义</span>
+
+<span class="cmt">── PLANNER AGENT ──────────────────────────────────────────</span>
+<span class="kw">Role:</span> <span class="str">Product specification expander</span>
+<span class="kw">Input:</span> <span class="str">One-line product prompt</span>
+<span class="kw">Output:</span> <span class="str">Structured spec with 16 features organized into 10 sprints</span>
+<span class="kw">Rule:</span>  <span class="str">Focus ONLY on deliverables, NOT implementation details
+       Each sprint must be independently shippable</span>
+
+<span class="cmt">── GENERATOR AGENT ────────────────────────────────────────</span>
+<span class="kw">Role:</span> <span class="str">Implementation executor (React/Vite + FastAPI + PostgreSQL)</span>
+<span class="kw">Input:</span> <span class="str">Current sprint spec + previous sprint state</span>
+<span class="kw">Output:</span> <span class="str">Working code committed to git</span>
+<span class="kw">Rule:</span>  <span class="str">Implement ONE sprint at a time; hand off to Evaluator after each sprint
+       Never mark complete without running e2e tests</span>
+
+<span class="cmt">── EVALUATOR AGENT ────────────────────────────────────────</span>
+<span class="kw">Role:</span> <span class="str">Adversarial quality assessor using Playwright MCP</span>
+<span class="kw">Input:</span> <span class="str">Live running application + pre-negotiated scoring rubric</span>
+<span class="kw">Scoring criteria:</span>
+  <span class="var">- Design Quality:</span>  <span class="num">0-25</span>  <span class="cmt"># Heavily penalize generic AI aesthetics</span>
+  <span class="var">- Originality:</span>     <span class="num">0-25</span>  <span class="cmt"># Novel interactions, unexpected details</span>
+  <span class="var">- Craft:</span>           <span class="num">0-25</span>  <span class="cmt"># Polish, edge cases, error states</span>
+  <span class="var">- Functionality:</span>   <span class="num">0-25</span>  <span class="cmt"># All specified features actually work</span>
+<span class="kw">Output:</span> <span class="str">Score + structured feedback → back to Generator if score &lt; 80</span></pre>
+          <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stripe Blueprint -->
+    <div class="tab-content" id="tab-stripe">
+      <div class="framework-block reveal">
+        <div class="fb-title">Stripe Minions 蓝图架构</div>
+        <div class="fb-origin">来源：Stripe Engineering · InfoQ 2026.3 · ByteByteGo 深度分析</div>
+        <div class="fb-desc">
+          Stripe 每周合并 1,300+ 个零手写代码的 PR，代码库数亿行（Ruby + Sorbet），每年处理超 1 万亿美元资金。
+          关键创新：<strong style="color:var(--cyan)">确定性节点与智能体节点交替编排</strong>——前者节省 token、减少错误、保证关键步骤必然执行；后者在固定框架内享有完整自主权。
+        </div>
+        <div class="agents-flow">
+          <div class="af-node det">
+            <div class="af-icon">📦</div>
+            <div class="af-name">Checkout</div>
+            <div class="af-type">确定性</div>
+          </div>
+          <div class="af-arrow">→</div>
+          <div class="af-node">
+            <div class="af-icon">⚡</div>
+            <div class="af-name">Implement</div>
+            <div class="af-type">智能体</div>
+          </div>
+          <div class="af-arrow">→</div>
+          <div class="af-node det">
+            <div class="af-icon">🔍</div>
+            <div class="af-name">Lint+Test</div>
+            <div class="af-type">确定性</div>
+          </div>
+          <div class="af-arrow">→</div>
+          <div class="af-node">
+            <div class="af-icon">🔧</div>
+            <div class="af-name">Fix CI</div>
+            <div class="af-type">智能体</div>
+          </div>
+          <div class="af-arrow">→</div>
+          <div class="af-node det">
+            <div class="af-icon">🚀</div>
+            <div class="af-name">Push PR</div>
+            <div class="af-type">确定性</div>
+          </div>
+        </div>
+        <div style="position:relative">
+          <pre><span class="cmt"># Stripe Blueprint Pattern — 关键规则</span>
+
+<span class="kw">DETERMINISTIC_NODES</span> = [
+  <span class="str">"checkout_repo"</span>,      <span class="cmt"># 始终以相同方式执行</span>
+  <span class="str">"run_linters"</span>,         <span class="cmt"># 节省 token，确保发生</span>
+  <span class="str">"run_tests"</span>,
+  <span class="str">"push_branch_open_pr"</span>
+]
+
+<span class="kw">AGENTIC_NODES</span> = [
+  <span class="str">"implement_feature"</span>,   <span class="cmt"># Agent 完整自主权</span>
+  <span class="str">"fix_ci_failures"</span>      <span class="cmt"># 在固定框架内自由发挥</span>
+]
+
+<span class="cmt"># ═══ TWO-STRIKE RULE（防无限循环）═══</span>
+<span class="kw">def</span> <span class="var">handle_ci_failure</span>(attempt_count):
+    <span class="kw">if</span> attempt_count == <span class="num">1</span>:
+        <span class="kw">return</span> <span class="str">"diagnose_and_fix"</span>   <span class="cmt"># 第一次：诊断根因，尝试修复</span>
+    <span class="kw">elif</span> attempt_count == <span class="num">2</span>:
+        <span class="kw">return</span> <span class="str">"escalate_to_human"</span>  <span class="cmt"># 第二次：立即升级人工</span>
+
+<span class="cmt"># ═══ TOOLSHED MCP（500+ 工具通过 MCP 暴露）═══</span>
+<span class="cmt"># Universal tool access pattern:</span>
+<span class="cmt"># Agent → MCP Client → Toolshed MCP Server → [git, CI, deploy, db, docs...]</span>
+<span class="cmt"># 实现一次，解锁整个生态——N×M 集成问题变 N+M</span></pre>
+          <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ FUTURE ═══════════════════════════════ -->
+<section id="future">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 04</div>
+    <h2 class="chapter-title">未来展望</h2>
+    <p class="chapter-desc">竞争优势不再来自模型智能，而来自 Harness 基础设施。模型越来越是商品，Harness 才是护城河。</p>
+  </div>
+  <div class="container">
+
+    <div class="future-grid reveal">
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">🔗</div>
+          <span class="fc-label near">近期 · 2026</span>
+        </div>
+        <div class="fc-title">MCP 标准统一生态</div>
+        <div class="fc-body">
+          Anthropic 2024 年 11 月发布的 Model Context Protocol（MCP）已获 OpenAI、Google DeepMind、Microsoft 全面跟进，2025 年 12 月捐赠 Linux 基金会，成为 Agentic AI Foundation（AAIF）核心标准。
+          每月 9700 万 SDK 下载、10,000+ 活跃服务器、主流 IDE 全原生支持。
+          <strong style="color:var(--white)">N×M 集成问题变为 N+M</strong>——工具只需实现一次，即可接入整个 Agent 生态系统。
+        </div>
+      </div>
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">🕸️</div>
+          <span class="fc-label near">近期 · 2026</span>
+        </div>
+        <div class="fc-title">多智能体微服务革命</div>
+        <div class="fc-body">
+          类比软件工程从单体应用到微服务的演变：单一全能 Agent → 编排型专业化 Agent 团队。
+          Gartner 报告：2024 Q1 到 2025 Q2，多智能体系统咨询量激增 1,445%。
+          标准角色定义逐渐浮现：初始化 Agent、规划 Agent、实施 Agent、评估/QA Agent、熵管理 Agent。
+          <strong style="color:var(--white)">预测</strong>：2026 年底 40% 企业应用包含 AI Agent（2025 初约 &lt;5%）。
+        </div>
+      </div>
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">🧪</div>
+          <span class="fc-label mid">中期 · 2027</span>
+        </div>
+        <div class="fc-title">自优化 Meta-Harness</div>
+        <div class="fc-body">
+          Harness 本身由 Agent 优化——外层控制循环根据先前结果改进任务级 Harness 代码。
+          TerminalBench-2 实验证明：Meta-Harness 发现在 Agent 启动时注入环境快照（工作目录、可用语言、已安装包管理器、/app 中的文件），单一调整即带来大幅性能提升。
+          <strong style="color:var(--white)">这不是科幻式自我改进</strong>——而是通过 Agent 反馈进行的系统性 Harness 优化。
+        </div>
+      </div>
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">🏢</div>
+          <span class="fc-label mid">中期 · 2027-2028</span>
+        </div>
+        <div class="fc-title">企业语义知识图谱 Harness</div>
+        <div class="fc-body">
+          Epsilla 等企业 AI 基础设施公司提出：持久化语义图谱作为企业级 Harness——动态知识库编码组织约束、合规规则、品牌指南和业务逻辑，为 Evaluator Agent 提供语义基准。
+          超越文档文件，进入<strong style="color:var(--white)">组织知识的动态结构化表示</strong>，Harness 变成活的企业智慧载体。
+        </div>
+      </div>
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">⚖️</div>
+          <span class="fc-label far">远期 · 2028+</span>
+        </div>
+        <div class="fc-title">Harness 安全工程学</div>
+        <div class="fc-body">
+          2025 年 4 月研究已识别 MCP 生态的新型攻击面：通过 MCP 的提示注入、工具权限组合引发的数据外泄、伪装成可信工具的恶意工具替换。
+          Harness 安全将成为独立工程学科：工具访问控制、跨 Agent 信任边界、注入防御、会话完整性验证。
+          <strong style="color:var(--white)">类比 Web 安全的崛起</strong>——随着 Agent 系统承载更多关键业务，Harness 安全将是护航基础。
+        </div>
+      </div>
+      <div class="future-card">
+        <div class="fc-header">
+          <div class="fc-icon">🎭</div>
+          <span class="fc-label far">远期 · 2029+</span>
+        </div>
+        <div class="fc-title">工程师角色的根本转变</div>
+        <div class="fc-body">
+          工程师价值从"代码写多快"转向"设计 Agent 可靠产出的环境有多好"。
+          人类指定意图与边界；Agent 在其中执行。代码审查从写代码转向审阅 Agent 产出的代码。
+          OpenAI 实验已证明：7 名 Harness 工程师 + AI = 传统 70 人团队的产出。
+          <strong style="color:var(--white)">市场规模</strong>：$78 亿（2025）→ $520 亿（2030），CAGR 46%。
+        </div>
+      </div>
+    </div>
+
+    <!-- Market Bar -->
+    <div class="market-bar reveal">
+      <div class="mb-title">AI AGENT 市场规模预测（十亿美元）</div>
+      <div class="mb-row">
+        <div class="mb-label">2024</div>
+        <div class="mb-track"><div class="mb-fill" style="width:5%;background:linear-gradient(90deg,var(--indigo),var(--violet))"></div></div>
+        <div class="mb-val" style="color:var(--indigo)">$3.7B</div>
+      </div>
+      <div class="mb-row">
+        <div class="mb-label">2025</div>
+        <div class="mb-track"><div class="mb-fill" style="width:15%;background:linear-gradient(90deg,var(--violet),var(--pink))"></div></div>
+        <div class="mb-val" style="color:var(--violet)">$7.8B</div>
+      </div>
+      <div class="mb-row">
+        <div class="mb-label">2027</div>
+        <div class="mb-track"><div class="mb-fill" style="width:40%;background:linear-gradient(90deg,var(--pink),var(--cyan))"></div></div>
+        <div class="mb-val" style="color:var(--pink)">$20B</div>
+      </div>
+      <div class="mb-row">
+        <div class="mb-label">2030</div>
+        <div class="mb-track"><div class="mb-fill" style="width:100%;background:linear-gradient(90deg,var(--cyan),var(--gold))"></div></div>
+        <div class="mb-val" style="color:var(--gold)">$52B</div>
+      </div>
+    </div>
+
+    <!-- Closing Quote -->
+    <div class="closing-quote reveal">
+      <div class="cq-text">
+        "The model is increasingly a commodity.<br>
+        The harness is the moat."
+      </div>
+      <div class="cq-author">— OpenAI Codex 实验总结 · 2026</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <div style="margin-bottom:12px">
+    <span style="background:linear-gradient(90deg,var(--pink),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;font-size:16px">Harness Engineering</span>
+    <span style="color:rgba(240,240,255,0.3);margin:0 16px">·</span>
+    <span>AI 驾驭工程全景</span>
+  </div>
+  <div style="color:rgba(240,240,255,0.35);font-size:12px;line-height:2.2">
+    内容基于 OpenAI、Anthropic、Martin Fowler、LangChain、Stripe 等公开资料整理<br>
+    主要来源：
+    <a href="https://openai.com/index/harness-engineering/" target="_blank">OpenAI Harness Engineering</a> ·
+    <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank">Anthropic Harness Design</a> ·
+    <a href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html" target="_blank">Martin Fowler</a> ·
+    <a href="https://agents.md/" target="_blank">AGENTS.md</a>
+    <br>
+    生成于 2026 · 由 Claude Sonnet 4.6 撰写
+  </div>
+</footer>
+
+<script>
+// ── STARFIELD ──────────────────────────────────────────────────
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function initStars() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = [];
+  const count = Math.floor((canvas.width * canvas.height) / 4000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.2,
+      opacity: Math.random(),
+      speed: Math.random() * 0.3 + 0.05,
+      twinkleSpeed: Math.random() * 0.02 + 0.005,
+      twinkleOffset: Math.random() * Math.PI * 2
+    });
+  }
+}
+function drawStars(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    const opacity = 0.3 + 0.5 * Math.abs(Math.sin(t * s.twinkleSpeed + s.twinkleOffset));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(220,200,255,${opacity})`;
+    ctx.fill();
+    s.y -= s.speed * 0.1;
+    if (s.y < 0) { s.y = canvas.height; s.x = Math.random() * canvas.width; }
+  });
+}
+let t = 0;
+function animateStars() { t += 1; drawStars(t); requestAnimationFrame(animateStars); }
+window.addEventListener('resize', initStars);
+initStars(); animateStars();
+
+// ── SCROLL PROGRESS ───────────────────────────────────────────
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = Math.min(pct, 100) + '%';
+});
+
+// ── REVEAL ON SCROLL ──────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── COPY CODE ─────────────────────────────────────────────────
+function copyCode(btn) {
+  const pre = btn.previousElementSibling;
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── MARKET BAR ANIMATION ──────────────────────────────────────
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.mb-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = w; }, 200);
+      });
+      barObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.market-bar').forEach(el => barObserver.observe(el));
+
+// ── SMOOTH NAV ACTIVE ─────────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--pink)' : '';
+  });
+});
+</script>
+</body>
+</html>
