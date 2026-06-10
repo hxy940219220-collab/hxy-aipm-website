@@ -91,8 +91,9 @@ export function Work() {
                   核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住，整理与结构化交给 AI 在后面完成。
                 </p>
                 <a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href="https://www.huangxiyuan.net/assets/ideaflash.apk"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] mt-auto self-start"
                 >
                   <GooglePlayLogo size={14} weight="fill" />
@@ -135,16 +136,18 @@ export function Work() {
                 </p>
                 <div className="flex gap-3 flex-wrap mt-auto">
                   <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
+                    href="https://github.com/think2do/FocusMeow"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-pink/10 border border-neon-pink/30 text-neon-pink font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-pink/20 hover:shadow-[0_0_24px_rgba(216,76,255,0.2)]"
                   >
                     <GithubLogo size={14} weight="fill" />
                     GitHub
                   </a>
                   <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
+                    href="https://www.producthunt.com/products/focus-meow/focus-meow/launch-day?utm_source=my-products"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.05] border border-white/[0.15] text-white font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:border-neon-cyan hover:bg-white/[0.1]"
                   >
                     Product Hunt
