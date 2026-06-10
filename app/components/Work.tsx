@@ -29,7 +29,7 @@ function TiltWrap({ children, className = "" }: { children: ReactNode; className
 
   return (
     <div ref={ref} className={`[perspective:800px] ${className}`} onMouseMove={handleMouse} onMouseLeave={handleLeave}>
-      <motion.div style={{ rotateX, rotateY }} className="[transform-style:preserve-3d]">
+      <motion.div style={{ rotateX, rotateY }} className="[transform-style:preserve-3d] h-full">
         {children}
       </motion.div>
     </div>
@@ -62,19 +62,19 @@ export function Work() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
         {/* IdeaFlash */}
         <ScrollReveal delay={0.08}>
-          <TiltWrap>
+          <TiltWrap className="h-full">
             <motion.div
               whileHover={{ y: -6 }}
-              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]"
+              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a]">
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0">
                 <img
                   src="/ideaflash.png"
                   alt="IdeaFlash 灵感胶囊"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6 md:p-7">
+              <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">产品</span>
@@ -84,15 +84,16 @@ export function Work() {
                   IdeaFlash · 灵感胶囊
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  一款用最快路径捕捉转瞬即逝灵感，并交给 AI 自动转写、提炼、生成卡片的轻量记录 app。
+                  用最快路径捕捉转瞬即逝灵感，交给 AI 自动转写、提炼、生成卡片。
                 </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做复杂笔记，而做灵感捕捉器</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  设计目标：把"想到"到"记下"的路径压到最短，让用户不用先整理，只需要把灵感说出来。
+                  核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住，整理与结构化交给 AI 在后面完成。
                 </p>
                 <a
                   href="#"
                   onClick={(e) => e.preventDefault()}
-                  className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)]"
+                  className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] mt-auto self-start"
                 >
                   <GooglePlayLogo size={14} weight="fill" />
                   点击即刻下载
@@ -104,19 +105,19 @@ export function Work() {
 
         {/* FocusMeow */}
         <ScrollReveal delay={0.16}>
-          <TiltWrap>
+          <TiltWrap className="h-full">
             <motion.div
               whileHover={{ y: -6 }}
-              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]"
+              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a]">
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0">
                 <img
                   src="/focusmeow.png"
                   alt="FocusMeow 专注喵"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6 md:p-7">
+              <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">AI</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">React Native</span>
@@ -126,12 +127,13 @@ export function Work() {
                   FocusMeow · 专注喵
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  一款用猫咪陪伴、成长奖励与 AI 反馈驱动长期专注习惯形成的情感化专注 app。
+                  用猫咪陪伴、成长奖励与 AI 反馈，驱动长期专注习惯形成的情感化 app。
                 </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不把它做成"又一个番茄钟"</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  不把它做成"又一个番茄钟"——在专注工具层上叠加游戏养成层、情感陪伴层与智能解释层。
+                  四层叠加的产品骨架——专注工具层、游戏养成层、情感陪伴层、智能解释层，让效率与情绪同时成立。
                 </p>
-                <div className="flex gap-3 flex-wrap">
+                <div className="flex gap-3 flex-wrap mt-auto">
                   <a
                     href="#"
                     onClick={(e) => e.preventDefault()}
