@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
+
 const NAV_ITEMS = [
   {
     label: "作品",
@@ -54,16 +55,14 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const reduced = useReducedMotion();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Scroll-driven 背景透明度 (用 MotionValue 避免 React 重渲染)
+  const { scrollY } = useScroll();
+  const navBgOpacity = useTransform(scrollY, [0, 100, 200], [0, 0.55, 0.85]);
+  const navBorderOpacity = useTransform(scrollY, [0, 200], [0, 1]);
+  const navShadowOpacity = useTransform(scrollY, [0, 200], [0, 0.35]);
 
   // Lock body scroll when menu open
   useEffect(() => {
@@ -79,12 +78,17 @@ export function Navbar() {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-[100] px-4 md:px-6 py-4 transition-all duration-700 ${
-          scrolled
-            ? "bg-[rgba(8,8,18,0.75)] backdrop-blur-[22px] border-b border-white/[0.08] shadow-[0_8px_48px_rgba(0,0,0,0.35)]"
-            : ""
-        }`}
+      <motion.nav
+        className="fixed top-0 left-0 right-0 z-[100] px-4 md:px-6 py-4"
+        style={{
+          backgroundColor: useTransform(navBgOpacity, (v) => `rgba(8,8,18,${v})`),
+          backdropFilter: useTransform(navBgOpacity, (v) => v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none"),
+          WebkitBackdropFilter: useTransform(navBgOpacity, (v) => v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none"),
+          borderBottomWidth: useTransform(navBorderOpacity, (v) => `${v}px`),
+          borderBottomStyle: "solid",
+          borderBottomColor: "rgba(255,255,255,0.08)",
+          boxShadow: useTransform(navShadowOpacity, (v) => `0 8px 48px rgba(0,0,0,${v})`),
+        }}
       >
         <div className="w-full flex items-center justify-between">
           {/* Brand */}
@@ -109,7 +113,7 @@ export function Navbar() {
                 >
                   {item.label}
                 </a>
-                {/* 竖版下拉子项列表 */}
+                {/* 下拉子项 */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
                   <div className="flex flex-col gap-0.5 py-2 px-1 rounded-xl bg-[rgba(13,13,28,0.94)] border border-white/[0.10] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] min-w-[180px]">
                     {item.subs.map((sub) =>
@@ -143,7 +147,7 @@ export function Navbar() {
               href="#contact"
               onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
               whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileTap={{ scale: 0.97, y: 1 }}
               className="cursor-target hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-300 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)]"
             >
               聊聊
@@ -165,7 +169,7 @@ export function Navbar() {
             )}
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile fullscreen menu */}
       <AnimatePresence>

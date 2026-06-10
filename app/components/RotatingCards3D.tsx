@@ -292,7 +292,7 @@ export function RotatingCards3D() {
                     width: "min(21rem, 46vw)",
                     height: "clamp(18rem, 34vw, 22rem)",
                     left: "50%",
-                    top: 0,
+                    top: "0px",
                     transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(${radius}px) scale(${scale.toFixed(2)})`,
                     transformStyle: "preserve-3d",
                     backfaceVisibility: "visible",
@@ -308,9 +308,9 @@ export function RotatingCards3D() {
                     backgroundColor: "rgba(13,13,28,0.65)",
                     backdropFilter: "blur(18px)",
                     WebkitBackdropFilter: "blur(18px)",
-                    opacity,
+                    opacity: opacity.toFixed(4),
                     filter: `blur(${blur.toFixed(2)}px)`,
-                    zIndex: z,
+                    zIndex: String(z),
                     cursor: isDragging ? "grabbing" : "grab",
                   }}
                 >

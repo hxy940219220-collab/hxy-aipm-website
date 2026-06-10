@@ -36,15 +36,15 @@ export function Hero() {
         </video>
       </div>
 
-      {/* Foreground clear video - contain to preserve full composition */}
-      <div className="absolute inset-0 z-[1] flex items-center justify-center" aria-hidden="true">
+      {/* Foreground video - cover to fill full width */}
+      <div className="absolute inset-0 z-[1]" aria-hidden="true">
         <video
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          className="max-w-full max-h-full object-contain"
+          className="w-full h-full object-cover"
         >
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
         </video>

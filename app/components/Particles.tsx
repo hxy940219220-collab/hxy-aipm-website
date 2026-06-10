@@ -6,7 +6,8 @@ import { useEffect, useRef, useCallback } from "react";
 /* ------------------------------------------------------------------ */
 /* 环境粒子系统 —— Canvas 2D                                              */
 /* · 200+ 个霓虹光点缓慢漂浮                                               */
-/* · 鼠标附近粒子被吸引 + 粒子间近距离连线（星座网络）                        */
+/* · 鼠标附近粒子微弱排斥 (150px 范围内最大偏移 ~8px) + 离开后 spring 回位    */
+/* · 粒子间近距离连线（星座网络）                                            */
 /* · 径向渐变 mask 让边缘自然淡出                                          */
 /* ------------------------------------------------------------------ */
 
@@ -37,7 +38,8 @@ const PARTICLE_COUNT_MOBILE = 80;
 function getParticleCount(w: number): number {
   return w < 768 ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
 }
-const MOUSE_RADIUS = 160;       // 鼠标影响半径
+const MOUSE_RADIUS = 150;       // 光标排斥半径
+const MAX_REPEL = 8;            // 最大排斥位移 (px)
 const CONNECT_DISTANCE = 130;   // 连线最大距离
 const MAX_LINE_OPACITY = 0.22;  // 连线最大不透明度
 
@@ -109,7 +111,7 @@ export function Particles() {
       // 正弦摇摆（有机感）
       const sway = Math.sin(timeRef.current * p.speed + p.phase) * 0.15;
 
-      // 鼠标吸引
+      // 光标排斥 — 粒子在光标附近被轻轻推开
       const dx = mouse.x - p.x;
       const dy = mouse.y - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -117,14 +119,20 @@ export function Particles() {
       if (dist < MOUSE_RADIUS && dist > 1) {
         const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS; // 0~1
         const angle = Math.atan2(dy, dx);
-        const pull = force * force * 0.6; // 二次方让近处吸力更强
-        p.vx += Math.cos(angle) * pull * 0.03;
-        p.vy += Math.sin(angle) * pull * 0.03;
+        const push = force * force * 0.5; // 二次方让近处排斥力更强
+        p.vx -= Math.cos(angle) * push * 0.025;
+        p.vy -= Math.sin(angle) * push * 0.025;
       }
 
-      // 阻尼
-      p.vx *= 0.995;
-      p.vy *= 0.995;
+      // 阻尼 + 微弱回拉力 (spring-back)
+      p.vx *= 0.994;
+      p.vy *= 0.994;
+
+      // 光标离开后微弱的原位倾向 (只对明显偏移的粒子)
+      if (dist > MOUSE_RADIUS * 1.5) {
+        p.vx *= 0.99; // 更快衰减
+        p.vy *= 0.99;
+      }
 
       // 速度限制
       const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);

@@ -1,310 +1,179 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 
 /* ------------------------------------------------------------------ */
-/* EVAN 首字母拆解 · 全屏开场动画                                        */
-/* 四个字母逐个揭示含义 → 四字母并列 → 放大展开 → 过渡到主页面           */
+/* EVAN 开场动画                                                       */
+/* 入场 → CSS 故障定格 → 辉光消散 → 露出首页                             */
+/* 同一个 DOM 元素贯穿全部阶段，字母位置永远不变                            */
+/* 总时长 ~2.8s · 滚动或点击可提前跳过                                 */
 /* ------------------------------------------------------------------ */
 
-interface LetterData {
-  letter: string;
-  keyword: string;
-  keywordCN: string;
-  strong: string;
-  desc: string;
-  color: string;
-  glowColor: string;
-}
-
-const LETTERS: LetterData[] = [
-  {
-    letter: "E",
-    keyword: "Engineer",
-    keywordCN: "工程落地",
-    strong: "用工程思维把 AI 能力产品化",
-    desc: "不满足于概念 demo，关注从模型到体验的完整工程链路",
-    color: "#00c8ff",
-    glowColor: "rgba(0,200,255,0.5)",
-  },
-  {
-    letter: "V",
-    keyword: "Verify",
-    keywordCN: "快速验证",
-    strong: "低成本试错，持续迭代验证",
-    desc: "Vibe Coding × 大模型，让想法尽快进入可感知的验证循环",
-    color: "#ffd84a",
-    glowColor: "rgba(255,216,74,0.5)",
-  },
-  {
-    letter: "A",
-    keyword: "Align",
-    keywordCN: "意图对齐",
-    strong: "让模型输出与用户期望一致",
-    desc: "Prompt Engineering · 模型调教 · 标注评测 → 可复用的质量闭环",
-    color: "#d84cff",
-    glowColor: "rgba(216,76,255,0.5)",
-  },
-  {
-    letter: "N",
-    keyword: "Native",
-    keywordCN: "AI 原生",
-    strong: "以 AI 为起点重新思考产品形态",
-    desc: "不把 AI 当外挂功能，而是作为产品核心引擎来设计体验与交互范式",
-    color: "#ff6a1a",
-    glowColor: "rgba(255,106,26,0.5)",
-  },
+const LETTERS = [
+  { letter: "E", color: "#00c8ff", glow: "rgba(0,200,255,0.6)" },
+  { letter: "V", color: "#ffd84a", glow: "rgba(255,216,74,0.6)" },
+  { letter: "A", color: "#d84cff", glow: "rgba(216,76,255,0.6)" },
+  { letter: "N", color: "#ff6a1a", glow: "rgba(255,106,26,0.6)" },
 ];
 
-const LETTER_DURATION = 1400;   // ms per letter
-const OUTRO_HOLD = 1600;        // outro 并列停留
-const OUTRO_EXPAND = 700;       // 放大展开时间
+const ENTRANCE_STAGGER = 120;
+const HOLD_DURATION = 600;
+const DISSOLVE_DURATION = 1200;
 
 export function EvanIntro({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState(0); // 0=E, 1=V, 2=A, 3=N, 4=outro
-  const [outroStage, setOutroStage] = useState<"assemble" | "hold" | "expand">("assemble");
+  const [phase, setPhase] = useState<"entrance" | "hold" | "dissolve" | "done">("entrance");
   const [dismissed, setDismissed] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  const advance = useCallback(() => {
-    setPhase((p) => {
-      const next = p + 1;
-      if (next >= LETTERS.length + 1) {
-        // Enter outro — don't advance further, outro manages itself
-        return p;
-      }
-      return next;
-    });
-  }, []);
+  const entranceTotal = ENTRANCE_STAGGER * (LETTERS.length - 1) + 600;
 
-  // Phase timer: advance through letters, then enter outro
   useEffect(() => {
-    if (phase < LETTERS.length) {
-      const timer = setTimeout(advance, LETTER_DURATION);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, advance]);
-
-  // Outro sub-phase timer
-  useEffect(() => {
-    if (phase < LETTERS.length) return; // not in outro yet
-
-    // Phase just entered outro → start assemble
-    setOutroStage("assemble");
-
-    const holdTimer = setTimeout(() => {
-      setOutroStage("hold");
-    }, 500); // assemble time (letters stagger in)
-
-    const expandTimer = setTimeout(() => {
-      setOutroStage("expand");
-    }, 500 + OUTRO_HOLD);
-
-    const dismissTimer = setTimeout(() => {
-      setDismissed(true);
-      onCompleteRef.current();
-    }, 500 + OUTRO_HOLD + OUTRO_EXPAND);
-
-    return () => {
-      clearTimeout(holdTimer);
-      clearTimeout(expandTimer);
-      clearTimeout(dismissTimer);
+    if (dismissed) return;
+    const schedule: Record<string, { next: typeof phase; delay: number }> = {
+      entrance: { next: "hold", delay: entranceTotal },
+      hold: { next: "dissolve", delay: HOLD_DURATION },
+      dissolve: { next: "done", delay: DISSOLVE_DURATION },
     };
-  }, [phase]); // only fires when phase changes to outro
+    const s = schedule[phase];
+    if (!s) return;
+    const t = setTimeout(() => {
+      if (s.next === "done") {
+        setDismissed(true);
+        onCompleteRef.current();
+      } else {
+        setPhase(s.next);
+      }
+    }, s.delay);
+    return () => clearTimeout(t);
+  }, [phase, dismissed]);
 
-  const handleSkip = () => {
-    setDismissed(true);
-    onCompleteRef.current();
-  };
+  const skip = useCallback(() => {
+    if (phase === "entrance" || phase === "hold") setPhase("dissolve");
+  }, [phase]);
+
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => { if (Math.abs(e.deltaY) > 10) skip(); };
+    const onClick = () => skip();
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("click", onClick);
+    };
+  }, [skip]);
 
   if (dismissed) return null;
 
-  const current = phase < LETTERS.length ? LETTERS[phase] : null;
-  const isOutro = phase >= LETTERS.length;
+  const isHold = phase === "hold";
+  const isDissolving = phase === "dissolve";
+
+  // hold 阶段故障 textShadow — 颜色通道大幅分离
+  const glitchShadow = (i: number, glow: string) => {
+    const altColors = ["rgba(216,76,255,0.55)", "rgba(255,106,26,0.55)", "rgba(0,200,255,0.55)", "rgba(255,216,74,0.55)"];
+    const alt = altColors[i];
+    return [
+      `${i % 2 === 0 ? 6 : -6}px 0 0 ${alt}`,
+      `${i % 2 === 0 ? -6 : 6}px 0 0 ${LETTERS[(i + 1) % 4].glow.replace("0.6", "0.45")}`,
+      `0 0 30px ${glow}`,
+    ].join(", ");
+  };
+
+  // 正常辉光
+  const normalShadow = (glow: string) => `0 0 60px ${glow}`;
+
+  // 溶解辉光
+  const dissolveShadow = (glow: string) =>
+    `0 0 120px ${glow}, 0 0 240px ${glow.replace("0.6", "0.3")}`;
 
   return (
     <motion.div
-      ref={containerRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
       style={{ background: "#050509" }}
-      animate={
-        isOutro && outroStage === "expand"
-          ? { opacity: 0 }
-          : { opacity: 1 }
-      }
-      transition={{ duration: OUTRO_EXPAND / 1000, ease: [0.16, 1, 0.3, 1] }}
+      animate={isDissolving ? { opacity: 0 } : { opacity: 1 }}
+      transition={{ duration: DISSOLVE_DURATION / 1000, ease: "easeInOut" }}
     >
       {/* 背景微光 */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0 transition-all duration-1000"
-          style={{
-            background: current
-              ? `radial-gradient(circle at center, ${current.glowColor.replace("0.5", "0.12")}, transparent 60%)`
-              : "transparent",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 1px, transparent 1px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.3) 1px, transparent 1px), radial-gradient(circle at 40% 80%, rgba(255,255,255,0.35) 1px, transparent 1px)",
-            backgroundSize: "120px 120px, 180px 180px, 150px 150px",
-          }}
-        />
-      </div>
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at center, rgba(0,200,255,0.04), transparent 60%)" }}
+      />
 
-      {/* 进度点 */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-        {LETTERS.map((l, i) => (
-          <div
-            key={l.letter}
-            className="relative w-2 h-2 rounded-full transition-all duration-500"
-            style={{
-              backgroundColor:
-                i < phase
-                  ? l.color
-                  : i === phase && !isOutro
-                  ? l.color
-                  : isOutro
-                  ? l.color
-                  : "rgba(255,255,255,0.15)",
-              boxShadow:
-                i === phase && !isOutro
-                  ? `0 0 10px ${l.color}`
-                  : isOutro
-                  ? `0 0 4px ${l.color}`
-                  : "none",
-              transform: i === phase && !isOutro ? "scale(1.5)" : "scale(1)",
-            }}
-          />
-        ))}
-      </div>
+      {/* 纹理 */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 1px, transparent 1px)," +
+            "radial-gradient(circle at 70% 60%, rgba(255,255,255,0.3) 1px, transparent 1px)," +
+            "radial-gradient(circle at 40% 80%, rgba(255,255,255,0.35) 1px, transparent 1px)",
+          backgroundSize: "120px 120px, 180px 180px, 150px 150px",
+        }}
+      />
 
-      {/* 跳过按钮 — 桌面右上，手机底部居中 */}
+      {/* 跳过 */}
       <button
-        onClick={handleSkip}
+        onClick={skip}
         className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
       >
         跳过 Skip
       </button>
 
-      {/* 主内容 */}
-      <AnimatePresence mode="wait">
-        {isOutro ? (
-          /* ====== OUTRO: 四字母并列 → 放大展开 ====== */
-          <motion.div
-            key="outro"
-            className="flex flex-col items-center gap-6 md:gap-10"
-            initial={{ opacity: 0 }}
-            animate={
-              outroStage === "expand"
-                ? { opacity: 1, scale: 3.5, filter: "blur(8px)" }
-                : { opacity: 1, scale: 1, filter: "blur(0px)" }
-            }
+      {/* 四字母 — 同一个 span 始终存在，位置永不改变 */}
+      <div className="flex items-center gap-4 md:gap-10 px-6">
+        {LETTERS.map((l, i) => (
+          <motion.span
+            key={l.letter}
+            className="font-display italic font-bold leading-none select-none inline-block"
+            style={{
+              color: l.color,
+              fontSize: "clamp(6rem, 15vw, 13rem)",
+              textShadow: isDissolving
+                ? dissolveShadow(l.glow)
+                : isHold
+                  ? glitchShadow(i, l.glow)
+                  : normalShadow(l.glow),
+            }}
+            // 入场
+            initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              // hold: 交替模糊 + 透明度闪烁
+              filter: isHold
+                ? ["blur(0px)", "blur(3px)", "blur(0px)", "blur(4px)", "blur(0px)", "blur(2px)", "blur(0px)", "blur(5px)", "blur(0px)", "blur(3px)", "blur(0px)"]
+                : isDissolving
+                  ? "blur(16px)"
+                  : "blur(0px)",
+              scale: isDissolving ? 1.08 : 1,
+            }}
             transition={
-              outroStage === "expand"
-                ? { duration: OUTRO_EXPAND / 1000, ease: [0.16, 1, 0.3, 1] }
-                : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+              isHold
+                ? {
+                    filter: {
+                      duration: 0.4,
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "linear",
+                      delay: i * 0.015,
+                    },
+                  }
+                : isDissolving
+                  ? {
+                      opacity: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                      filter: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                      scale: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                    }
+                  : {
+                      opacity: { duration: 0.5, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                      y: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                      filter: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                    }
             }
           >
-            <div className="flex items-center gap-4 md:gap-10">
-              {LETTERS.map((l, i) => (
-                <motion.span
-                  key={l.letter}
-                  className="font-display italic font-bold leading-none"
-                  style={{
-                    color: l.color,
-                    fontSize: "clamp(4.5rem, 10vw, 9rem)",
-                    textShadow:
-                      outroStage === "expand"
-                        ? `0 0 120px ${l.glowColor}, 0 0 240px ${l.glowColor.replace("0.5", "0.3")}`
-                        : `0 0 50px ${l.glowColor}`,
-                  }}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: 0.1 * i,
-                    duration: 0.5,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
-                  {l.letter}
-                </motion.span>
-              ))}
-            </div>
-            <motion.p
-              className="font-body text-text-muted text-sm tracking-[0.2em] uppercase"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45, duration: 0.5 }}
-            >
-              Engineer · Verify · Align · Native
-            </motion.p>
-          </motion.div>
-        ) : current ? (
-          /* ====== 单字母展示 ====== */
-          <motion.div
-            key={current.letter}
-            className="flex flex-col items-center gap-6 px-6 text-center max-w-[600px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <motion.span
-              className="font-display italic font-bold leading-none select-none"
-              style={{
-                color: current.color,
-                fontSize: "clamp(8rem, 22vw, 16rem)",
-                textShadow: `0 0 80px ${current.glowColor}, 0 0 160px ${current.glowColor.replace("0.5", "0.25")}`,
-              }}
-              initial={{ opacity: 0, filter: "blur(28px)", scale: 0.7 }}
-              animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {current.letter}
-            </motion.span>
-
-            <motion.div
-              className="flex flex-col items-center gap-2"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span
-                className="font-display text-[clamp(1.8rem,4vw,3rem)] font-extrabold leading-none"
-                style={{ color: current.color }}
-              >
-                {current.keyword}
-              </span>
-              <span className="font-body text-[13px] tracking-[0.15em] uppercase text-text-muted">
-                {current.keywordCN}
-              </span>
-            </motion.div>
-
-            <motion.div
-              className="flex flex-col items-center gap-1.5"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p
-                className="font-display italic text-[clamp(1rem,2.5vw,1.3rem)] leading-relaxed"
-                style={{ color: current.color }}
-              >
-                {current.strong}
-              </p>
-              <p className="font-body text-[13px] md:text-[14px] text-text-tertiary leading-relaxed max-w-[420px]">
-                {current.desc}
-              </p>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+            {l.letter}
+          </motion.span>
+        ))}
+      </div>
     </motion.div>
   );
 }
