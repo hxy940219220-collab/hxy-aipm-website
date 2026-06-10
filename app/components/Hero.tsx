@@ -156,7 +156,7 @@ export function Hero() {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] no-underline cursor-pointer bg-white text-black border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.4)]"
+                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] no-underline cursor-pointer bg-white text-black border-none transition-all duration-300 hover:bg-[#22c55e] hover:text-white hover:shadow-[0_0_36px_rgba(34,197,94,0.4)]"
               >
                 查看作品
                 <span className="ml-2 text-xs opacity-60 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
