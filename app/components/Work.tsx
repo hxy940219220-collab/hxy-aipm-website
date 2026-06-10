@@ -67,7 +67,7 @@ export function Work() {
               whileHover={{ y: -6 }}
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]"
             >
-              <div className="aspect-[16/10] relative overflow-hidden bg-[#0c0c1a]">
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a]">
                 <img
                   src="/ideaflash.png"
                   alt="IdeaFlash 灵感胶囊"
@@ -109,7 +109,7 @@ export function Work() {
               whileHover={{ y: -6 }}
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]"
             >
-              <div className="aspect-[16/10] bg-gradient-to-br from-neon-pink/10 via-neon-cyan/5 to-neon-gold/8 flex items-center justify-center relative overflow-hidden">
+              <div className="aspect-[16/9] bg-gradient-to-br from-neon-pink/10 via-neon-cyan/5 to-neon-gold/8 flex items-center justify-center relative overflow-hidden">
                 <span className="absolute font-display italic text-[120px] text-white/[0.03] select-none">
                   专注
                 </span>
