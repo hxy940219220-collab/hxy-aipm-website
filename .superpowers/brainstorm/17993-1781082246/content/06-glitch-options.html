@@ -1,0 +1,56 @@
+<h2>故障特效方案 · 6 选 1</h2>
+<p class="subtitle">都是左右方向感的故障，但实现手法不同</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>水平撕裂</h3>
+      <p>字母被横向切成上下两半，上半左移、下半右移，瞬间错位后弹回。像画面被横切了一刀。</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>RGB 爆闪</h3>
+      <p>字母红/绿/蓝三个通道短暂分离到左右两侧（~30px），0.2s 内弹回对齐。强烈的 CRT 显示器故障感。</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>像素偏移</h3>
+      <p>字母像被像素化了一样，几个像素块随机左右跳动几像素，然后恢复清晰。低分辨率故障感。</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>扫描线扰动</h3>
+      <p>一道水平的扫描线从上到下掠过字母，经过之处字母横向扭曲偏移，扫过后恢复。像 CRT 屏幕被电磁干扰。</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="e" onclick="toggleSelect(this)">
+    <div class="letter">E</div>
+    <div class="content">
+      <h3>双重曝光</h3>
+      <p>字母生成一个半透明残影副本，残影向左右短暂偏移后淡出。不是抖动，而是"回声"感。</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="f" onclick="toggleSelect(this)">
+    <div class="letter">F</div>
+    <div class="content">
+      <h3>波形扭曲</h3>
+      <p>一个正弦波纹从左到右穿过字母，经过之处字母沿 Y 轴上下扭曲，像热浪/信号干扰。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle">当前是类似 B 的简化版。你觉得哪个方向更对？可以多选混搭。</p>
+</div>

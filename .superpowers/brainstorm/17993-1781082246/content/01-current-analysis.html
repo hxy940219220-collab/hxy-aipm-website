@@ -1,0 +1,115 @@
+<h2>当前站点 · 设计解读</h2>
+<p class="subtitle">在提改进建议之前，先对齐对现有设计的理解</p>
+
+<div class="section">
+  <h3>Design Read</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:24px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <span class="label" style="background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.3);padding:6px 12px;border-radius:999px;font-size:12px">Dark Tech / AI-Native</span>
+        <span class="label" style="background:rgba(216,76,255,0.15);color:#d84cff;border:1px solid rgba(216,76,255,0.3);padding:6px 12px;border-radius:999px;font-size:12px">Premium Portfolio</span>
+        <span class="label" style="background:rgba(255,216,74,0.15);color:#ffd84a;border:1px solid rgba(255,216,74,0.3);padding:6px 12px;border-radius:999px;font-size:12px">Multi-Color Accent</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;color:rgba(255,255,255,0.7)">
+        <div><strong style="color:#fff">背景:</strong> #050509 深黑</div>
+        <div><strong style="color:#fff">显示字体:</strong> Instrument Serif (italic)</div>
+        <div><strong style="color:#fff">正文:</strong> Inter</div>
+        <div><strong style="color:#fff">动效强度:</strong> 高 (全屏开场 + 粒子 + 自定义光标)</div>
+        <div><strong style="color:#fff">页面类型:</strong> AI 产品经理个人站</div>
+        <div><strong style="color:#fff">设计变异度:</strong> 中高 (暗色调 + 多色点缀)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>EVAN 开场动画 · 时序拆解</h3>
+  <div class="mockup">
+    <div class="mockup-header">当前时间线 (总长约 8.4 秒)</div>
+    <div class="mockup-body" style="padding:16px;overflow-x:auto">
+      <div style="display:flex;gap:0;min-width:700px;font-size:11px;font-family:mono;line-height:1.8">
+        <div style="flex:1;background:rgba(0,200,255,0.12);border-left:2px solid #00c8ff;padding:10px 8px;text-align:center">
+          <div style="color:#00c8ff;font-size:18px;font-weight:bold">E</div>
+          <div style="color:rgba(255,255,255,0.6)">Engineer</div>
+          <div style="color:rgba(255,255,255,0.35)">0 - 1.4s</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,0.25)">blur→focus</div>
+          <div style="color:rgba(255,255,255,0.25)">scale 0.7→1</div>
+        </div>
+        <div style="flex:1;background:rgba(255,216,74,0.12);border-left:2px solid #ffd84a;padding:10px 8px;text-align:center">
+          <div style="color:#ffd84a;font-size:18px;font-weight:bold">V</div>
+          <div style="color:rgba(255,255,255,0.6)">Verify</div>
+          <div style="color:rgba(255,255,255,0.35)">1.4 - 2.8s</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,0.25)">blur→focus</div>
+          <div style="color:rgba(255,255,255,0.25)">scale 0.7→1</div>
+        </div>
+        <div style="flex:1;background:rgba(216,76,255,0.12);border-left:2px solid #d84cff;padding:10px 8px;text-align:center">
+          <div style="color:#d84cff;font-size:18px;font-weight:bold">A</div>
+          <div style="color:rgba(255,255,255,0.6)">Align</div>
+          <div style="color:rgba(255,255,255,0.35)">2.8 - 4.2s</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,0.25)">blur→focus</div>
+          <div style="color:rgba(255,255,255,0.25)">scale 0.7→1</div>
+        </div>
+        <div style="flex:1;background:rgba(255,106,26,0.12);border-left:2px solid #ff6a1a;padding:10px 8px;text-align:center">
+          <div style="color:#ff6a1a;font-size:18px;font-weight:bold">N</div>
+          <div style="color:rgba(255,255,255,0.6)">Native</div>
+          <div style="color:rgba(255,255,255,0.35)">4.2 - 5.6s</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,0.25)">blur→focus</div>
+          <div style="color:rgba(255,255,255,0.25)">scale 0.7→1</div>
+        </div>
+        <div style="flex:1.2;background:rgba(255,255,255,0.04);border-left:2px solid rgba(255,255,255,0.3);padding:10px 8px;text-align:center">
+          <div style="color:#fff;font-size:16px;font-weight:bold">E V A N</div>
+          <div style="color:rgba(255,255,255,0.6)">Outro</div>
+          <div style="color:rgba(255,255,255,0.35)">5.6 - 8.4s</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,0.25)">assemble→</div>
+          <div style="color:rgba(255,255,255,0.25)">hold→expand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>已识别的痛点 (Gap Analysis)</h3>
+
+  <div class="options" data-multiselect>
+    <div class="option" data-choice="timing" onclick="toggleSelect(this)">
+      <div class="letter">1</div>
+      <div class="content">
+        <h3>节奏单一</h3>
+        <p>四个字母使用完全相同的动画参数 (blur→focus, scale 0.7→1, 1400ms)，缺少节奏变化和音乐感</p>
+      </div>
+    </div>
+    <div class="option" data-choice="transition" onclick="toggleSelect(this)">
+      <div class="letter">2</div>
+      <div class="content">
+        <h3>字母间切换生硬</h3>
+        <p>AnimatePresence mode="wait" 导致硬切，无色彩过渡或形态关联</p>
+      </div>
+    </div>
+    <div class="option" data-choice="outro" onclick="toggleSelect(this)">
+      <div class="letter">3</div>
+      <div class="content">
+        <h3>Outro 过渡断裂</h3>
+        <p>从 intro 到主页面的过渡 (放大→模糊→消失) 与 Hero 的粒子背景没有关联，是两个独立系统</p>
+      </div>
+    </div>
+    <div class="option" data-choice="feedback" onclick="toggleSelect(this)">
+      <div class="letter">4</div>
+      <div class="content">
+        <h3>微反馈不足</h3>
+        <p>Skip 按钮、进度点、光标在 intro 期间缺少与当前字母/氛围的联动，没有形成一个整体体验</p>
+      </div>
+    </div>
+    <div class="option" data-choice="pacing" onclick="toggleSelect(this)">
+      <div class="letter">5</div>
+      <div class="content">
+        <h3>总时长偏长</h3>
+        <p>~8.4 秒的开场对回访用户来说过长，Skip 按钮位置不一致 (桌面右上/手机底部)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle" style="margin-top:20px">请选择你最有共鸣的痛点 (可多选)，或者直接在终端打字补充。我会据此展开针对性的改进方案。</p>
+</div>

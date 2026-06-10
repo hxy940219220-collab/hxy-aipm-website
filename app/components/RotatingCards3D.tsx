@@ -43,7 +43,7 @@ const CARDS: CardData[] = [
     num: "03",
     title: "Gemini",
     desc: "Google 多模态模型。擅长长文本理解、视觉分析与跨模态推理，用于研究对比与产品探索。",
-    tags: ["Multimodal", "Research", "Vision"],
+    tags: ["Antigravity", "Stitch", "Notebooklm"],
     gradient:
       "radial-gradient(circle at 26% 34%, rgba(255,216,74,0.22), transparent 28%), radial-gradient(circle at 70% 30%, rgba(220,180,50,0.16), transparent 26%)",
     accentBorder: "rgba(255,216,74,0.35)",
@@ -62,8 +62,8 @@ const CARDS: CardData[] = [
   {
     num: "05",
     title: "Typeless",
-    desc: "轻量级写作与笔记工具。用于产品文档、需求梳理与快速记录灵感片段，保持思维清晰可追溯。",
-    tags: ["Writing", "Notes", "Doc"],
+    desc: "语音转结构化文字工具。将会议录音、口述想法快速转为可编辑、可检索的结构化文档。",
+    tags: ["Voice-to-Text", "Structured", "Notes"],
     gradient:
       "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.16), transparent 26%)",
     accentBorder: "rgba(255,106,26,0.35)",

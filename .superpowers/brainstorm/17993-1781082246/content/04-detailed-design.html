@@ -1,0 +1,165 @@
+<h2>最终方案 · 设计规格</h2>
+<p class="subtitle">故障收敛 × 粒子溶解 → 无缝过渡到主页</p>
+
+<div class="section">
+  <h3>Phase 1 · 故障入场 (0ms → 150ms)</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:20px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8">
+          <strong style="color:#fff">画面:</strong> 黑底 (#050509) 全屏，四个字母 E V A N <strong style="color:#fff">同时闪现</strong>，各带 RGB 通道分离偏移
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;background:rgba(0,0,0,0.3);border-radius:8px">
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#00c8ff;text-shadow:6px 0 0 rgba(216,76,255,0.7),-4px 0 0 rgba(0,200,255,0.5);filter:blur(1px)">E</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ffd84a;text-shadow:5px 0 0 rgba(255,106,26,0.7),-5px 0 0 rgba(255,216,74,0.5);filter:blur(1px)">V</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#d84cff;text-shadow:6px 0 0 rgba(0,200,255,0.7),-4px 0 0 rgba(216,76,255,0.5);filter:blur(1px)">A</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ff6a1a;text-shadow:5px 0 0 rgba(255,216,74,0.7),-5px 0 0 rgba(255,106,26,0.5);filter:blur(1px)">N</div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center">chromatic aberration 状态 — RGB 通道 6px / -4px 偏移</div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace">
+            textShadow: 6px 0 rgba(d84cff,0.7), -4px 0 rgba(00c8ff,0.5)<br>
+            filter: blur(1px)<br>
+            scale: 1.04
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 2 · 收敛对齐 (150ms → 300ms)</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:20px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8">
+          <strong style="color:#fff">画面:</strong> RGB 通道快速滑回对齐，blur 降为 0，字母变得清晰锐利。同时字母微微缩小到正常尺寸 (scale 1.04 → 1.0)
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;background:rgba(0,0,0,0.3);border-radius:8px">
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#00c8ff;text-shadow:0 0 60px rgba(0,200,255,0.6)">E</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ffd84a;text-shadow:0 0 60px rgba(255,216,74,0.6)">V</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#d84cff;text-shadow:0 0 60px rgba(216,76,255,0.6)">A</div>
+          <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ff6a1a;text-shadow:0 0 60px rgba(255,106,26,0.6)">N</div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center">收敛完成 — 清晰四字母 + 各色辉光</div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace">
+            ease: [0.16, 1, 0.3, 1] (spring-out)<br>
+            textShadow → 0 0 60px glowColor<br>
+            filter: blur(0px), scale: 1.0
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 3 · 定格微动 (300ms → 900ms)</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:20px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8">
+          <strong style="color:#fff">画面:</strong> 四个字母保持清晰，辉光以 2.4s 周期呼吸 (opacity 0.6 ↔ 1.0)。下方淡入一行小字 <strong style="color:#fff">"Engineer · Verify · Align · Native"</strong>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace">
+            glow animate: opacity [0.6, 1, 0.6]<br>
+            duration: 2.4s, repeat: 1 (仅一轮呼吸)<br>
+            subtitle fade-in: delay 150ms, y 8→0, duration 300ms
+          </div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4)">
+          ⚡ <strong style="color:#ffd84a">微反馈:</strong> 这一阶段用户<strong style="color:#fff">滚动鼠标滚轮</strong>或<strong style="color:#fff">点击任意位置</strong>即可提前触发 Phase 4 溶解
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 4 · 粒子溶解 + 无缝过渡 (900ms → 1350ms)</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:20px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8">
+          <strong style="color:#fff">核心机制:</strong> 四个字母<strong style="color:#ffd84a">同时</strong>分解为对应颜色的粒子 (每个字母 ~30-50 粒子)，向四周扩散。粒子的坐标/颜色信息传递给现有的 Particles Canvas 组件，<strong style="color:#00c8ff">intro 粒子过渡为背景粒子</strong>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center">
+          字母 opacity: 1→0 · 粒子 scale: 0→1 分散 · 背景 overlay opacity: 1→0 · Hero 内容淡入
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace">
+            Letter breakdown → colored particles burst<br>
+            Particle colors: cyan / gold / pink / orange<br>
+            Spread radius: 50px → 300px<br>
+            Hero content fades in sync with overlay↓<br>
+            Existing Particle canvas absorbs new particles
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>完整时间线</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:12px;overflow-x:auto">
+      <div style="display:flex;gap:0;min-width:600px;font-size:10px;font-family:monospace">
+        <div style="flex:1.5;background:rgba(255,255,255,0.06);border-left:2px solid rgba(255,255,255,0.4);padding:8px 6px;text-align:center">
+          <div style="color:#fff;font-weight:bold">故障闪现</div>
+          <div style="color:rgba(255,255,255,0.35)">0-150ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">RGB偏移</div>
+        </div>
+        <div style="flex:1.5;background:rgba(255,255,255,0.04);border-left:2px solid rgba(255,255,255,0.3);padding:8px 6px;text-align:center">
+          <div style="color:#fff;font-weight:bold">收敛</div>
+          <div style="color:rgba(255,255,255,0.35)">150-300ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">channel snap</div>
+        </div>
+        <div style="flex:3;background:rgba(255,255,255,0.04);border-left:2px solid rgba(255,255,255,0.3);padding:8px 6px;text-align:center">
+          <div style="color:#fff;font-weight:bold">定格 + 呼吸</div>
+          <div style="color:rgba(255,255,255,0.35)">300-900ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">glow breathe 1 cycle</div>
+        </div>
+        <div style="flex:3;background:rgba(255,255,255,0.04);border-left:2px solid rgba(255,255,255,0.3);padding:8px 6px;text-align:center">
+          <div style="color:#fff;font-weight:bold">溶解过渡</div>
+          <div style="color:rgba(255,255,255,0.35)">900-1350ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">particles → hero</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:12px;font-size:14px;color:#00c8ff;font-weight:bold">总时长 ~1.35s · 用户可随时滚动/点击提前结束</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>实现要点</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:16px">
+      <table style="width:100%;font-size:12px;color:rgba(255,255,255,0.7);border-collapse:collapse">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+          <td style="padding:8px;color:#fff;width:120px">动画工具</td>
+          <td style="padding:8px">Motion (motion/react) — AnimatePresence 管理阶段切换，CSS text-shadow 做 chromatic aberration</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+          <td style="padding:8px;color:#fff">粒子衔接</td>
+          <td style="padding:8px">Phase 4 溶解粒子使用 motion.div 阵列 (独立于 Canvas)，过渡完成后 disappearing，同时 Particles Canvas 的粒子 opacity 从 0→1</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+          <td style="padding:8px;color:#fff">跳过机制</td>
+          <td style="padding:8px">保留 Skip 按钮 + 新增 wheel 事件监听 (scroll delta &gt; 30 触发跳过)</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+          <td style="padding:8px;color:#fff">文件改动</td>
+          <td style="padding:8px;font-family:monospace;font-size:11px">EvanIntro.tsx (重写) · Particles.tsx (小改，接收 intro 完成信号) · page.tsx (逻辑不变)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle" style="margin-top:20px">开场动画设计如上。你觉得这个方向和节奏 OK 吗？确认后我们接着设计<strong style="color:#d84cff">微反馈动效</strong>的部分。</p>
+</div>

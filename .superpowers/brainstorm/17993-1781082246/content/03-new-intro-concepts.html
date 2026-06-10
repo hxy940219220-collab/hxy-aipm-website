@@ -1,0 +1,167 @@
+<h2>重新构思 · 开场动画新方案</h2>
+<p class="subtitle">目标：&lt;2 秒完成开场，不做逐字母展示，保留 EVAN 品牌概念</p>
+
+<div class="section">
+  <h3>方案 1 · 故障收敛</h3>
+  <div class="mockup">
+    <div class="mockup-header">Glitch Convergence — 约 1.5s</div>
+    <div class="mockup-body" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 0">
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#00c8ff;text-shadow:0 0 40px rgba(0,200,255,0.6),4px 0 0 rgba(216,76,255,0.3),-4px 0 0 rgba(0,200,255,0.3);position:relative">E</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#ffd84a;text-shadow:0 0 40px rgba(255,216,74,0.6),3px 0 0 rgba(255,106,26,0.3),-3px 0 0 rgba(255,216,74,0.3)">V</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#d84cff;text-shadow:0 0 40px rgba(216,76,255,0.6),4px 0 0 rgba(0,200,255,0.3),-3px 0 0 rgba(216,76,255,0.3)">A</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#ff6a1a;text-shadow:0 0 40px rgba(255,106,26,0.6),3px 0 0 rgba(255,216,74,0.3),-4px 0 0 rgba(255,106,26,0.3)">N</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center">
+        四个字母<strong style="color:#fff">同时出现</strong>但带着 RGB 通道错位 (chromatic aberration)，<br>
+        150ms 内快速收敛对齐 → 定格 800ms → 粒子溶解到 Hero 背景
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;font-size:11px;color:rgba(255,255,255,0.4)">
+        <strong style="color:rgba(255,255,255,0.7)">时序:</strong> 0ms 四个残影字母出现 → 150ms 收敛 → 800ms 定格 + 微光呼吸 → 400ms 溶解 → 主页显现
+      </div>
+      <div style="font-size:12px;color:#00c8ff;text-align:center">总时长 ~1.35s · 视觉语言: AI 模型输出收敛 / 意图对齐</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案 2 · 粒子聚形</h3>
+  <div class="mockup">
+    <div class="mockup-header">Particle Assembly — 约 1.8s</div>
+    <div class="mockup-body" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:20px 0">
+        <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#00c8ff;text-shadow:0 0 60px rgba(0,200,255,0.8);background:radial-gradient(circle,rgba(0,200,255,0.15),transparent 70%);padding:8px 16px;border-radius:4px">E</div>
+        <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ffd84a;text-shadow:0 0 60px rgba(255,216,74,0.8);background:radial-gradient(circle,rgba(255,216,74,0.15),transparent 70%);padding:8px 16px;border-radius:4px">V</div>
+        <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#d84cff;text-shadow:0 0 60px rgba(216,76,255,0.8);background:radial-gradient(circle,rgba(216,76,255,0.15),transparent 70%);padding:8px 16px;border-radius:4px">A</div>
+        <div style="font-family:serif;font-style:italic;font-size:56px;font-weight:bold;color:#ff6a1a;text-shadow:0 0 60px rgba(255,106,26,0.8);background:radial-gradient(circle,rgba(255,106,26,0.15),transparent 70%);padding:8px 16px;border-radius:4px">N</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center">
+        利用<strong style="color:#fff">现有的 Canvas 粒子系统</strong>——开场时粒子从屏幕四周向中心汇聚，<br>
+        聚合成四个字母 → 定格 → 粒子散开，<strong style="color:#00c8ff">散开的粒子直接成为 Hero 区域的背景粒子</strong>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;font-size:11px;color:rgba(255,255,255,0.4)">
+        <strong style="color:rgba(255,255,255,0.7)">时序:</strong> 0ms 粒子出现并汇聚 → 600ms 聚集形成字母 → 700ms 定格 → 500ms 散开融入主页
+      </div>
+      <div style="font-size:12px;color:#ffd84a;text-align:center">总时长 ~1.8s · 视觉语言: 涌现 / 从无序到有序 / AI 生成过程</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案 3 · 扫光显影</h3>
+  <div class="mockup">
+    <div class="mockup-header">Scanline Reveal — 约 1.2s</div>
+    <div class="mockup-body" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 0;background:linear-gradient(to bottom,transparent 40%, rgba(0,200,255,0.08) 50%, transparent 60%);background-size:100% 200%;animation:scanPulse 1.5s ease-in-out infinite">
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#00c8ff;text-shadow:0 0 50px rgba(0,200,255,0.6)">E</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#ffd84a;text-shadow:0 0 50px rgba(255,216,74,0.6)">V</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#d84cff;text-shadow:0 0 50px rgba(216,76,255,0.6)">A</div>
+        <div style="font-family:serif;font-style:italic;font-size:64px;font-weight:bold;color:#ff6a1a;text-shadow:0 0 50px rgba(255,106,26,0.6)">N</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center">
+        一道<strong style="color:#00c8ff">水平的扫描光线</strong>自上而下划过屏幕，<br>
+        光线经过之处字母<strong style="color:#fff">从无到有显现</strong>——如同雷达扫描 / 模型推理的逐层激活
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;font-size:11px;color:rgba(255,255,255,0.4)">
+        <strong style="color:rgba(255,255,255,0.7)">时序:</strong> 0ms 扫描线开始下降 → 400ms 扫过字母区域 → 字母显现 → 800ms 定格微光 → 500ms 光扫出屏幕底部淡出
+      </div>
+      <div style="font-size:12px;color:#d84cff;text-align:center">总时长 ~1.7s · 视觉语言: 推理过程 / 逐层激活 / 扫描与洞察</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案 4 · 单字烙印</h3>
+  <div class="mockup">
+    <div class="mockup-header">Single Glyph — 约 1.0s</div>
+    <div class="mockup-body" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:center;padding:24px 0">
+        <div style="font-family:serif;font-style:italic;font-size:140px;font-weight:bold;background:linear-gradient(135deg,#00c8ff 0%,#d84cff 50%,#ff6a1a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;filter:drop-shadow(0 0 60px rgba(0,200,255,0.5));position:relative">E</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center">
+        放弃 EVAN 四个字母，<strong style="color:#fff">只保留一个核心字母</strong>（E = Engineer，也是你名字的拼音首字母），<br>
+        颜色使用 <strong style="color:#d84cff">四色渐变</strong>融合在一个字母上 → 快速定格 → 消散
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;font-size:11px;color:rgba(255,255,255,0.4)">
+        <strong style="color:rgba(255,255,255,0.7)">时序:</strong> 0ms 大 E 直接从暗处浮现 (带四色渐变) → 600ms 定格 + 呼吸 → 400ms 光晕扩散融入 Hero
+      </div>
+      <div style="font-size:12px;color:#ff6a1a;text-align:center">总时长 ~1.0s · 视觉语言: 极简 / 品牌符号 / 一击即走</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>对比</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:12px;overflow-x:auto">
+      <table style="width:100%;font-size:12px;color:rgba(255,255,255,0.7);border-collapse:collapse">
+        <tr style="color:#fff;border-bottom:1px solid rgba(255,255,255,0.15)">
+          <th style="padding:10px 8px;text-align:left">维度</th>
+          <th style="padding:10px 8px;text-align:center">1·故障收敛</th>
+          <th style="padding:10px 8px;text-align:center">2·粒子聚形</th>
+          <th style="padding:10px 8px;text-align:center">3·扫光显影</th>
+          <th style="padding:10px 8px;text-align:center">4·单字烙印</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">总时长</td>
+          <td style="padding:8px;text-align:center;color:#00c8ff">~1.35s</td>
+          <td style="padding:8px;text-align:center;color:#00c8ff">~1.8s</td>
+          <td style="padding:8px;text-align:center;color:#00c8ff">~1.7s</td>
+          <td style="padding:8px;text-align:center;color:#00c8ff">~1.0s</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">保留 EVAN 概念</td>
+          <td style="padding:8px;text-align:center">✓ 四字母</td>
+          <td style="padding:8px;text-align:center">✓ 四字母</td>
+          <td style="padding:8px;text-align:center">✓ 四字母</td>
+          <td style="padding:8px;text-align:center">✗ 单字母</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">AI-Native 隐喻</td>
+          <td style="padding:8px;text-align:center">模型收敛</td>
+          <td style="padding:8px;text-align:center">涌现/生成</td>
+          <td style="padding:8px;text-align:center">推理/扫描</td>
+          <td style="padding:8px;text-align:center">极简符号</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">与现有粒子系统联动</td>
+          <td style="padding:8px;text-align:center">弱</td>
+          <td style="padding:8px;text-align:center;color:#ffd84a">强</td>
+          <td style="padding:8px;text-align:center">弱</td>
+          <td style="padding:8px;text-align:center">弱</td>
+        </tr>
+        <tr>
+          <td style="padding:8px">实现复杂度</td>
+          <td style="padding:8px;text-align:center">低</td>
+          <td style="padding:8px;text-align:center">高</td>
+          <td style="padding:8px;text-align:center">中</td>
+          <td style="padding:8px;text-align:center">最低</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>我的推荐</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:20px">
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="font-size:40px;flex-shrink:0">🎯</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8">
+          <strong style="color:#00c8ff;font-size:15px">推荐方案 1 (故障收敛) + 方案 2 (粒子溶解过渡)</strong><br><br>
+          理由：<br>
+          • 故障收敛的 chromatic aberration 是 AI / 模型输出领域非常自然的视觉隐喻 (对齐 → 收敛)<br>
+          • 四字母同时出现，1.35s 完成，不拖沓<br>
+          • 结尾的粒子溶解可以衔接现有 Canvas 粒子系统，实现<strong style="color:#d84cff">intro → Hero 无缝过渡</strong><br>
+          • 实现成本低 (主要是 CSS filter + Motion variants)<br>
+          • 保留 EVAN 四色系统，视觉上辨识度高
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle" style="margin-top:20px">四个方案哪一个更贴合你想要的节奏？也可以混合搭配 (比如扫光 + 故障收敛)。</p>
+</div>

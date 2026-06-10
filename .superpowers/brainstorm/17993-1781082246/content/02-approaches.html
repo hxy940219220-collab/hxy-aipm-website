@@ -1,0 +1,174 @@
+<h2>改进方案 · 三套思路</h2>
+<p class="subtitle">围绕「开场动画节奏重塑 + 微反馈升级」，从不同角度切入</p>
+
+<div class="section">
+  <h3>方案 A · 节奏重塑</h3>
+  <div class="mockup">
+    <div class="mockup-header">核心思路：变速 + 变奏 + 智能压缩</div>
+    <div class="mockup-body" style="padding:16px;overflow-x:auto">
+      <div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:12px">当前：四个字母 1400ms × 4 + Outro 2800ms = <strong style="color:#ff6a1a">8.4s</strong></div>
+      <div style="display:flex;gap:0;min-width:650px;font-size:10px;font-family:monospace;line-height:1.6;margin-bottom:14px">
+        <div style="flex:0.8;background:rgba(0,200,255,0.1);border-left:2px solid #00c8ff;padding:8px 6px;text-align:center">
+          <div style="color:#00c8ff;font-weight:bold">E</div><div style="color:rgba(255,255,255,0.35)">900ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">focus-in</div>
+        </div>
+        <div style="flex:0.6;background:rgba(255,216,74,0.1);border-left:2px solid #ffd84a;padding:8px 6px;text-align:center">
+          <div style="color:#ffd84a;font-weight:bold">V</div><div style="color:rgba(255,255,255,0.35)">650ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">slide-up</div>
+        </div>
+        <div style="flex:0.6;background:rgba(216,76,255,0.1);border-left:2px solid #d84cff;padding:8px 6px;text-align:center">
+          <div style="color:#d84cff;font-weight:bold">A</div><div style="color:rgba(255,255,255,0.35)">650ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">scale-pop</div>
+        </div>
+        <div style="flex:0.9;background:rgba(255,106,26,0.1);border-left:2px solid #ff6a1a;padding:8px 6px;text-align:center">
+          <div style="color:#ff6a1a;font-weight:bold">N</div><div style="color:rgba(255,255,255,0.35)">950ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">assemble</div>
+        </div>
+        <div style="flex:0.8;background:rgba(255,255,255,0.05);border-left:2px solid rgba(255,255,255,0.3);padding:8px 6px;text-align:center">
+          <div style="color:#fff;">outro</div><div style="color:rgba(255,255,255,0.35)">1200ms</div>
+          <div style="color:rgba(255,255,255,0.2);margin-top:2px">dissolve</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.75)">改进后：变速字母 + 精简 Outro = <strong style="color:#00c8ff">~4.4s</strong> <span style="color:rgba(255,255,255,0.3)">(缩短 48%)</span></div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros"><h4>优点</h4><ul>
+      <li>大幅缩短时长，减少回访用户等待</li>
+      <li>每个字母有独特的入场动画，不再单调</li>
+      <li>保留 E.V.A.N. 的概念完整性</li>
+    </ul></div>
+    <div class="cons"><h4>代价</h4><ul>
+      <li>需要重新设计每个字母的动画曲线</li>
+      <li>快节奏可能弱化「沉稳专业」的感觉</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案 B · 流体叙事</h3>
+  <div class="mockup">
+    <div class="mockup-header">核心思路：色彩流动 + 粒子溶解 → 无缝过渡到主页</div>
+    <div class="mockup-body" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,#00c8ff,transparent 70%);flex-shrink:0"></div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">字母切换时，背景径向渐变<strong style="color:#00c8ff">平滑过渡</strong>到下一个颜色</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:conic-gradient(#00c8ff,#ffd84a,#d84cff,#ff6a1a);flex-shrink:0"></div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">Outro 阶段，四个字母<strong style="color:#d84cff">溶解为彩色粒子</strong></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(0,200,255,0.15);border:1px dashed rgba(0,200,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#00c8ff">→</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">粒子<strong style="color:#00c8ff">延续到 Hero 背景</strong> Canvas，pre-existing particles 吸收 intro 粒子</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros"><h4>优点</h4><ul>
+      <li>Intro 与主页不再是两个割裂的体验</li>
+      <li>色彩流动强化了 EVAN 四个维度的关联性</li>
+      <li>粒子溶解是非常「AI-Native」的视觉语言</li>
+    </ul></div>
+    <div class="cons"><h4>代价</h4><ul>
+      <li>需要协调 Canvas 粒子系统与 Motion 动画的时序</li>
+      <li>色彩过渡实现复杂度较高</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案 C · 可交互开场</h3>
+  <div class="mockup">
+    <div class="mockup-header">核心思路：让用户在 intro 期间就能感知反馈，而不只是等待</div>
+    <div class="mockup-body" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">🖱</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)"><strong style="color:#fff">光标涟漪</strong> — 在 intro 的大字母上移动鼠标，字母表面产生微小的波纹/光晕扰动</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">●</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)"><strong style="color:#fff">进度点可点击</strong> — 点击已完成字母的点，跳回该字母；点击未来的点，跳过中间字母</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">↓</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)"><strong style="color:#fff">自然跳过手势</strong> — 向下滚动即可溶解 intro (比点击按钮更直觉)，滚动距离映射溶解进度</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros"><h4>优点</h4><ul>
+      <li>用户从「被动观看」变为「主动体验」</li>
+      <li>跳过行为更自然 (滚动 vs 找按钮点击)</li>
+      <li>每次访问体验不同，取决于用户如何交互</li>
+    </ul></div>
+    <div class="cons"><h4>代价</h4><ul>
+      <li>交互逻辑增加复杂度</li>
+      <li>需要处理「用户不交互」的默认自动播放路径</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>微反馈专项升级 (可叠加到任意方案)</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px">
+          <div style="color:#00c8ff;font-weight:bold;margin-bottom:4px">方向感知悬停</div>
+          <div style="color:rgba(255,255,255,0.5)">CTA 按钮的 hover 光效从光标进入的方向开始填充，而不是默认的均匀过渡</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px">
+          <div style="color:#ffd84a;font-weight:bold;margin-bottom:4px">按钮触感反馈</div>
+          <div style="color:rgba(255,255,255,0.5)">:active 时 scale(0.97) + 0.5px 下沉 (translateY)，模拟物理按压</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px">
+          <div style="color:#d84cff;font-weight:bold;margin-bottom:4px">光标状态分层</div>
+          <div style="color:rgba(255,255,255,0.5)">default→dot+corner, hover link→dot放大+corner收拢, hover button→corner贴附按钮边缘</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px">
+          <div style="color:#ff6a1a;font-weight:bold;margin-bottom:4px">粒子近场响应</div>
+          <div style="color:rgba(255,255,255,0.5)">Cursor 靠近粒子 Canvas 时，粒子轻微远离/聚集，形成空间纵深感</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>三套方案对比</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:12px;overflow-x:auto">
+      <table style="width:100%;font-size:12px;color:rgba(255,255,255,0.7);border-collapse:collapse">
+        <tr style="color:#fff;border-bottom:1px solid rgba(255,255,255,0.15)">
+          <th style="padding:10px 8px;text-align:left">维度</th>
+          <th style="padding:10px 8px;text-align:center;color:#00c8ff">A · 节奏重塑</th>
+          <th style="padding:10px 8px;text-align:center;color:#d84cff">B · 流体叙事</th>
+          <th style="padding:10px 8px;text-align:center;color:#ffd84a">C · 可交互</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">时长缩短</td><td style="padding:8px;text-align:center;color:#00c8ff">★ ★ ★</td><td style="padding:8px;text-align:center">★ ★</td><td style="padding:8px;text-align:center">★</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">视觉冲击力</td><td style="padding:8px;text-align:center">★ ★</td><td style="padding:8px;text-align:center;color:#d84cff">★ ★ ★</td><td style="padding:8px;text-align:center">★ ★</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">用户参与感</td><td style="padding:8px;text-align:center">★</td><td style="padding:8px;text-align:center">★</td><td style="padding:8px;text-align:center;color:#ffd84a">★ ★ ★</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:8px">实现复杂度</td><td style="padding:8px;text-align:center;color:#00c8ff">低</td><td style="padding:8px;text-align:center;color:#d84cff">高</td><td style="padding:8px;text-align:center;color:#ffd84a">中高</td>
+        </tr>
+        <tr>
+          <td style="padding:8px">与现有代码兼容</td><td style="padding:8px;text-align:center;color:#00c8ff">高</td><td style="padding:8px;text-align:center">中</td><td style="padding:8px;text-align:center">中</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="subtitle" style="margin-top:20px">三套方案可以组合。我的推荐是 <strong style="color:#00c8ff">A + B 融合</strong> —— 用 A 的变速节奏压缩时长，用 B 的粒子溶解做无缝过渡，再选择性加入 C 的滚动跳过和光标涟漪。<br><br>你倾向于哪套方案？或者哪个组合？</p>
+</div>
